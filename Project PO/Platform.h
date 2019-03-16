@@ -1,0 +1,31 @@
+#pragma once
+#include "GameObject.h"
+#include <SFML/System/Vector2.hpp>
+#include <SFML/Graphics.hpp>
+class GameObject;
+
+class Platform : public GameObject
+{
+public:
+	Platform(sf::Vector2f &position);
+	Platform(sf::Vector2f &size, sf::Vector2f &position);
+	Platform(sf::Vector2f size, sf::Vector2f position);
+	Platform(sf::Vector2f size, sf::Vector2f position, sf::Color color);
+	~Platform();
+
+	sf::FloatRect getGlobalBounds();
+	sf::Transformable *getTransformable();
+
+	void update();
+
+	void handleCollision(GameObject * collider);
+
+	sf::Vector2f getSize();
+	void setSize(sf::Vector2f &size);
+
+	sf::Vector2f getPosition();
+	void setPosition(sf::Vector2f &position);
+
+	void setColor(sf::Color color);
+};
+

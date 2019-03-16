@@ -1,65 +1,46 @@
 #include "Player.h"
+#include <iostream>
 
-Player::Player(const sf::Vector2u windowSize) : F_WINDOW_SIZE(windowSize)
+float Player::fSpeed = 0.45f;
+float Player::fJumpForce = 0.75f;
+
+Player::Player()
 {
 	fDrawable = new sf::RectangleShape(sf::Vector2f(10, 10));
-	fPositionVector.x = 0;
-	fPositionVector.y = 0;
+	getTransformable()->setPosition(GameEngine::F_WINDOW_SIZE.x / 2, GameEngine::F_WINDOW_SIZE.y / 2);
 }
 
 Player::~Player()
 {
 }
 
+sf::FloatRect Player::getGlobalBounds() {
+	return ((sf::Shape*)fDrawable)->getGlobalBounds();
+};
+
+sf::Transformable *Player::getTransformable() {
+	return ((sf::Shape*)fDrawable);
+};
+
 void Player::update() 
 {
 	controlMovement();
-	controlGravity();
-	applyMovement();
-}
-
-void Player::controlGravity()
-{
-	fMovementVector.y += fGravityAcceleration;
-	fMovementVector.y = std::min(fMovementVector.y, fGravityForce);
-}
-
-void Player::hitGround() 
-{
-	fIsJumping = false;
+	handleForces();
 }
 
 void Player::controlMovement()
 {
-	//Reset movement vector
-	fMovementVector.x = 0;
-
 	//Check movement keys
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
 	{
-		fMovementVector.x -= fSpeed;
+		fForceVector.x = -fSpeed;
 	}
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))
 	{
-		fMovementVector.x += fSpeed;
+		fForceVector.x = fSpeed;
 	}
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space) && !fIsJumping)
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space) && fCollisionSensor.getBottom())
 	{
-		fIsJumping = true;
-		fMovementVector.y = fJumpForce;
+		fForceVector.y = -fJumpForce;
 	}
-}
-
-void Player::applyMovement() 
-{
-	//Set position vector
-	fPositionVector.x += fMovementVector.x;
-	fPositionVector.y += fMovementVector.y;
-
-	//Prevent escaping window boundaries
-	fPositionVector.x = std::max(0.0f, std::min(fPositionVector.x, F_WINDOW_SIZE.x - ((sf::RectangleShape*)fDrawable)->getSize().x));
-	fPositionVector.y = std::max(0.0f, std::min(fPositionVector.y, F_WINDOW_SIZE.y - ((sf::RectangleShape*)fDrawable)->getSize().y));
-
-	//Set position
-	((sf::RectangleShape*)fDrawable)->setPosition(fPositionVector);
 }

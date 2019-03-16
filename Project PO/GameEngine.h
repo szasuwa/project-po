@@ -1,29 +1,35 @@
 #pragma once
 #include <SFML/Graphics.hpp>
 #include <vector>
-#include <string>
-#include "GameObject.h"
-#include "Player.h"
-#include <iostream>
+#include "Platform.h"
+
+class GameObject;
+class Player;
 
 class GameEngine
 {
 	sf::RenderWindow &fGameWindow;
-	std::vector<GameObject*> fGameObjects;
-	Player* fPlayerObject;
+	
+	static int fNextGameObjectId;
+	static std::vector<GameObject*> fGameObjects;
+	static Player* fPlayerObject;
 
 	void initGame();
 	void handleEvents();
 	void updateFrame();
 public:
+	static sf::Vector2u F_WINDOW_SIZE;
+
 	GameEngine(sf::RenderWindow &window);
 	~GameEngine();
 
 	void gameLoop();
 	//GameObjects
-	GameObject* findGameObject(int id);
-	void addGameObject(GameObject* object);
-	void destroyGameObject(GameObject* object);
-	void destroyGameObject(int id);
+	static int getNextGameObjectId();
+	static const std::vector<GameObject*> getGameObjectList();
+	//static GameObject* findGameObject(int id);
+	static void addGameObject(GameObject* object);
+	static void destroyGameObject(GameObject* object);
+	static void destroyGameObject(int id);
 };
 

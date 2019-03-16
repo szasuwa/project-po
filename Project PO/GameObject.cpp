@@ -1,6 +1,7 @@
 #include "GameObject.h"
+#include "GameEngine.h"
 
-GameObject::GameObject():fId(GameEngineConstants::getNextGameObjectId())
+GameObject::GameObject():fId(GameEngine::getNextGameObjectId())
 {
 }
 

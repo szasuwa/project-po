@@ -1,7 +1,15 @@
 #include "GameEngine.h"
+#include "GameObject.h"
+#include "Player.h"
+
+int GameEngine::fNextGameObjectId;
+std::vector<GameObject*> GameEngine::fGameObjects;
+sf::Vector2u GameEngine::F_WINDOW_SIZE;
+Player* GameEngine::fPlayerObject;
 
 GameEngine::GameEngine(sf::RenderWindow &window) : fGameWindow(window)
 {
+	F_WINDOW_SIZE = fGameWindow.getSize();
 }
 
 GameEngine::~GameEngine()
@@ -13,8 +21,16 @@ GameEngine::~GameEngine()
 
 void GameEngine::initGame() 
 {
-	fPlayerObject = new Player(fGameWindow.getSize());
-	fGameObjects.push_back(fPlayerObject);
+	fPlayerObject = new Player();
+	addGameObject(fPlayerObject);
+	GameObject* obj = new Platform(sf::Vector2f(fGameWindow.getSize().x,5), sf::Vector2f(0, fGameWindow.getSize().y-5), sf::Color(125,125,125,255));
+	addGameObject(obj);
+	obj = new Platform(sf::Vector2f(100, 5), sf::Vector2f(330, fGameWindow.getSize().y - 19), sf::Color(125, 125, 125, 255));
+	addGameObject(obj);
+	obj = new Platform(sf::Vector2f(fGameWindow.getSize().x/4, 5), sf::Vector2f(0, fGameWindow.getSize().y - 65), sf::Color(125, 125, 125, 255));
+	addGameObject(obj);
+	obj = new Platform(sf::Vector2f(fGameWindow.getSize().x/8, 5), sf::Vector2f(0, fGameWindow.getSize().y - 95), sf::Color(125, 125, 125, 255));
+	addGameObject(obj);
 }
 
 void GameEngine::gameLoop()
@@ -30,9 +46,11 @@ void GameEngine::gameLoop()
 	}
 }
 
-void GameEngine::updateFrame() {
+void GameEngine::updateFrame() 
+{
 	fGameWindow.clear();
-	for (GameObject* object : fGameObjects) {
+	for (GameObject* object : fGameObjects)
+	{
 		object->update();
 		fGameWindow.draw(*(*object).getDrawable());
 	}
@@ -54,6 +72,11 @@ void GameEngine::handleEvents() {
 	}
 }
 
+const std::vector<GameObject *> GameEngine::getGameObjectList() {
+	return fGameObjects;
+}
+
+/*
 GameObject* GameEngine::findGameObject(int id) {
 	for (GameObject* object : fGameObjects) {
 		if (object->getId() == id) {
@@ -62,6 +85,7 @@ GameObject* GameEngine::findGameObject(int id) {
 	}
 	return nullptr;
 }
+*/
 
 void GameEngine::addGameObject(GameObject* object) {
 	fGameObjects.push_back(object);
@@ -83,4 +107,9 @@ void GameEngine::destroyGameObject(int id) {
 			return;
 		}
 	}
+}
+
+int GameEngine::getNextGameObjectId() {
+	++fNextGameObjectId;
+	return fNextGameObjectId;
 }

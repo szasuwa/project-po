@@ -6,6 +6,8 @@ int GameEngine::fNextGameObjectId;
 std::vector<GameObject*> GameEngine::fGameObjects;
 sf::Vector2u GameEngine::F_WINDOW_SIZE;
 Player* GameEngine::fPlayerObject;
+sf::Clock GameEngine::fClk;
+double GameEngine::fLastFrameTime = 0;
 
 GameEngine::GameEngine(sf::RenderWindow &window) : fGameWindow(window)
 {
@@ -21,11 +23,12 @@ GameEngine::~GameEngine()
 
 void GameEngine::initGame() 
 {
+	fGameWindow.setFramerateLimit(120);
 	fPlayerObject = new Player();
 	addGameObject(fPlayerObject);
 	GameObject* obj = new Platform(sf::Vector2f(fGameWindow.getSize().x,5), sf::Vector2f(0, fGameWindow.getSize().y-5), sf::Color(125,125,125,255));
 	addGameObject(obj);
-	obj = new Platform(sf::Vector2f(100, 5), sf::Vector2f(330, fGameWindow.getSize().y - 19), sf::Color(125, 125, 125, 255));
+	obj = new Platform(sf::Vector2f(100, 5), sf::Vector2f(350, fGameWindow.getSize().y - 19), sf::Color(125, 125, 125, 255));
 	addGameObject(obj);
 	obj = new Platform(sf::Vector2f(fGameWindow.getSize().x/4, 5), sf::Vector2f(0, fGameWindow.getSize().y - 65), sf::Color(125, 125, 125, 255));
 	addGameObject(obj);
@@ -43,7 +46,12 @@ void GameEngine::gameLoop()
 	{
 		handleEvents();
 		updateFrame();
+		fLastFrameTime = fClk.restart().asSeconds();
 	}
+}
+
+float GameEngine::getFrameTime() {
+	return fLastFrameTime;
 }
 
 void GameEngine::updateFrame() 

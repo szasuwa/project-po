@@ -1,8 +1,8 @@
 #include "Player.h"
 #include <iostream>
 
-float Player::fSpeed = 0.45f;
-float Player::fJumpForce = 0.75f;
+float Player::fSpeed = 250.f;
+float Player::fJumpForce = 500.f;
 
 Player::Player()
 {

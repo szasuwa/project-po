@@ -9,6 +9,8 @@ class Player;
 class GameEngine
 {
 	sf::RenderWindow &fGameWindow;
+	static sf::Clock fClk;
+	static double fLastFrameTime;
 	
 	static int fNextGameObjectId;
 	static std::vector<GameObject*> fGameObjects;
@@ -24,6 +26,7 @@ public:
 	~GameEngine();
 
 	void gameLoop();
+	static float getFrameTime();
 	//GameObjects
 	static int getNextGameObjectId();
 	static const std::vector<GameObject*> getGameObjectList();

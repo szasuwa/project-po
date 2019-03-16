@@ -59,6 +59,7 @@ class PhysicalObject : public GameObject
 {
 protected:
 	static float fDecelerationRate;
+	static float fDecelerationSmoothRate;
 	static float fGravityRate;
 	static float fGravityForce;
 	sf::Vector2f fForceVector;

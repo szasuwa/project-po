@@ -1,6 +1,7 @@
 #pragma once
 #include "Serializable.h"
 #include "Player.h"
+#include "Platform.h"
 #include <sstream>
 #include <string>
 

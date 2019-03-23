@@ -69,4 +69,9 @@
       <Filter>Pliki nagłówkowe</Filter>
     </ClInclude>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="level1">
+      <Filter>Pliki zasobów</Filter>
+    </None>
+  </ItemGroup>
 </Project>

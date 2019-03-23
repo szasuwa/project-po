@@ -1,11 +1,8 @@
 #pragma once
 #include <SFML/Graphics.hpp>
 #include <vector>
-#include "Platform.h"
-#include "World.h"
 
-class GameObject;
-class Player;
+class World;
 
 class GameEngine
 {

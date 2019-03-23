@@ -1,7 +1,6 @@
 #include "GameEngine.h"
+#include "World.h"
 
-int GameEngine::fNextGameObjectId;
-std::vector<GameObject*> GameEngine::fGameObjects;
 sf::Vector2u GameEngine::F_WINDOW_SIZE;
 sf::Clock GameEngine::fClk;
 double GameEngine::fLastFrameTime = 0;
@@ -21,7 +20,7 @@ GameEngine::~GameEngine()
 void GameEngine::initGame() 
 {
 	fGameWindow.setFramerateLimit(120);
-	fWorld->loadDevLevel();
+	fWorld->loadLevel(1);
 }
 
 void GameEngine::gameLoop()

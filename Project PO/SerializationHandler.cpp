@@ -11,14 +11,6 @@ SerializationHandler::~SerializationHandler()
 {
 }
 
-/*
-Format:
-- stream size
-- class type
-- data size
-- data
-*/
-
 std::string SerializationHandler::serializeObject(Serializable * obj)
 {
 	std::stringstream ss;

@@ -1,5 +1,6 @@
 #include "PhysicalObject.h"
 #include "GameEngine.h"
+#include "World.h"
 
 float PhysicalObject::fDecelerationRate = 15.f;
 float PhysicalObject::fDecelerationSmoothRate = 0.1f;
@@ -26,7 +27,7 @@ void PhysicalObject::handleCollisions() {
 	newBounds.left += fForceVector.x*GameEngine::getFrameTime();
 	newBounds.top += fForceVector.y*GameEngine::getFrameTime();
 
-	for (GameObject* obj : GameEngine::getGameObjectList()) 
+	for (GameObject* obj : World::getGameObjectList()) 
 	{
 		if (obj->getId() != fId) {
 			if (newBounds.intersects(obj->getGlobalBounds())) {
@@ -73,11 +74,11 @@ void PhysicalObject::handleCollisions() {
 						newBounds.top = bounds.top + fForceVector.y*GameEngine::getFrameTime();
 					}
 				}
+
 				//Temporary fix for unstable bottom collision
 				if (bottomCollision) {
 					fForceVector.y += fGravityRate;
 				}
-
 				fCollisionSensor.triggerCollision(newLeftCollision & !leftCollision, newRightCollision & !rightCollision, newTopCollision, newBottomCollision | bottomCollision);
 			}
 		}
@@ -116,9 +117,9 @@ void PhysicalObject::handleForces()
 		fForceVector.y = -bounds.top;
 	}
 
-	if (bounds.top + bounds.height + fForceVector.y*GameEngine::getFrameTime() > GameEngine::F_WINDOW_SIZE.y) {
+	if (bounds.top + bounds.height + fForceVector.y*GameEngine::getFrameTime() > GameEngine::getWindowSize().y) {
 		fCollisionSensor.triggerCollision(0, 0, 0, 1);
-		fForceVector.y = GameEngine::F_WINDOW_SIZE.y - bounds.top - bounds.height;
+		fForceVector.y = GameEngine::getWindowSize().y - bounds.top - bounds.height;
 	}
 
 	if (bounds.left + fForceVector.x*GameEngine::getFrameTime() < 0) {
@@ -126,9 +127,9 @@ void PhysicalObject::handleForces()
 		fForceVector.x = -bounds.left;
 	}
 
-	if (bounds.left +bounds.width + fForceVector.x*GameEngine::getFrameTime() > GameEngine::F_WINDOW_SIZE.x) {
+	if (bounds.left +bounds.width + fForceVector.x*GameEngine::getFrameTime() > GameEngine::getWindowSize().x) {
 		fCollisionSensor.triggerCollision(0, 1, 0, 0);
-		fForceVector.x = GameEngine::F_WINDOW_SIZE.x - bounds.left - bounds.width;
+		fForceVector.x = GameEngine::getWindowSize().x - bounds.left - bounds.width;
 	}
 
 	//Set position

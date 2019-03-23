@@ -7,7 +7,7 @@ float Player::fJumpForce = 500.f;
 Player::Player()
 {
 	fDrawable = new sf::RectangleShape(sf::Vector2f(10, 10));
-	getTransformable()->setPosition(GameEngine::F_WINDOW_SIZE.x / 2, GameEngine::F_WINDOW_SIZE.y / 2);
+	getTransformable()->setPosition(GameEngine::getWindowSize().x / 2, GameEngine::getWindowSize().y / 2);
 }
 
 Player::~Player()

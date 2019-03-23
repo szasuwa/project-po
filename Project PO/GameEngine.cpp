@@ -1,11 +1,7 @@
 #include "GameEngine.h"
-#include "GameObject.h"
-#include "Player.h"
 
-int GameEngine::fNextGameObjectId;
-std::vector<GameObject*> GameEngine::fGameObjects;
+
 sf::Vector2u GameEngine::F_WINDOW_SIZE;
-Player* GameEngine::fPlayerObject;
 sf::Clock GameEngine::fClk;
 double GameEngine::fLastFrameTime = 0;
 const double GameEngine::F_MAX_FRAME_TIME = 1.0 / 120.0;
@@ -13,28 +9,18 @@ const double GameEngine::F_MAX_FRAME_TIME = 1.0 / 120.0;
 GameEngine::GameEngine(sf::RenderWindow &window) : fGameWindow(window)
 {
 	F_WINDOW_SIZE = fGameWindow.getSize();
+	fWorld = new World();
 }
 
 GameEngine::~GameEngine()
 {
-	for (GameObject* object : fGameObjects) {
-		delete object;
-	}
+	delete fWorld;
 }
 
 void GameEngine::initGame() 
 {
 	fGameWindow.setFramerateLimit(120);
-	fPlayerObject = new Player();
-	addGameObject(fPlayerObject);
-	GameObject* obj = new Platform(sf::Vector2f(fGameWindow.getSize().x,5), sf::Vector2f(0, fGameWindow.getSize().y-5), sf::Color(125,125,125,255));
-	addGameObject(obj);
-	obj = new Platform(sf::Vector2f(100, 5), sf::Vector2f(350, fGameWindow.getSize().y - 19), sf::Color(125, 125, 125, 255));
-	addGameObject(obj);
-	obj = new Platform(sf::Vector2f(fGameWindow.getSize().x/4, 5), sf::Vector2f(0, fGameWindow.getSize().y - 65), sf::Color(125, 125, 125, 255));
-	addGameObject(obj);
-	obj = new Platform(sf::Vector2f(fGameWindow.getSize().x/8, 5), sf::Vector2f(0, fGameWindow.getSize().y - 95), sf::Color(125, 125, 125, 255));
-	addGameObject(obj);
+	fWorld->loadDevLevel();
 }
 
 void GameEngine::gameLoop()
@@ -45,8 +31,8 @@ void GameEngine::gameLoop()
 	
 	while (fGameWindow.isOpen())
 	{
+		handleEvents();
 		if (fGameWindow.hasFocus()) {
-			handleEvents();
 			updateFrame();
 		}		
 		fLastFrameTime = fClk.restart().asSeconds();
@@ -60,7 +46,7 @@ float GameEngine::getFrameTime() {
 void GameEngine::updateFrame() 
 {
 	fGameWindow.clear();
-	for (GameObject* object : fGameObjects)
+	for (GameObject* object : World::getGameObjectList())
 	{
 		object->update();
 		fGameWindow.draw(*(*object).getDrawable());
@@ -74,53 +60,16 @@ void GameEngine::handleEvents() {
 	{
 		switch (appEvent.type)
 		{
-		case sf::Event::Closed:
-			fGameWindow.close();
-			break;
-		default:
-			break;
+			case sf::Event::Closed:
+				fGameWindow.close();
+				break;
+
+			default:
+				break;
 		}
 	}
 }
 
-const std::vector<GameObject *> GameEngine::getGameObjectList() {
-	return fGameObjects;
-}
-
-/*
-GameObject* GameEngine::findGameObject(int id) {
-	for (GameObject* object : fGameObjects) {
-		if (object->getId() == id) {
-			return object;
-		}
-	}
-	return nullptr;
-}
-*/
-
-void GameEngine::addGameObject(GameObject* object) {
-	fGameObjects.push_back(object);
-}
-
-void GameEngine::destroyGameObject(GameObject* object) {
-	for (int i = 0; i<fGameObjects.size(); ++i) {
-		if (fGameObjects[i] == object) {
-			fGameObjects.erase(fGameObjects.begin()+i);
-			return;
-		}
-	}
-}
-
-void GameEngine::destroyGameObject(int id) {
-	for (int i = 0; i < fGameObjects.size(); ++i) {
-		if (fGameObjects[i]->getId() == id) {
-			fGameObjects.erase(fGameObjects.begin() + i);
-			return;
-		}
-	}
-}
-
-int GameEngine::getNextGameObjectId() {
-	++fNextGameObjectId;
-	return fNextGameObjectId;
+ const sf::Vector2u GameEngine::getWindowSize() {
+	return F_WINDOW_SIZE;
 }

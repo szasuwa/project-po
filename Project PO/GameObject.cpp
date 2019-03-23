@@ -1,7 +1,7 @@
 #include "GameObject.h"
-#include "GameEngine.h"
+#include "World.h"
 
-GameObject::GameObject():fId(GameEngine::getNextGameObjectId())
+GameObject::GameObject():fId(World::getNextGameObjectId())
 {
 }
 

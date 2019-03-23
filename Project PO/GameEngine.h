@@ -2,6 +2,7 @@
 #include <SFML/Graphics.hpp>
 #include <vector>
 #include "Platform.h"
+#include "World.h"
 
 class GameObject;
 class Player;
@@ -9,31 +10,25 @@ class Player;
 class GameEngine
 {
 	sf::RenderWindow &fGameWindow;
-	static sf::Clock fClk;
+	World* fWorld;
+	
+	static sf::Vector2u F_WINDOW_SIZE;
 	static const double F_MAX_FRAME_TIME;
+
+	static sf::Clock fClk;
 	static double fLastFrameTime;
 	
-	static int fNextGameObjectId;
-	static std::vector<GameObject*> fGameObjects;
-	static Player* fPlayerObject;
-
 	void initGame();
 	void handleEvents();
 	void updateFrame();
 public:
-	static sf::Vector2u F_WINDOW_SIZE;
+	
 
 	GameEngine(sf::RenderWindow &window);
 	~GameEngine();
 
 	void gameLoop();
 	static float getFrameTime();
-	//GameObjects
-	static int getNextGameObjectId();
-	static const std::vector<GameObject*> getGameObjectList();
-	//static GameObject* findGameObject(int id);
-	static void addGameObject(GameObject* object);
-	static void destroyGameObject(GameObject* object);
-	static void destroyGameObject(int id);
+	static const sf::Vector2u getWindowSize();
 };
 

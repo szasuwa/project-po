@@ -64,12 +64,15 @@ protected:
 	static float fGravityForce;
 	sf::Vector2f fForceVector;
 	CollisionSensor fCollisionSensor;
+	bool fInWindowBoundsVertical;
+	bool fInWindowBoundsHorizontal;
 
 	void applyDeceleration();
 	void applyGravity();
 	void handleCollisions();
 public:
 	PhysicalObject();
+	PhysicalObject(bool boundsV, bool boundsH);
 	~PhysicalObject();
 
 	void serializeData(std::stringstream &ss, bool last = true);

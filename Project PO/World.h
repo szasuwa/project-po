@@ -8,10 +8,13 @@
 class GameObject;
 class Player;
 
-static class World
+class World
 {
 	const std::string F_LEVEL_FILENAME = "level";
 	static sf::Vector2f fOrigin;
+
+	static float fWorldBoundaryLeft;
+	static float fWorldBoundaryRight;
 
 	static int fNextGameObjectId;
 	static std::vector<GameObject*> fGameObjects;
@@ -37,5 +40,7 @@ public:
 
 	//Map movement
 	static void scrollMap(float v);
+	static float getWorldBoundaryLeft();
+	static float getWorldBoundaryRight();
 };
 

@@ -4,7 +4,7 @@
 
 
 
-Player::Player()
+Player::Player() : PhysicalObject(true, true)
 {
 	fDrawable = new sf::RectangleShape(sf::Vector2f(10, 10));
 	getTransformable()->setPosition(GameEngine::getWindowSize().x / 2, GameEngine::getWindowSize().y / 2);
@@ -55,27 +55,11 @@ void Player::controlMovement()
 	{
 		fForceVector.y = -fJumpForce;
 	}
-}
-
-void Player::handleForces()
-{
-	PhysicalObject::handleForces();
-
-	//Prevent escaping window boundaries
-	sf::FloatRect bounds = getGlobalBounds();
-
-	if (bounds.top + fForceVector.y*GameEngine::getFrameTime() < 0) {
-		fCollisionSensor.triggerCollision(0, 0, 1, 0);
-		fForceVector.y = -bounds.top;
-	}
-
-	if (bounds.top + bounds.height + fForceVector.y*GameEngine::getFrameTime() > GameEngine::getWindowSize().y) {
-		fCollisionSensor.triggerCollision(0, 0, 0, 1);
-		fForceVector.y = GameEngine::getWindowSize().y - bounds.top - bounds.height;
-	}
 
 	//Scrolling
-	if (bounds.left + bounds.width + fForceVector.x*GameEngine::getFrameTime() > GameEngine::getWindowSize().x - fScrollOffsetRight) {
+	sf::FloatRect bounds = getGlobalBounds();
+
+	if ((bounds.left + bounds.width + fForceVector.x*GameEngine::getFrameTime() > GameEngine::getWindowSize().x - fScrollOffsetRight)) {
 		World::scrollMap(bounds.left + bounds.width + fForceVector.x*GameEngine::getFrameTime() - GameEngine::getWindowSize().x + fScrollOffsetRight);
 	}
 

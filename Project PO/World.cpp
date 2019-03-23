@@ -8,6 +8,8 @@ int World::fNextGameObjectId;
 std::vector<GameObject*> World::fGameObjects;
 Player* World::fPlayerObject;
 sf::Vector2f World::fOrigin;
+float World::fWorldBoundaryLeft = 0;
+float World::fWorldBoundaryRight = 1500;
 
 World::World()
 {
@@ -20,6 +22,7 @@ World::~World()
 }
 
 void World::unloadLevel() {
+	fOrigin.x = 0;
 	destroyGameObjects();
 }
 
@@ -28,7 +31,10 @@ void World::loadLevel(int id) {
 	if (!fs.fail()) {
 		std::stringstream bf;
 		bf << fs.rdbuf();
-		std::string temp = bf.str();
+		bf >> fWorldBoundaryLeft;
+		bf >> fWorldBoundaryRight;
+		std::string temp = bf.str().erase(0, bf.str().find('\n') + 1);
+
 		std::vector<Serializable *> * vect = fSerializationHandler.deserializeBundle(temp);
 		unloadLevel();
 		for (Serializable* obj : *vect) {
@@ -73,7 +79,8 @@ int World::getNextGameObjectId() {
 }
 
 void World::scrollMap(float v) {
-	fOrigin.x += v;
+	fOrigin.x = std::max(fWorldBoundaryLeft, std::min(fOrigin.x + v, fWorldBoundaryRight - GameEngine::getWindowSize().x));
+	
 	for (GameObject* object : fGameObjects) {
 		object->getTransformable()->setOrigin(fOrigin);
 	}

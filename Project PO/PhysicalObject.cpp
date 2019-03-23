@@ -12,6 +12,16 @@ PhysicalObject::PhysicalObject()
 {
 	fForceVector.x = 0;
 	fForceVector.y = 0;
+	fInWindowBoundsVertical = false;
+	fInWindowBoundsHorizontal = false;
+}
+
+PhysicalObject::PhysicalObject(bool boundsV, bool boundsH)
+{
+	fForceVector.x = 0;
+	fForceVector.y = 0;
+	fInWindowBoundsVertical = boundsV;
+	fInWindowBoundsHorizontal = boundsH;
 }
 
 
@@ -133,6 +143,36 @@ void PhysicalObject::handleForces()
 	applyGravity();
 	applyDeceleration();
 	handleCollisions();
+
+	//Prevent escaping window boundaries
+	if (fInWindowBoundsVertical || fInWindowBoundsHorizontal) {
+		sf::FloatRect bounds = getGlobalBounds();
+
+		if (fInWindowBoundsVertical) {
+			if (bounds.top + fForceVector.y*GameEngine::getFrameTime() < 0) {
+				fCollisionSensor.triggerCollision(0, 0, 1, 0);
+				fForceVector.y = -bounds.top;
+			}
+
+			if (bounds.top + bounds.height + fForceVector.y*GameEngine::getFrameTime() > GameEngine::getWindowSize().y) {
+				fCollisionSensor.triggerCollision(0, 0, 0, 1);
+				fForceVector.y = GameEngine::getWindowSize().y - bounds.top - bounds.height;
+			}
+		}
+		
+		if (fInWindowBoundsHorizontal) {
+			if (bounds.left + fForceVector.x*GameEngine::getFrameTime() < 0) {
+				fCollisionSensor.triggerCollision(1, 0, 0, 0);
+				fForceVector.x = -bounds.left;
+			}
+
+			if (bounds.left + bounds.width + fForceVector.x*GameEngine::getFrameTime() > GameEngine::getWindowSize().x) {
+				fCollisionSensor.triggerCollision(0, 1, 0, 0);
+				fForceVector.x = GameEngine::getWindowSize().x - bounds.left - bounds.width;
+			}
+		}
+	}
+	
 
 	//Set position
 	getTransformable()->move(fForceVector*GameEngine::getFrameTime());

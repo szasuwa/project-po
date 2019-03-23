@@ -10,8 +10,8 @@ class Player : public PhysicalObject
 	//Movement
 	float fSpeed = 250.f;
 	float fJumpForce = 500.f;
-	float fScrollOffsetRight = 300.f;
-	float fScrollOffsetLeft = 300.f;
+	float fScrollOffsetRight = 400.f;
+	float fScrollOffsetLeft = 400.f;
 
 	void controlMovement();
 
@@ -25,6 +25,5 @@ public:
 	sf::FloatRect getGlobalBounds();
 	sf::Transformable *getTransformable();
 	void update();
-	void handleForces();
 };
 

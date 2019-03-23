@@ -1,5 +1,6 @@
 #pragma once
 #include "GameObject.h"
+#include "SerializationHandler.h"
 #include <SFML/System/Vector2.hpp>
 #include <SFML/Graphics.hpp>
 class GameObject;
@@ -7,11 +8,16 @@ class GameObject;
 class Platform : public GameObject
 {
 public:
+	Platform();
 	Platform(sf::Vector2f &position);
 	Platform(sf::Vector2f &size, sf::Vector2f &position);
 	Platform(sf::Vector2f size, sf::Vector2f position);
 	Platform(sf::Vector2f size, sf::Vector2f position, sf::Color color);
 	~Platform();
+
+	int getClassType();
+	void deserializeData(std::stringstream &ss);
+	void serializeData(std::stringstream &ss, bool last);
 
 	sf::FloatRect getGlobalBounds();
 	sf::Transformable *getTransformable();

@@ -19,6 +19,31 @@ PhysicalObject::~PhysicalObject()
 {
 }
 
+void PhysicalObject::serializeData(std::stringstream &ss, bool last) {
+	GameObject::serializeData(ss);
+	ss << SERIALIZABLE_FIELD_DELIMITER;
+	ss << fForceVector.x << SERIALIZABLE_FIELD_DELIMITER;
+	ss << fForceVector.y << SERIALIZABLE_FIELD_DELIMITER;
+	ss << fCollisionSensor.getLeft() << SERIALIZABLE_FIELD_DELIMITER;
+	ss << fCollisionSensor.getRight() << SERIALIZABLE_FIELD_DELIMITER;
+	ss << fCollisionSensor.getTop() << SERIALIZABLE_FIELD_DELIMITER;
+	ss << fCollisionSensor.getBottom();
+	Serializable::serializeData(ss, last);
+}
+
+void PhysicalObject::deserializeData(std::stringstream &ss) {
+	GameObject::deserializeData(ss);
+	ss >> fForceVector.x;
+	ss >> fForceVector.y;
+
+	bool l, r, t, b;
+	ss >> l;
+	ss >> r;
+	ss >> t;
+	ss >> b;
+	fCollisionSensor.triggerCollision(l, r, t, b);
+}
+
 void PhysicalObject::handleCollisions() {
 	fCollisionSensor.resetSensor();
 	sf::FloatRect bounds = getGlobalBounds();

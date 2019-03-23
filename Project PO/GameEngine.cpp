@@ -1,6 +1,7 @@
 #include "GameEngine.h"
 
-
+int GameEngine::fNextGameObjectId;
+std::vector<GameObject*> GameEngine::fGameObjects;
 sf::Vector2u GameEngine::F_WINDOW_SIZE;
 sf::Clock GameEngine::fClk;
 double GameEngine::fLastFrameTime = 0;
@@ -49,6 +50,9 @@ void GameEngine::updateFrame()
 	fGameWindow.clear();
 	for (GameObject* object : World::getGameObjectList())
 	{
+		if (object == nullptr)
+			continue;
+		
 		object->update();
 		fGameWindow.draw(*(*object).getDrawable());
 	}

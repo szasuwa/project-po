@@ -14,6 +14,17 @@ Player::~Player()
 {
 }
 
+void Player::deserializeData(std::stringstream &ss) {
+	PhysicalObject::deserializeData(ss);
+}
+
+void Player::serializeData(std::stringstream &ss, bool last) {
+	ss << SERIALIZABLE_CLASS_TYPE_PLAYER << SERIALIZABLE_FIELD_DELIMITER;
+	PhysicalObject::serializeData(ss, false);
+	Serializable::serializeData(ss, last);
+}
+
+
 sf::FloatRect Player::getGlobalBounds() {
 	return ((sf::Shape*)fDrawable)->getGlobalBounds();
 };

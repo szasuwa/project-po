@@ -11,6 +11,7 @@ class Player;
 static class World
 {
 	const std::string F_LEVEL_FILENAME = "level";
+	static sf::Vector2f fOrigin;
 
 	static int fNextGameObjectId;
 	static std::vector<GameObject*> fGameObjects;
@@ -33,5 +34,8 @@ public:
 	static GameObject* findGameObject(int id);
 	static void destroyGameObjects();
 	static void addGameObject(GameObject* object);
+
+	//Map movement
+	static void scrollMap(float v);
 };
 

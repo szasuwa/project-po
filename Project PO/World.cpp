@@ -7,6 +7,7 @@
 int World::fNextGameObjectId;
 std::vector<GameObject*> World::fGameObjects;
 Player* World::fPlayerObject;
+sf::Vector2f World::fOrigin;
 
 World::World()
 {
@@ -20,21 +21,6 @@ World::~World()
 
 void World::unloadLevel() {
 	destroyGameObjects();
-}
-
-void World::loadDevLevel() {
-	fPlayerObject = new Player();
-	addGameObject(fPlayerObject);
-	GameObject* obj = new Platform(sf::Vector2f(GameEngine::getWindowSize().x, 5), sf::Vector2f(0, GameEngine::getWindowSize().y - 5), sf::Color(125, 125, 125, 255));
-	addGameObject(obj);
-	obj = new Platform(sf::Vector2f(100, 5), sf::Vector2f(350, GameEngine::getWindowSize().y - 19), sf::Color(125, 125, 125, 255));
-	addGameObject(obj);
-	obj = new Platform(sf::Vector2f(GameEngine::getWindowSize().x / 4, 5), sf::Vector2f(0, GameEngine::getWindowSize().y - 65), sf::Color(125, 125, 125, 255));
-	addGameObject(obj);
-	obj = new Platform(sf::Vector2f(GameEngine::getWindowSize().x / 8, 5), sf::Vector2f(0, GameEngine::getWindowSize().y - 95), sf::Color(125, 125, 125, 255));
-	addGameObject(obj);
-
-	std::cout << fSerializationHandler.serializeBundle((Serializable **)fGameObjects.data(), fGameObjects.size()) << std::endl;
 }
 
 void World::loadLevel(int id) {
@@ -84,4 +70,11 @@ void World::destroyGameObjects() {
 int World::getNextGameObjectId() {
 	++fNextGameObjectId;
 	return fNextGameObjectId;
+}
+
+void World::scrollMap(float v) {
+	fOrigin.x += v;
+	for (GameObject* object : fGameObjects) {
+		object->getTransformable()->setOrigin(fOrigin);
+	}
 }

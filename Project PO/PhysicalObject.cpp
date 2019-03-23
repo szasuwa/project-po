@@ -134,30 +134,6 @@ void PhysicalObject::handleForces()
 	applyDeceleration();
 	handleCollisions();
 
-	//Prevent escaping window boundaries
-	sf::FloatRect bounds = getGlobalBounds();
-	
-	if (bounds.top + fForceVector.y*GameEngine::getFrameTime() < 0) {
-		fCollisionSensor.triggerCollision(0, 0, 1, 0);
-		fForceVector.y = -bounds.top;
-	}
-
-	if (bounds.top + bounds.height + fForceVector.y*GameEngine::getFrameTime() > GameEngine::getWindowSize().y) {
-		fCollisionSensor.triggerCollision(0, 0, 0, 1);
-		fForceVector.y = GameEngine::getWindowSize().y - bounds.top - bounds.height;
-	}
-
-	if (bounds.left + fForceVector.x*GameEngine::getFrameTime() < 0) {
-		fCollisionSensor.triggerCollision(1, 0, 0, 0);
-		fForceVector.x = -bounds.left;
-	}
-
-	if (bounds.left +bounds.width + fForceVector.x*GameEngine::getFrameTime() > GameEngine::getWindowSize().x) {
-		fCollisionSensor.triggerCollision(0, 1, 0, 0);
-		fForceVector.x = GameEngine::getWindowSize().x - bounds.left - bounds.width;
-	}
-
 	//Set position
-
 	getTransformable()->move(fForceVector*GameEngine::getFrameTime());
 }

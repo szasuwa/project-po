@@ -1,6 +1,8 @@
 #include "GameEngine.h"
 #include "GameObject.h"
 #include "Player.h"
+#include <string>
+#include <iostream>
 
 int GameEngine::fNextGameObjectId;
 std::vector<GameObject*> GameEngine::fGameObjects;
@@ -8,6 +10,7 @@ sf::Vector2u GameEngine::F_WINDOW_SIZE;
 Player* GameEngine::fPlayerObject;
 sf::Clock GameEngine::fClk;
 double GameEngine::fLastFrameTime = 0;
+std::string temp;
 
 GameEngine::GameEngine(sf::RenderWindow &window) : fGameWindow(window)
 {
@@ -59,6 +62,9 @@ void GameEngine::updateFrame()
 	fGameWindow.clear();
 	for (GameObject* object : fGameObjects)
 	{
+		if (object == nullptr)
+			continue;
+		
 		object->update();
 		fGameWindow.draw(*(*object).getDrawable());
 	}
@@ -97,6 +103,13 @@ GameObject* GameEngine::findGameObject(int id) {
 
 void GameEngine::addGameObject(GameObject* object) {
 	fGameObjects.push_back(object);
+}
+
+void GameEngine::destroyGameObjects() {
+	while (fGameObjects.size() > 0) {
+		delete fGameObjects.back();
+		fGameObjects.pop_back();
+	}
 }
 
 void GameEngine::destroyGameObject(GameObject* object) {

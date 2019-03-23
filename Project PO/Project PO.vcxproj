@@ -136,6 +136,8 @@
     <ClCompile Include="PhysicalObject.cpp" />
     <ClCompile Include="Platform.cpp" />
     <ClCompile Include="Player.cpp" />
+    <ClCompile Include="Serializable.cpp" />
+    <ClCompile Include="SerializationHandler.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameEngine.h" />
@@ -143,6 +145,8 @@
     <ClInclude Include="PhysicalObject.h" />
     <ClInclude Include="Platform.h" />
     <ClInclude Include="Player.h" />
+    <ClInclude Include="Serializable.h" />
+    <ClInclude Include="SerializationHandler.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

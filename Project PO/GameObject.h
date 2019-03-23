@@ -1,9 +1,10 @@
 #pragma once
+#include"Serializable.h"
 #include <SFML/Graphics/Drawable.hpp>
 #include <SFML/Graphics/Transformable.hpp>
 class GameEngine;
 
-class GameObject
+class GameObject : public Serializable
 {
 protected:
 	sf::Drawable *fDrawable;
@@ -11,6 +12,9 @@ protected:
 public:
 	GameObject();
 	~GameObject();
+
+	void serializeData(std::stringstream &ss, bool last = true);
+	void deserializeData(std::stringstream &ss);
 
 	virtual void update() = 0;
 	virtual sf::FloatRect getGlobalBounds() = 0;

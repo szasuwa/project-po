@@ -34,22 +34,22 @@ public:
 		return fLeft || fRight || fTop || fBottom;
 	}
 
-	bool getLeft() 
+	bool getLeft() const
 	{
 		return fLeft;
 	}
 
-	bool getRight()
+	bool getRight() const
 	{
 		return fRight;
 	}
 
-	bool getTop()
+	bool getTop() const
 	{
 		return fTop;
 	}
 
-	bool getBottom()
+	bool getBottom() const
 	{
 		return fBottom;
 	}
@@ -71,6 +71,9 @@ protected:
 public:
 	PhysicalObject();
 	~PhysicalObject();
+
+	void serializeData(std::stringstream &ss, bool last = true);
+	void deserializeData(std::stringstream &ss);
 
 	void handleForces();
 };

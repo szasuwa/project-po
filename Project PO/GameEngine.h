@@ -2,6 +2,7 @@
 #include <SFML/Graphics.hpp>
 #include <vector>
 #include "Platform.h"
+#include "SerializationHandler.h"
 
 class GameObject;
 class Player;
@@ -32,6 +33,7 @@ public:
 	static const std::vector<GameObject*> getGameObjectList();
 	//static GameObject* findGameObject(int id);
 	static void addGameObject(GameObject* object);
+	static void destroyGameObjects();
 	static void destroyGameObject(GameObject* object);
 	static void destroyGameObject(int id);
 };

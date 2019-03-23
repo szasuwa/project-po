@@ -45,8 +45,9 @@ void GameEngine::gameLoop()
 	
 	while (fGameWindow.isOpen())
 	{
+		handleEvents();
 		if (fGameWindow.hasFocus()) {
-			handleEvents();
+
 			updateFrame();
 		}		
 		fLastFrameTime = fClk.restart().asSeconds();
@@ -74,11 +75,22 @@ void GameEngine::handleEvents() {
 	{
 		switch (appEvent.type)
 		{
-		case sf::Event::Closed:
-			fGameWindow.close();
-			break;
-		default:
-			break;
+			case sf::Event::GainedFocus:
+				fLastFrameTime = F_MAX_FRAME_TIME;
+				fClk.restart();
+				break;	
+
+			case sf::Event::Resized:
+				fLastFrameTime = F_MAX_FRAME_TIME;
+				fClk.restart();
+				break;
+
+			case sf::Event::Closed:
+				fGameWindow.close();
+				break;
+
+			default:
+				break;
 		}
 	}
 }

@@ -10,6 +10,7 @@ class GameEngine
 {
 	sf::RenderWindow &fGameWindow;
 	static sf::Clock fClk;
+	static const double F_MAX_FRAME_TIME;
 	static double fLastFrameTime;
 	
 	static int fNextGameObjectId;

@@ -8,6 +8,7 @@ sf::Vector2u GameEngine::F_WINDOW_SIZE;
 Player* GameEngine::fPlayerObject;
 sf::Clock GameEngine::fClk;
 double GameEngine::fLastFrameTime = 0;
+const double GameEngine::F_MAX_FRAME_TIME = 1.0 / 120.0;
 
 GameEngine::GameEngine(sf::RenderWindow &window) : fGameWindow(window)
 {
@@ -44,14 +45,16 @@ void GameEngine::gameLoop()
 	
 	while (fGameWindow.isOpen())
 	{
-		handleEvents();
-		updateFrame();
+		if (fGameWindow.hasFocus()) {
+			handleEvents();
+			updateFrame();
+		}		
 		fLastFrameTime = fClk.restart().asSeconds();
 	}
 }
 
 float GameEngine::getFrameTime() {
-	return fLastFrameTime;
+	return std::min(fLastFrameTime, F_MAX_FRAME_TIME);
 }
 
 void GameEngine::updateFrame() 

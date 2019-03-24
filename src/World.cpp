@@ -8,8 +8,8 @@ int World::fNextGameObjectId;
 std::vector<GameObject*> World::fGameObjects;
 Player* World::fPlayerObject;
 sf::Vector2f World::fOrigin;
-float World::fWorldBoundaryLeft = 0;
-float World::fWorldBoundaryRight = 1500;
+float World::fWorldBoundaryLeft;
+float World::fWorldBoundaryRight;
 
 World::World()
 {
@@ -22,6 +22,7 @@ World::~World()
 }
 
 void World::unloadLevel() {
+	fNextGameObjectId = 0;
 	fOrigin.x = 0;
 	destroyGameObjects();
 }

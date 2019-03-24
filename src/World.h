@@ -10,7 +10,7 @@ class Player;
 
 class World
 {
-	const std::string F_LEVEL_FILENAME = "level";
+	const std::string F_LEVEL_FILENAME = "res/level";
 	static sf::Vector2f fOrigin;
 
 	static float fWorldBoundaryLeft;

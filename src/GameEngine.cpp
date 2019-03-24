@@ -10,7 +10,7 @@ sf::Font font;
 
 GameEngine::GameEngine(sf::RenderWindow &window) : fGameWindow(window)
 {
-	font.loadFromFile("bboron.ttf");
+	font.loadFromFile("res/bboron.ttf");
 	F_WINDOW_SIZE = fGameWindow.getSize();
 
 	fFpsMeter.setFont(font);

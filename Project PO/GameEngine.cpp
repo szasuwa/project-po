@@ -43,6 +43,10 @@ void GameEngine::gameLoop()
 		if (fGameWindow.hasFocus()) {
 			updateFrame();
 		}
+		else
+		{
+			Sleep(F_MAX_FRAME_TIME * 1000);
+		}
 		fLastFrameTime = fClk.restart().asSeconds();
 	}
 }

@@ -45,12 +45,14 @@ void Player::controlMovement()
 	//Check movement keys
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
 	{
-		fForceVector.x = -fSpeed;
+		fForceVector.x -= fSpeed;
 	}
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))
 	{
-		fForceVector.x = fSpeed;
+		fForceVector.x += fSpeed;
 	}
+	fForceVector.x = std::max(-fSpeed, std::min(fSpeed, fForceVector.x));
+
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space) && fCollisionSensor.getBottom())
 	{
 		fForceVector.y = -fJumpForce;

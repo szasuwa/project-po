@@ -6,9 +6,17 @@ sf::Clock GameEngine::fClk;
 double GameEngine::fLastFrameTime = 0;
 const double GameEngine::F_MAX_FRAME_TIME = 1.0 / 120.0;
 
+sf::Font font;
+
 GameEngine::GameEngine(sf::RenderWindow &window) : fGameWindow(window)
 {
+	font.loadFromFile("bboron.ttf");
 	F_WINDOW_SIZE = fGameWindow.getSize();
+
+	fFpsMeter.setFont(font);
+	fFpsMeter.setCharacterSize(12);
+	fFpsMeter.setFillColor(sf::Color::White);
+
 	fWorld = new World();
 }
 
@@ -33,9 +41,8 @@ void GameEngine::gameLoop()
 	{
 		handleEvents();
 		if (fGameWindow.hasFocus()) {
-
 			updateFrame();
-		}		
+		}
 		fLastFrameTime = fClk.restart().asSeconds();
 	}
 }
@@ -55,6 +62,10 @@ void GameEngine::updateFrame()
 		object->update();
 		fGameWindow.draw(*(*object).getDrawable());
 	}
+
+	updateStats();
+	displayStats();
+
 	fGameWindow.display();
 }
 
@@ -64,6 +75,19 @@ void GameEngine::handleEvents() {
 	{
 		switch (appEvent.type)
 		{
+			case sf::Event::KeyPressed:
+				if (!fIsFpsKeyPressed && sf::Keyboard::isKeyPressed(sf::Keyboard::Key::F3)) {
+					fIsFpsKeyPressed = true;
+					fDisplayFps = !fDisplayFps;
+				}
+				break;
+
+			case sf::Event::KeyReleased:
+				if (fIsFpsKeyPressed && !sf::Keyboard::isKeyPressed(sf::Keyboard::Key::F3)) {
+					fIsFpsKeyPressed = false;
+				}
+				break;
+
 			case sf::Event::GainedFocus:
 				fLastFrameTime = F_MAX_FRAME_TIME;
 				fClk.restart();
@@ -82,6 +106,15 @@ void GameEngine::handleEvents() {
 				break;
 		}
 	}
+}
+
+void GameEngine::updateStats() {
+	fFpsMeter.setString(std::to_string((int)(1.f / getFrameTime())) + "FPS");
+}
+
+void GameEngine::displayStats() {
+	if (fDisplayFps)
+		fGameWindow.draw(fFpsMeter);
 }
 
  const sf::Vector2u GameEngine::getWindowSize() {

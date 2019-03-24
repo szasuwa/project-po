@@ -5,11 +5,13 @@
 #include <Windows.h>
 
 class World;
+class DebugMenu;
 
 class GameEngine
 {
 	sf::RenderWindow &fGameWindow;
 	World* fWorld;
+	DebugMenu* fDebugMenu;
 
 	static sf::Vector2u F_WINDOW_SIZE;
 	static const double F_MAX_FRAME_TIME;
@@ -17,15 +19,12 @@ class GameEngine
 	static sf::Clock fClk;
 	static double fLastFrameTime;
 
-	sf::Text fFpsMeter;
-	bool fDisplayFps = false;
-	bool fIsFpsKeyPressed = false;
+	bool fDisplayDebug = false;
+	bool fIsDebugKeyPressed = false;
 	
 	void initGame();
 	void handleEvents();
 	void updateFrame();
-	void updateStats();
-	void displayStats();
 public:
 	
 

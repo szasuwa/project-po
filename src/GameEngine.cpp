@@ -1,27 +1,22 @@
 #include "GameEngine.h"
 #include "World.h"
+#include "DebugMenu.h"
 
 sf::Vector2u GameEngine::F_WINDOW_SIZE;
 sf::Clock GameEngine::fClk;
 double GameEngine::fLastFrameTime = 0;
 const double GameEngine::F_MAX_FRAME_TIME = 1.0 / 120.0;
 
-sf::Font font;
-
 GameEngine::GameEngine(sf::RenderWindow &window) : fGameWindow(window)
 {
-	font.loadFromFile("res/bboron.ttf");
 	F_WINDOW_SIZE = fGameWindow.getSize();
-
-	fFpsMeter.setFont(font);
-	fFpsMeter.setCharacterSize(12);
-	fFpsMeter.setFillColor(sf::Color::White);
-
 	fWorld = new World();
+	fDebugMenu = new DebugMenu();
 }
 
 GameEngine::~GameEngine()
 {
+	delete fDebugMenu;
 	delete fWorld;
 }
 
@@ -58,6 +53,10 @@ float GameEngine::getFrameTime() {
 void GameEngine::updateFrame() 
 {
 	fGameWindow.clear();
+	if (fDisplayDebug) {
+		fDebugMenu->drawMenu(fGameWindow);
+	}
+
 	for (GameObject* object : World::getGameObjectList())
 	{
 		if (object == nullptr)
@@ -66,9 +65,6 @@ void GameEngine::updateFrame()
 		object->update();
 		fGameWindow.draw(*(*object).getDrawable());
 	}
-
-	updateStats();
-	displayStats();
 
 	fGameWindow.display();
 }
@@ -80,15 +76,15 @@ void GameEngine::handleEvents() {
 		switch (appEvent.type)
 		{
 			case sf::Event::KeyPressed:
-				if (!fIsFpsKeyPressed && sf::Keyboard::isKeyPressed(sf::Keyboard::Key::F3)) {
-					fIsFpsKeyPressed = true;
-					fDisplayFps = !fDisplayFps;
+				if (!fIsDebugKeyPressed && sf::Keyboard::isKeyPressed(sf::Keyboard::Key::F3)) {
+					fIsDebugKeyPressed = true;
+					fDisplayDebug = !fDisplayDebug;
 				}
 				break;
 
 			case sf::Event::KeyReleased:
-				if (fIsFpsKeyPressed && !sf::Keyboard::isKeyPressed(sf::Keyboard::Key::F3)) {
-					fIsFpsKeyPressed = false;
+				if (fIsDebugKeyPressed && !sf::Keyboard::isKeyPressed(sf::Keyboard::Key::F3)) {
+					fIsDebugKeyPressed = false;
 				}
 				break;
 
@@ -110,15 +106,6 @@ void GameEngine::handleEvents() {
 				break;
 		}
 	}
-}
-
-void GameEngine::updateStats() {
-	fFpsMeter.setString(std::to_string((int)(1.f / getFrameTime())) + "FPS");
-}
-
-void GameEngine::displayStats() {
-	if (fDisplayFps)
-		fGameWindow.draw(fFpsMeter);
 }
 
  const sf::Vector2u GameEngine::getWindowSize() {

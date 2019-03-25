@@ -1,5 +1,5 @@
 #include "Platform.h"
-#include <iostream>
+
 Platform::Platform()
 {
 	fDrawable = new sf::RectangleShape();

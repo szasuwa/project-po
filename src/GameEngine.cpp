@@ -1,15 +1,8 @@
 #include "GameEngine.h"
-#include "World.h"
-#include "DebugMenu.h"
-
-sf::Vector2u GameEngine::F_WINDOW_SIZE;
-sf::Clock GameEngine::fClk;
-double GameEngine::fLastFrameTime = 0;
-const double GameEngine::F_MAX_FRAME_TIME = 1.0 / 120.0;
 
 GameEngine::GameEngine(sf::RenderWindow &window) : fGameWindow(window)
 {
-	F_WINDOW_SIZE = fGameWindow.getSize();
+	Frame::setWindowSize(fGameWindow.getSize());
 	fWorld = new World();
 	fDebugMenu = new DebugMenu();
 }
@@ -40,14 +33,10 @@ void GameEngine::gameLoop()
 		}
 		else
 		{
-			Sleep(F_MAX_FRAME_TIME * 1000);
+			Sleep(Frame::getMaxFrameTime() * 1000);
 		}
-		fLastFrameTime = fClk.restart().asSeconds();
+		Frame::nextFrame();
 	}
-}
-
-float GameEngine::getFrameTime() {
-	return std::min(fLastFrameTime, F_MAX_FRAME_TIME);
 }
 
 void GameEngine::updateFrame() 
@@ -89,13 +78,11 @@ void GameEngine::handleEvents() {
 				break;
 
 			case sf::Event::GainedFocus:
-				fLastFrameTime = F_MAX_FRAME_TIME;
-				fClk.restart();
+				Frame::nextFrame();
 				break;	
 
 			case sf::Event::Resized:
-				fLastFrameTime = F_MAX_FRAME_TIME;
-				fClk.restart();
+				Frame::nextFrame();
 				break;
 
 			case sf::Event::Closed:
@@ -106,8 +93,4 @@ void GameEngine::handleEvents() {
 				break;
 		}
 	}
-}
-
- const sf::Vector2u GameEngine::getWindowSize() {
-	return F_WINDOW_SIZE;
 }

@@ -1,5 +1,4 @@
 #include "PhysicalObject.h"
-#include "GameEngine.h"
 #include "World.h"
 
 float PhysicalObject::fDecelerationRate = 15.f;
@@ -59,8 +58,8 @@ void PhysicalObject::handleCollisions() {
 	sf::FloatRect bounds = getGlobalBounds();
 	sf::FloatRect newBounds = bounds;
 
-	newBounds.left += fForceVector.x*GameEngine::getFrameTime();
-	newBounds.top += fForceVector.y*GameEngine::getFrameTime();
+	newBounds.left += fForceVector.x*Frame::getFrameTime();
+	newBounds.top += fForceVector.y*Frame::getFrameTime();
 
 	for (GameObject* obj : World::getGameObjectList()) 
 	{
@@ -81,7 +80,7 @@ void PhysicalObject::handleCollisions() {
 				if (newLeftCollision & !leftCollision)
 				{
 					fForceVector.x = std::max(fForceVector.x, 0.0f);
-					newBounds.left = bounds.left + fForceVector.x*GameEngine::getFrameTime();
+					newBounds.left = bounds.left + fForceVector.x*Frame::getFrameTime();
 				}
 				
 				newRightCollision = (newBounds.left + newBounds.width > objBounds.left && newBounds.left < objBounds.left);
@@ -89,7 +88,7 @@ void PhysicalObject::handleCollisions() {
 				if (newRightCollision & !rightCollision)
 				{
 					fForceVector.x = std::min(fForceVector.x, 0.0f);
-					newBounds.left = bounds.left + fForceVector.x*GameEngine::getFrameTime();
+					newBounds.left = bounds.left + fForceVector.x*Frame::getFrameTime();
 				}
 
 				bottomCollision = (newBounds.top + newBounds.height > objBounds.top && newBounds.top + newBounds.height < objBounds.top + objBounds.height);
@@ -100,13 +99,13 @@ void PhysicalObject::handleCollisions() {
 					if (newTopCollision)
 					{
 						fForceVector.y += fDecelerationSmoothRate;
-						newBounds.top = bounds.top + fForceVector.y*GameEngine::getFrameTime();
+						newBounds.top = bounds.top + fForceVector.y*Frame::getFrameTime();
 					}
 
 					if (newBottomCollision)
 					{
 						fForceVector.y -= fDecelerationSmoothRate;
-						newBounds.top = bounds.top + fForceVector.y*GameEngine::getFrameTime();
+						newBounds.top = bounds.top + fForceVector.y*Frame::getFrameTime();
 					}
 				}
 
@@ -149,31 +148,31 @@ void PhysicalObject::handleForces()
 		sf::FloatRect bounds = getGlobalBounds();
 
 		if (fInWindowBoundsVertical) {
-			if (bounds.top + fForceVector.y*GameEngine::getFrameTime() < 0) {
+			if (bounds.top + fForceVector.y*Frame::getFrameTime() < 0) {
 				fCollisionSensor.triggerCollision(0, 0, 1, 0);
 				fForceVector.y = -bounds.top;
 			}
 
-			if (bounds.top + bounds.height + fForceVector.y*GameEngine::getFrameTime() > GameEngine::getWindowSize().y) {
+			if (bounds.top + bounds.height + fForceVector.y*Frame::getFrameTime() > Frame::getWindowHeight()) {
 				fCollisionSensor.triggerCollision(0, 0, 0, 1);
-				fForceVector.y = GameEngine::getWindowSize().y - bounds.top - bounds.height;
+				fForceVector.y = Frame::getWindowHeight() - bounds.top - bounds.height;
 			}
 		}
 		
 		if (fInWindowBoundsHorizontal) {
-			if (bounds.left + fForceVector.x*GameEngine::getFrameTime() < 0) {
+			if (bounds.left + fForceVector.x*Frame::getFrameTime() < 0) {
 				fCollisionSensor.triggerCollision(1, 0, 0, 0);
 				fForceVector.x = -bounds.left;
 			}
 
-			if (bounds.left + bounds.width + fForceVector.x*GameEngine::getFrameTime() > GameEngine::getWindowSize().x) {
+			if (bounds.left + bounds.width + fForceVector.x*Frame::getFrameTime() > Frame::getWindowWidth()) {
 				fCollisionSensor.triggerCollision(0, 1, 0, 0);
-				fForceVector.x = GameEngine::getWindowSize().x - bounds.left - bounds.width;
+				fForceVector.x = Frame::getWindowWidth() - bounds.left - bounds.width;
 			}
 		}
 	}
 	
 
 	//Set position
-	getTransformable()->move(fForceVector*GameEngine::getFrameTime());
+	getTransformable()->move(fForceVector*Frame::getFrameTime());
 }

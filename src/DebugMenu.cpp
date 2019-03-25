@@ -15,6 +15,6 @@ DebugMenu::~DebugMenu()
 }
 
 void DebugMenu::drawMenu(sf::RenderWindow &window) {
-	fFpsMeter.setString(std::to_string((int)(1.f / GameEngine::getFrameTime())) + "FPS");
+	fFpsMeter.setString(std::to_string(Frame::getFrameRate()) +"FPS");
 	window.draw(fFpsMeter);
 }

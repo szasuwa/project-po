@@ -129,12 +129,11 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="src\DebugMenu.cpp" />
+    <ClCompile Include="src\Frame.cpp" />
     <ClCompile Include="src\GameEngine.cpp" />
     <ClCompile Include="src\GameObject.cpp" />
     <ClCompile Include="src\main.cpp" />
-    <ClCompile Include="src\MainMenu.cpp" />
     <ClCompile Include="src\Menu.cpp" />
-    <ClCompile Include="src\PauseMenu.cpp" />
     <ClCompile Include="src\PhysicalObject.cpp" />
     <ClCompile Include="src\Platform.cpp" />
     <ClCompile Include="src\Player.cpp" />
@@ -144,11 +143,10 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\DebugMenu.h" />
+    <ClInclude Include="src\Frame.h" />
     <ClInclude Include="src\GameEngine.h" />
     <ClInclude Include="src\GameObject.h" />
-    <ClInclude Include="src\MainMenu.h" />
     <ClInclude Include="src\Menu.h" />
-    <ClInclude Include="src\PauseMenu.h" />
     <ClInclude Include="src\PhysicalObject.h" />
     <ClInclude Include="src\Platform.h" />
     <ClInclude Include="src\Player.h" />

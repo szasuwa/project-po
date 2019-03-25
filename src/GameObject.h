@@ -2,7 +2,6 @@
 #include"Serializable.h"
 #include <SFML/Graphics/Drawable.hpp>
 #include <SFML/Graphics/Transformable.hpp>
-class GameEngine;
 
 class GameObject : public Serializable
 {

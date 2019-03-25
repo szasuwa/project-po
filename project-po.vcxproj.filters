@@ -66,11 +66,8 @@
     <ClCompile Include="src\Menu.cpp">
       <Filter>Source Files\Menus</Filter>
     </ClCompile>
-    <ClCompile Include="src\MainMenu.cpp">
-      <Filter>Source Files\Menus</Filter>
-    </ClCompile>
-    <ClCompile Include="src\PauseMenu.cpp">
-      <Filter>Source Files\Menus</Filter>
+    <ClCompile Include="src\Frame.cpp">
+      <Filter>Source Files\Backend</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -98,17 +95,14 @@
     <ClInclude Include="src\GameObject.h">
       <Filter>Header Files\Objects</Filter>
     </ClInclude>
-    <ClInclude Include="src\PauseMenu.h">
-      <Filter>Header Files\Menus</Filter>
-    </ClInclude>
-    <ClInclude Include="src\MainMenu.h">
-      <Filter>Header Files\Menus</Filter>
-    </ClInclude>
     <ClInclude Include="src\DebugMenu.h">
       <Filter>Header Files\Menus</Filter>
     </ClInclude>
     <ClInclude Include="src\Menu.h">
       <Filter>Header Files\Menus</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Frame.h">
+      <Filter>Header Files\Backend</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

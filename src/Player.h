@@ -1,6 +1,6 @@
 #pragma once
 #include "PhysicalObject.h"
-#include "GameEngine.h"
+#include "Frame.h"
 #include "SerializationHandler.h"
 #include <SFML/Graphics.hpp>
 #include <algorithm>

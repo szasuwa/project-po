@@ -1,13 +1,10 @@
 #include "Player.h"
 #include "World.h"
-#include <iostream>
-
-
 
 Player::Player() : PhysicalObject(true, true)
 {
 	fDrawable = new sf::RectangleShape(sf::Vector2f(10, 10));
-	getTransformable()->setPosition(GameEngine::getWindowSize().x / 2, GameEngine::getWindowSize().y / 2);
+	getTransformable()->setPosition(Frame::getWindowWidth() / 2, Frame::getWindowHeight() / 2);
 	World::setPlayer(this);
 }
 
@@ -61,8 +58,8 @@ void Player::controlMovement()
 	//Scrolling
 	sf::FloatRect bounds = getGlobalBounds();
 
-	if ((bounds.left + bounds.width + fForceVector.x*GameEngine::getFrameTime() > GameEngine::getWindowSize().x - fScrollOffsetRight)) {
-		World::scrollMap(bounds.left + bounds.width + fForceVector.x*GameEngine::getFrameTime() - GameEngine::getWindowSize().x + fScrollOffsetRight);
+	if ((bounds.left + bounds.width + fForceVector.x*Frame::getFrameTime() > Frame::getWindowWidth() - fScrollOffsetRight)) {
+		World::scrollMap(bounds.left + bounds.width + fForceVector.x*Frame::getFrameTime() - Frame::getWindowWidth() + fScrollOffsetRight);
 	}
 
 	if (bounds.left < fScrollOffsetLeft) {

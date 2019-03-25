@@ -2,6 +2,7 @@
 #include <string>
 #include <vector>
 #include <fstream>
+#include "Frame.h"
 #include "SerializationHandler.h"
 #include "Platform.h"
 
@@ -40,7 +41,5 @@ public:
 
 	//Map movement
 	static void scrollMap(float v);
-	static float getWorldBoundaryLeft();
-	static float getWorldBoundaryRight();
 };
 

@@ -80,7 +80,7 @@ int World::getNextGameObjectId() {
 }
 
 void World::scrollMap(float v) {
-	fOrigin.x = std::max(fWorldBoundaryLeft, std::min(fOrigin.x + v, fWorldBoundaryRight - GameEngine::getWindowSize().x));
+	fOrigin.x = std::max(fWorldBoundaryLeft, std::min(fOrigin.x + v, fWorldBoundaryRight - Frame::getWindowWidth()));
 	
 	for (GameObject* object : fGameObjects) {
 		object->getTransformable()->setOrigin(fOrigin);

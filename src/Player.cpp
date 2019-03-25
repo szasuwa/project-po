@@ -1,11 +1,13 @@
 #include "Player.h"
-#include "World.h"
+
+WorldBoundaries Player::fWorldBoundaries;
 
 Player::Player() : PhysicalObject(true, true)
 {
 	fDrawable = new sf::RectangleShape(sf::Vector2f(10, 10));
 	getTransformable()->setPosition(Frame::getWindowWidth() / 2, Frame::getWindowHeight() / 2);
-	World::setPlayer(this);
+	fOrigin.x = 0;
+	fOrigin.y = 0;
 }
 
 Player::~Player()
@@ -59,10 +61,19 @@ void Player::controlMovement()
 	sf::FloatRect bounds = getGlobalBounds();
 
 	if ((bounds.left + bounds.width + fForceVector.x*Frame::getFrameTime() > Frame::getWindowWidth() - fScrollOffsetRight)) {
-		World::scrollMap(bounds.left + bounds.width + fForceVector.x*Frame::getFrameTime() - Frame::getWindowWidth() + fScrollOffsetRight);
+		scrollMap(bounds.left + bounds.width + fForceVector.x*Frame::getFrameTime() - Frame::getWindowWidth() + fScrollOffsetRight);
 	}
 
 	if (bounds.left < fScrollOffsetLeft) {
-		World::scrollMap(bounds.left - fScrollOffsetLeft);
+		scrollMap(bounds.left - fScrollOffsetLeft);
 	}
+}
+
+void Player::scrollMap(float v) {
+	fOrigin.x = std::max(fWorldBoundaries.left, std::min(fOrigin.x + v, fWorldBoundaries.right - Frame::getWindowWidth()));
+	GameObject::broadcastOriginChange(fOrigin);
+}
+
+void Player::setWorldBoundaries(WorldBoundaries b) {
+	fWorldBoundaries = b;
 }

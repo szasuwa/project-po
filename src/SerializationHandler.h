@@ -16,6 +16,6 @@ public:
 	std::string serializeObject(Serializable *obj);
 	std::string serializeBundle(Serializable **obj, int size);
 	Serializable * deserializeObject(std::string &data);
-	std::vector<Serializable *> * deserializeBundle(std::string &data);
+	void deserializeBundle(std::string &data);
 };
 

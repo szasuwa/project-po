@@ -1,7 +1,6 @@
 #pragma once
 #include "GameObject.h"
 #include "Frame.h"
-#include <SFML/Graphics.hpp>
 #include <algorithm>
 
 class CollisionSensor {

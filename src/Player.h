@@ -1,12 +1,16 @@
 #pragma once
 #include "PhysicalObject.h"
+#include "WorldBoundaries.h"
 #include "Frame.h"
-#include "SerializationHandler.h"
 #include <SFML/Graphics.hpp>
 #include <algorithm>
 
 class Player : public PhysicalObject
 {
+	//World
+	sf::Vector2f fOrigin;
+	static WorldBoundaries fWorldBoundaries;
+
 	//Movement
 	float fSpeed = 250.f;
 	float fJumpForce = 500.f;
@@ -14,6 +18,7 @@ class Player : public PhysicalObject
 	float fScrollOffsetLeft = 400.f;
 
 	void controlMovement();
+	void scrollMap(float v);
 
 public:
 	Player();
@@ -25,5 +30,8 @@ public:
 	sf::FloatRect getGlobalBounds();
 	sf::Transformable *getTransformable();
 	void update();
+
+	static void setWorldBoundaries(WorldBoundaries b);
+	
 };
 

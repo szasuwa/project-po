@@ -3,20 +3,16 @@
 GameEngine::GameEngine(sf::RenderWindow &window) : fGameWindow(window)
 {
 	Frame::setWindowSize(fGameWindow.getSize());
-	fWorld = new World();
-	fDebugMenu = new DebugMenu();
 }
 
 GameEngine::~GameEngine()
 {
-	delete fDebugMenu;
-	delete fWorld;
 }
 
 void GameEngine::initGame() 
 {
 	fGameWindow.setFramerateLimit(120);
-	fWorld->loadLevel(1);
+	Player::setWorldBoundaries(fWorldLoader.loadLevel(1));
 }
 
 void GameEngine::gameLoop()
@@ -43,17 +39,11 @@ void GameEngine::updateFrame()
 {
 	fGameWindow.clear();
 	if (fDisplayDebug) {
-		fDebugMenu->drawMenu(fGameWindow);
+		fDebugMenu.drawMenu(fGameWindow);
 	}
 
-	for (GameObject* object : World::getGameObjectList())
-	{
-		if (object == nullptr)
-			continue;
-		
-		object->update();
-		fGameWindow.draw(*(*object).getDrawable());
-	}
+	GameObject::broadcastUpdate();
+	GameObject::broadcastDraw(fGameWindow);
 
 	fGameWindow.display();
 }

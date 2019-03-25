@@ -62,16 +62,13 @@ Serializable * SerializationHandler::deserializeObject(std::string &data)
 	return output;
 }
 
-std::vector<Serializable *> * SerializationHandler::deserializeBundle(std::string &data)
+void SerializationHandler::deserializeBundle(std::string &data)
 {
 	std::stringstream ss;
 	ss.str(data);
-	std::vector<Serializable *> * output = new std::vector<Serializable *>();
 	while (ss.rdbuf()->in_avail() > 0) {
 		std::string temp;
 		getline(ss, temp);
-		output->push_back(deserializeObject(temp));
-		
+		deserializeObject(temp);
 	}
-	return output;
 }

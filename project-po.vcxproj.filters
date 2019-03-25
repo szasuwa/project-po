@@ -54,9 +54,6 @@
     <ClCompile Include="src\Serializable.cpp">
       <Filter>Source Files\Backend</Filter>
     </ClCompile>
-    <ClCompile Include="src\World.cpp">
-      <Filter>Source Files\Backend</Filter>
-    </ClCompile>
     <ClCompile Include="src\GameEngine.cpp">
       <Filter>Source Files\Backend</Filter>
     </ClCompile>
@@ -69,6 +66,9 @@
     <ClCompile Include="src\Frame.cpp">
       <Filter>Source Files\Backend</Filter>
     </ClCompile>
+    <ClCompile Include="src\WorldLoader.cpp">
+      <Filter>Source Files\Backend</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\GameEngine.h">
@@ -78,9 +78,6 @@
       <Filter>Header Files\Backend</Filter>
     </ClInclude>
     <ClInclude Include="src\SerializationHandler.h">
-      <Filter>Header Files\Backend</Filter>
-    </ClInclude>
-    <ClInclude Include="src\World.h">
       <Filter>Header Files\Backend</Filter>
     </ClInclude>
     <ClInclude Include="src\PhysicalObject.h">
@@ -102,6 +99,12 @@
       <Filter>Header Files\Menus</Filter>
     </ClInclude>
     <ClInclude Include="src\Frame.h">
+      <Filter>Header Files\Backend</Filter>
+    </ClInclude>
+    <ClInclude Include="src\WorldBoundaries.h">
+      <Filter>Header Files\Backend</Filter>
+    </ClInclude>
+    <ClInclude Include="src\WorldLoader.h">
       <Filter>Header Files\Backend</Filter>
     </ClInclude>
   </ItemGroup>

@@ -1,5 +1,4 @@
 #include "PhysicalObject.h"
-#include "World.h"
 
 float PhysicalObject::fDecelerationRate = 15.f;
 float PhysicalObject::fDecelerationSmoothRate = 0.1f;
@@ -61,7 +60,7 @@ void PhysicalObject::handleCollisions() {
 	newBounds.left += fForceVector.x*Frame::getFrameTime();
 	newBounds.top += fForceVector.y*Frame::getFrameTime();
 
-	for (GameObject* obj : World::getGameObjectList()) 
+	for (GameObject* obj : fGameObjectList) 
 	{
 		if (obj->getId() != fId) {
 			if (newBounds.intersects(obj->getGlobalBounds())) {

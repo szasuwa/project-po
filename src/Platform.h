@@ -3,7 +3,6 @@
 #include "SerializationHandler.h"
 #include <SFML/System/Vector2.hpp>
 #include <SFML/Graphics.hpp>
-class GameObject;
 
 class Platform : public GameObject
 {

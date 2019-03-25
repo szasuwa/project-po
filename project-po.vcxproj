@@ -139,7 +139,7 @@
     <ClCompile Include="src\Player.cpp" />
     <ClCompile Include="src\Serializable.cpp" />
     <ClCompile Include="src\SerializationHandler.cpp" />
-    <ClCompile Include="src\World.cpp" />
+    <ClCompile Include="src\WorldLoader.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\DebugMenu.h" />
@@ -152,7 +152,8 @@
     <ClInclude Include="src\Player.h" />
     <ClInclude Include="src\Serializable.h" />
     <ClInclude Include="src\SerializationHandler.h" />
-    <ClInclude Include="src\World.h" />
+    <ClInclude Include="src\WorldBoundaries.h" />
+    <ClInclude Include="src\WorldLoader.h" />
   </ItemGroup>
   <ItemGroup>
     <Font Include="res\bboron.ttf" />

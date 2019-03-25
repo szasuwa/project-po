@@ -4,14 +4,14 @@
 #include <string>
 #include <Windows.h>
 #include "Frame.h"
-#include "World.h"
+#include "WorldLoader.h"
 #include "DebugMenu.h"
 
 class GameEngine
 {
 	sf::RenderWindow &fGameWindow;
-	World* fWorld;
-	DebugMenu* fDebugMenu;
+	WorldLoader fWorldLoader;
+	DebugMenu fDebugMenu;
 
 	bool fDisplayDebug = false;
 	bool fIsDebugKeyPressed = false;

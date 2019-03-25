@@ -32,10 +32,10 @@ void PhysicalObject::serializeData(std::stringstream &ss, bool last) {
 	ss << SERIALIZABLE_FIELD_DELIMITER;
 	ss << fForceVector.x << SERIALIZABLE_FIELD_DELIMITER;
 	ss << fForceVector.y << SERIALIZABLE_FIELD_DELIMITER;
-	ss << fCollisionSensor.getLeft() << SERIALIZABLE_FIELD_DELIMITER;
-	ss << fCollisionSensor.getRight() << SERIALIZABLE_FIELD_DELIMITER;
-	ss << fCollisionSensor.getTop() << SERIALIZABLE_FIELD_DELIMITER;
-	ss << fCollisionSensor.getBottom();
+	ss << fCollider.isLeft() << SERIALIZABLE_FIELD_DELIMITER;
+	ss << fCollider.isRight() << SERIALIZABLE_FIELD_DELIMITER;
+	ss << fCollider.isTop() << SERIALIZABLE_FIELD_DELIMITER;
+	ss << fCollider.isBottom();
 	Serializable::serializeData(ss, last);
 }
 
@@ -49,11 +49,11 @@ void PhysicalObject::deserializeData(std::stringstream &ss) {
 	ss >> r;
 	ss >> t;
 	ss >> b;
-	fCollisionSensor.triggerCollision(l, r, t, b);
+	fCollider.triggerCollision(l, r, t, b);
 }
 
 void PhysicalObject::handleCollisions() {
-	fCollisionSensor.resetSensor();
+	fCollider.resetCollider();
 	sf::FloatRect bounds = getGlobalBounds();
 	sf::FloatRect newBounds = bounds;
 
@@ -63,63 +63,29 @@ void PhysicalObject::handleCollisions() {
 	for (GameObject* obj : fGameObjectList) 
 	{
 		if (obj->getId() != fId) {
-			if (newBounds.intersects(obj->getGlobalBounds())) {
-				sf::FloatRect objBounds = obj->getGlobalBounds();
+			sf::FloatRect objBounds = obj->getGlobalBounds();
+			if (newBounds.intersects(objBounds)) {
+				fForceVector.x = fCollider.checkHorizontal(fForceVector.x, fDecelerationRate, Frame::getFrameTime(), 
+					bounds.left, bounds.width, objBounds.left, objBounds.width);
 
-				bool newLeftCollision = false,
-					leftCollision = false,
-					newRightCollision = false,
-					rightCollision = false,
-					newTopCollision = false,
-					bottomCollision = false,
-					newBottomCollision = false;
+				newBounds.left = bounds.left + fForceVector.x*Frame::getFrameTime();
+				if(newBounds.intersects(objBounds)) {
+					float force = fForceVector.y;
+					fForceVector.y = fCollider.checkVertical(fForceVector.y, fDecelerationSmoothRate, Frame::getFrameTime(),
+						bounds.top, bounds.height, objBounds.top, objBounds.height);
 
-				newLeftCollision = (newBounds.left < objBounds.left + objBounds.width && newBounds.left + newBounds.width > objBounds.left + objBounds.width);
-				leftCollision = (bounds.left < objBounds.left + objBounds.width && bounds.left + bounds.width > objBounds.left + objBounds.width);
-				if (newLeftCollision & !leftCollision)
-				{
-					fForceVector.x = std::max(fForceVector.x, 0.0f);
-					newBounds.left = bounds.left + fForceVector.x*Frame::getFrameTime();
-				}
-				
-				newRightCollision = (newBounds.left + newBounds.width > objBounds.left && newBounds.left < objBounds.left);
-				rightCollision = (bounds.left + bounds.width > objBounds.left && bounds.left < objBounds.left);
-				if (newRightCollision & !rightCollision)
-				{
-					fForceVector.x = std::min(fForceVector.x, 0.0f);
-					newBounds.left = bounds.left + fForceVector.x*Frame::getFrameTime();
-				}
-
-				bottomCollision = (newBounds.top + newBounds.height > objBounds.top && newBounds.top + newBounds.height < objBounds.top + objBounds.height);
-				while (newBounds.intersects(objBounds)) {
-					newTopCollision = (newBounds.top > objBounds.top && newBounds.top < objBounds.top + objBounds.height);
-					newBottomCollision = (newBounds.top + newBounds.height > objBounds.top && newBounds.top + newBounds.height < objBounds.top + objBounds.height);
-					
-					if (newTopCollision)
-					{
-						fForceVector.y += fDecelerationSmoothRate;
-						newBounds.top = bounds.top + fForceVector.y*Frame::getFrameTime();
-					}
-
-					if (newBottomCollision)
-					{
-						fForceVector.y -= fDecelerationSmoothRate;
-						newBounds.top = bounds.top + fForceVector.y*Frame::getFrameTime();
+					//Temporary fix for unstable bottom collision
+					if (force > fForceVector.y) {
+						fForceVector.y += fGravityRate;
 					}
 				}
-
-				//Temporary fix for unstable bottom collision
-				if (bottomCollision) {
-					fForceVector.y += fGravityRate;
-				}
-				fCollisionSensor.triggerCollision(newLeftCollision & !leftCollision, newRightCollision & !rightCollision, newTopCollision, newBottomCollision | bottomCollision);
 			}
 		}
 	}
 }
 
 void PhysicalObject::applyGravity() {
-	if (!fCollisionSensor.getBottom()) {
+	if (!fCollider.isBottom()) {
 		fForceVector.y += fGravityRate;
 		fForceVector.y = std::min(fForceVector.y, fGravityForce);
 	}	
@@ -148,24 +114,24 @@ void PhysicalObject::handleForces()
 
 		if (fInWindowBoundsVertical) {
 			if (bounds.top + fForceVector.y*Frame::getFrameTime() < 0) {
-				fCollisionSensor.triggerCollision(0, 0, 1, 0);
+				fCollider.triggerCollision(0, 0, 1, 0);
 				fForceVector.y = -bounds.top;
 			}
 
 			if (bounds.top + bounds.height + fForceVector.y*Frame::getFrameTime() > Frame::getWindowHeight()) {
-				fCollisionSensor.triggerCollision(0, 0, 0, 1);
+				fCollider.triggerCollision(0, 0, 0, 1);
 				fForceVector.y = Frame::getWindowHeight() - bounds.top - bounds.height;
 			}
 		}
 		
 		if (fInWindowBoundsHorizontal) {
 			if (bounds.left + fForceVector.x*Frame::getFrameTime() < 0) {
-				fCollisionSensor.triggerCollision(1, 0, 0, 0);
+				fCollider.triggerCollision(1, 0, 0, 0);
 				fForceVector.x = -bounds.left;
 			}
 
 			if (bounds.left + bounds.width + fForceVector.x*Frame::getFrameTime() > Frame::getWindowWidth()) {
-				fCollisionSensor.triggerCollision(0, 1, 0, 0);
+				fCollider.triggerCollision(0, 1, 0, 0);
 				fForceVector.x = Frame::getWindowWidth() - bounds.left - bounds.width;
 			}
 		}

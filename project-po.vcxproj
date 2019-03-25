@@ -128,6 +128,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\Collider.cpp" />
     <ClCompile Include="src\DebugMenu.cpp" />
     <ClCompile Include="src\Frame.cpp" />
     <ClCompile Include="src\GameEngine.cpp" />
@@ -142,6 +143,7 @@
     <ClCompile Include="src\WorldLoader.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\Collider.h" />
     <ClInclude Include="src\DebugMenu.h" />
     <ClInclude Include="src\Frame.h" />
     <ClInclude Include="src\GameEngine.h" />

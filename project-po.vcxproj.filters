@@ -69,6 +69,9 @@
     <ClCompile Include="src\WorldLoader.cpp">
       <Filter>Source Files\Backend</Filter>
     </ClCompile>
+    <ClCompile Include="src\Collider.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\GameEngine.h">
@@ -106,6 +109,9 @@
     </ClInclude>
     <ClInclude Include="src\WorldLoader.h">
       <Filter>Header Files\Backend</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Collider.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

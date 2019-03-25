@@ -52,7 +52,7 @@ void Player::controlMovement()
 	}
 	fForceVector.x = std::max(-fSpeed, std::min(fSpeed, fForceVector.x));
 
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space) && fCollisionSensor.getBottom())
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space) && fCollider.isBottom())
 	{
 		fForceVector.y = -fJumpForce;
 	}

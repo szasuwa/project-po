@@ -259,7 +259,5 @@ paket-files/
 # Python Tools for Visual Studio (PTVS)
 __pycache__/
 *.pyc
-/src/PauseMenu.h
-/src/PauseMenu.cpp
-/src/MainMenu.h
-/src/MainMenu.cpp
+/CMakeLists.txt
+/CMakeSettings.json

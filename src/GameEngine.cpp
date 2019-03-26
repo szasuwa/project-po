@@ -29,7 +29,7 @@ void GameEngine::gameLoop()
 		}
 		else
 		{
-			Sleep(Frame::getMaxFrameTime() * 1000);
+			//Sleep(Frame::getMaxFrameTime() * 1000);
 		}
 		Frame::nextFrame();
 	}

@@ -2,7 +2,7 @@
 #include <SFML/Graphics.hpp>
 #include <vector>
 #include <string>
-#include <Windows.h>
+//#include <Windows.h>
 #include "Frame.h"
 #include "WorldLoader.h"
 #include "DebugMenu.h"

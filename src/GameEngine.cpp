@@ -29,7 +29,7 @@ void GameEngine::gameLoop()
 		}
 		else
 		{
-			//Sleep(Frame::getMaxFrameTime() * 1000);
+			std::this_thread::sleep_for(std::chrono::milliseconds((long)(Frame::getMaxFrameTime() * 1000)));
 		}
 		Frame::nextFrame();
 	}

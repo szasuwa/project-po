@@ -54,6 +54,10 @@ Serializable * SerializationHandler::deserializeObject(std::string &data)
 			output = new Platform();
 			break;
 
+		case SERIALIZABLE_CLASS_TYPE_POINT:
+			output = new Point();
+			break;
+
 		default:
 		return nullptr;
 	}

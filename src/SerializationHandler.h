@@ -2,6 +2,7 @@
 #include "Serializable.h"
 #include "Player.h"
 #include "Platform.h"
+#include "Point.h"
 #include <sstream>
 #include <string>
 

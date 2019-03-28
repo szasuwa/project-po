@@ -7,12 +7,18 @@ GameEngine::GameEngine(sf::RenderWindow &window) : fGameWindow(window)
 
 GameEngine::~GameEngine()
 {
+	for (size_t i = 0; i < fLevelList.size(); ++i) {
+		if (fLevelList[i] != nullptr) {
+			delete fLevelList[i];
+		}
+	}
 }
 
 void GameEngine::initGame() 
 {
 	fGameWindow.setFramerateLimit(120);
-	Player::setWorldBoundaries(fWorldLoader.loadLevel(1));
+	fLevelList.push_back(fLevelLoader.loadLevel(1));
+	fActiveLevel = fLevelList[0];
 }
 
 void GameEngine::gameLoop()
@@ -42,9 +48,11 @@ void GameEngine::updateFrame()
 		fDebugMenu.drawMenu(fGameWindow);
 	}
 
-	GameObject::broadcastUpdate();
-	GameObject::broadcastDraw(fGameWindow);
-
+	if (fActiveLevel != nullptr) {
+		fActiveLevel->broadcastUpdate();
+		fActiveLevel->broadcastDraw(fGameWindow);
+	}
+	
 	fGameWindow.display();
 }
 

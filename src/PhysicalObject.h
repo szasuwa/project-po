@@ -22,8 +22,8 @@ protected:
 	void applyGravity();
 	void handleCollisions();
 public:
-	PhysicalObject();
-	PhysicalObject(bool boundsV, bool boundsH);
+	PhysicalObject(Level* lvl = nullptr);
+	PhysicalObject(bool boundsV, bool boundsH, Level* lvl = nullptr);
 	~PhysicalObject();
 
 	void serializeData(std::stringstream &ss, bool last = true);

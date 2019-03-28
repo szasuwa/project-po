@@ -4,14 +4,17 @@
 #include <string>
 #include <thread> 
 #include <chrono>
+#include "Level.h"
 #include "Frame.h"
-#include "WorldLoader.h"
+#include "LevelLoader.h"
 #include "DebugMenu.h"
 
 class GameEngine
 {
 	sf::RenderWindow &fGameWindow;
-	WorldLoader fWorldLoader;
+	Level * fActiveLevel;
+	std::vector<Level *> fLevelList;
+	LevelLoader fLevelLoader;
 	DebugMenu fDebugMenu;
 
 	bool fDisplayDebug = false;

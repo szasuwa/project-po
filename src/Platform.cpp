@@ -1,29 +1,18 @@
 #include "Platform.h"
 
-Platform::Platform()
+Platform::Platform(Level* lvl) : Platform(sf::Vector2f(10, 10), sf::Vector2f(0, 0), sf::Color(255, 255, 255, 255), lvl)
 {
-	fDrawable = new sf::RectangleShape();
 }
 
-Platform::Platform(sf::Vector2f &position)
+Platform::Platform(sf::Vector2f position, Level* lvl) : Platform(sf::Vector2f(10, 10), position, sf::Color(255, 255, 255, 255), lvl)
 {
-	fDrawable = new sf::RectangleShape(sf::Vector2f(10,10));
-	((sf::RectangleShape*)fDrawable)->setPosition(position);
 }
 
-Platform::Platform(sf::Vector2f &size, sf::Vector2f &position)
+Platform::Platform(sf::Vector2f size, sf::Vector2f position, Level* lvl) : Platform(size, position, sf::Color(255,255,255,255), lvl)
 {
-	fDrawable = new sf::RectangleShape(size);
-	((sf::RectangleShape*)fDrawable)->setPosition(position);
 }
 
-Platform::Platform(sf::Vector2f size, sf::Vector2f position)
-{
-	fDrawable = new sf::RectangleShape(size);
-	((sf::RectangleShape*)fDrawable)->setPosition(position);
-}
-
-Platform::Platform(sf::Vector2f size, sf::Vector2f position, sf::Color color)
+Platform::Platform(sf::Vector2f size, sf::Vector2f position, sf::Color color, Level* lvl) : GameObject(lvl)
 {
 	fDrawable = new sf::RectangleShape(size);
 	((sf::RectangleShape*)fDrawable)->setPosition(position);

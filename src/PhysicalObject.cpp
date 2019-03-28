@@ -1,4 +1,6 @@
 #include "PhysicalObject.h"
+#include "Level.h"
+#include <iostream>
 
 float PhysicalObject::fDecelerationRate = 15.f;
 float PhysicalObject::fDecelerationSmoothRate = 0.1f;
@@ -6,15 +8,11 @@ float PhysicalObject::fGravityRate = 15.f;
 float PhysicalObject::fGravityForce = 500.f;
 
 
-PhysicalObject::PhysicalObject()
+PhysicalObject::PhysicalObject(Level* lvl) : PhysicalObject(false, false, lvl)
 {
-	fForceVector.x = 0;
-	fForceVector.y = 0;
-	fInWindowBoundsVertical = false;
-	fInWindowBoundsHorizontal = false;
 }
 
-PhysicalObject::PhysicalObject(bool boundsV, bool boundsH)
+PhysicalObject::PhysicalObject(bool boundsV, bool boundsH, Level* lvl) : GameObject(lvl)
 {
 	fForceVector.x = 0;
 	fForceVector.y = 0;
@@ -53,6 +51,12 @@ void PhysicalObject::deserializeData(std::stringstream &ss) {
 }
 
 void PhysicalObject::handleCollisions() {
+	if (fLevel == nullptr) {
+		std::cout << "Null" << std::endl;
+		return;
+	}
+		
+
 	fCollider.resetCollider();
 	sf::FloatRect bounds = getGlobalBounds();
 	sf::FloatRect newBounds = bounds;
@@ -60,9 +64,9 @@ void PhysicalObject::handleCollisions() {
 	newBounds.left += fForceVector.x*Frame::getFrameTime();
 	newBounds.top += fForceVector.y*Frame::getFrameTime();
 
-	for (GameObject* obj : fGameObjectList) 
+	for (GameObject* obj : fLevel->getGameObjectList()) 
 	{
-		if (obj->getId() != fId) {
+		if (obj != this) {
 			sf::FloatRect objBounds = obj->getGlobalBounds();
 			if (newBounds.intersects(objBounds)) {
 				fForceVector.x = fCollider.checkHorizontal(fForceVector.x, fDecelerationRate, Frame::getFrameTime(), 
@@ -136,7 +140,6 @@ void PhysicalObject::handleForces()
 			}
 		}
 	}
-	
 
 	//Set position
 	getTransformable()->move(fForceVector*Frame::getFrameTime());

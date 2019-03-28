@@ -1,23 +1,17 @@
 #include "GameObject.h"
+#include "Level.h"
 
-int GameObject::fNextGameObjectId;
-std::vector<GameObject*> GameObject::fGameObjectList;
-
-GameObject::GameObject():fId(fNextGameObjectId)
+GameObject::GameObject(Level* lvl) : fLevel(lvl)
 {
-	++fNextGameObjectId;
-	fGameObjectList.push_back(this);
 }
-
 
 GameObject::~GameObject()
 {
-	for (int i = 0; i < fGameObjectList.size(); ++i) {
-		if (fGameObjectList[i] == this) {
-			fGameObjectList.erase(fGameObjectList.begin()+i);
-		}
-	}
 	delete fDrawable;
+}
+
+void GameObject::setLevel(Level* lvl) {
+	fLevel = lvl;
 }
 
 void GameObject::serializeData(std::stringstream &ss, bool last) {
@@ -40,41 +34,3 @@ sf::Drawable *GameObject::getDrawable()
 	return fDrawable;
 }
 
-int GameObject::getId()
-{
-	return fId;
-}
-
-void GameObject::broadcastOriginChange(sf::Vector2f &o) {
-	for (int i = 0; i < fGameObjectList.size(); ++i) {
-		if (fGameObjectList[i] != nullptr) {
-			fGameObjectList[i]->getTransformable()->setOrigin(o);
-		}
-	}
-}
-
-void GameObject::broadcastDraw(sf::RenderWindow &w) {
-	for (int i = 0; i < fGameObjectList.size(); ++i) {
-		if (fGameObjectList[i] != nullptr) {
-			w.draw(*fGameObjectList[i]->getDrawable());
-		}
-	}
-}
-
-void GameObject::broadcastUpdate() {
-	for (int i = 0; i < fGameObjectList.size(); ++i) {
-		if (fGameObjectList[i] != nullptr) {
-			fGameObjectList[i]->update();
-		}
-	}
-}
-
-void GameObject::destroyAll() {
-	for (int i = 0; i < fGameObjectList.size(); ++i) {
-		if (fGameObjectList[i] != nullptr) {
-			delete fGameObjectList[i];
-		}
-	}
-	fGameObjectList.clear();
-	fNextGameObjectId = 0;
-}

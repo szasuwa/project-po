@@ -7,10 +7,6 @@
 
 class Player : public PhysicalObject
 {
-	//World
-	sf::Vector2f fOrigin;
-	static WorldBoundaries fWorldBoundaries;
-
 	//Movement
 	float fSpeed = 250.f;
 	float fJumpForce = 500.f;
@@ -18,10 +14,10 @@ class Player : public PhysicalObject
 	float fScrollOffsetLeft = 400.f;
 
 	void controlMovement();
-	void scrollMap(float v);
 
 public:
-	Player();
+	Player(Level* lvl = nullptr);
+	Player(sf::Vector2f position, Level* lvl = nullptr);
 	~Player();
 
 	void serializeData(std::stringstream &ss, bool last = true);
@@ -29,9 +25,6 @@ public:
 
 	sf::FloatRect getGlobalBounds();
 	sf::Transformable *getTransformable();
-	void update();
-
-	static void setWorldBoundaries(WorldBoundaries b);
-	
+	void update();	
 };
 

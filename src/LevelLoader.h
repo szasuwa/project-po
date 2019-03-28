@@ -4,18 +4,17 @@
 #include <fstream>
 #include "SerializationHandler.h"
 #include "WorldBoundaries.h"
+#include "Level.h"
 
-class WorldLoader
+class LevelLoader
 {
 	const std::string F_LEVEL_FILENAME = "res/level";
 
 	SerializationHandler fSerializationHandler;
 
 public:
-	WorldLoader();
-	~WorldLoader();
+	LevelLoader();
 
-	void unloadLevel();
-	WorldBoundaries loadLevel(int id);
+	Level* loadLevel(int id);
 };
 

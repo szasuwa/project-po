@@ -6,11 +6,11 @@ class Point : public GameObject {
     static int fPointCount;
 
 public:
-    Point();
-    explicit Point(sf::Vector2f &position);
-    explicit Point(float radius);
-    explicit Point(float radius, sf::Vector2f &position);
-    explicit Point(float radius, sf::Vector2f position, sf::Color color);
+    Point(Level* lvl = nullptr);
+    explicit Point(sf::Vector2f &position, Level* lvl = nullptr);
+    explicit Point(float radius, Level* lvl = nullptr);
+    explicit Point(float radius, sf::Vector2f &position, Level* lvl = nullptr);
+    explicit Point(float radius, sf::Vector2f position, sf::Color color, Level* lvl = nullptr);
 
     ~Point();
     

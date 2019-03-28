@@ -1,5 +1,5 @@
 #pragma once
 struct WorldBoundaries {
-	float left;
-	float right;
+	float left = 0;
+	float right = 0;
 };

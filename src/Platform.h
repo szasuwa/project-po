@@ -7,11 +7,10 @@
 class Platform : public GameObject
 {
 public:
-	Platform();
-	Platform(sf::Vector2f &position);
-	Platform(sf::Vector2f &size, sf::Vector2f &position);
-	Platform(sf::Vector2f size, sf::Vector2f position);
-	Platform(sf::Vector2f size, sf::Vector2f position, sf::Color color);
+	Platform(Level* lvl = nullptr);
+	Platform(sf::Vector2f position, Level* lvl = nullptr);
+	Platform(sf::Vector2f size, sf::Vector2f position, Level* lvl = nullptr);
+	Platform(sf::Vector2f size, sf::Vector2f position, sf::Color color, Level* lvl = nullptr);
 	~Platform();
 
 	int getClassType();

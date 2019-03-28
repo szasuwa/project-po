@@ -21,6 +21,8 @@ protected:
 	void applyDeceleration();
 	void applyGravity();
 	void handleCollisions();
+	virtual void checkCollision(GameObject* obj);
+
 public:
 	PhysicalObject(Level* lvl = nullptr);
 	PhysicalObject(bool boundsV, bool boundsH, Level* lvl = nullptr);

@@ -13,7 +13,10 @@ class Player : public PhysicalObject
 	float fScrollOffsetRight = 400.f;
 	float fScrollOffsetLeft = 400.f;
 
+	int fPoints = 0;
+
 	void controlMovement();
+	void checkCollision(GameObject* obj);
 
 public:
 	Player(Level* lvl = nullptr);
@@ -22,9 +25,15 @@ public:
 
 	void serializeData(std::stringstream &ss, bool last = true);
 	void deserializeData(std::stringstream &ss);
+	CLASS_TYPE getClassType();
 
 	sf::FloatRect getGlobalBounds();
 	sf::Transformable *getTransformable();
 	void update();	
+
+	void addPoint();
+	void subPoint();
+	int getPoints();
+	void setPoints(int p);
 };
 

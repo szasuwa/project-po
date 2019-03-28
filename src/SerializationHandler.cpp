@@ -45,15 +45,15 @@ Serializable * SerializationHandler::deserializeObject(std::string &data, Level*
 
 	switch (type)
 	{
-		case SERIALIZABLE_CLASS_TYPE_PLAYER:
+		case Serializable::CLASS_TYPE::PLAYER:
 			output = new Player(lvl);
 			break;
 
-		case SERIALIZABLE_CLASS_TYPE_PLATFORM:
+		case Serializable::CLASS_TYPE::PLATFORM:
 			output = new Platform(lvl);
 			break;
 
-		case SERIALIZABLE_CLASS_TYPE_POINT:
+		case Serializable::CLASS_TYPE::POINT:
 			output = new Point(lvl);
 			break;
 

@@ -1,5 +1,6 @@
 #include "Player.h"
 #include "Level.h"
+#include <iostream>
 
 Player::Player(Level* lvl) : Player(sf::Vector2f(Frame::getWindowWidth() / 2, Frame::getWindowHeight() / 2), lvl)
 {
@@ -20,9 +21,13 @@ void Player::deserializeData(std::stringstream &ss) {
 }
 
 void Player::serializeData(std::stringstream &ss, bool last) {
-	ss << SERIALIZABLE_CLASS_TYPE_PLAYER << SERIALIZABLE_FIELD_DELIMITER;
+	ss << CLASS_TYPE::PLAYER << SERIALIZABLE_FIELD_DELIMITER;
 	PhysicalObject::serializeData(ss, false);
 	Serializable::serializeData(ss, last);
+}
+
+Player::CLASS_TYPE Player::getClassType() {
+	return CLASS_TYPE::PLAYER;
 }
 
 
@@ -38,6 +43,24 @@ void Player::update()
 {
 	controlMovement();
 	handleForces();
+}
+
+void Player::checkCollision(GameObject* obj) {
+	PhysicalObject::checkCollision(obj);
+
+	if (obj == this)
+		return;
+
+	sf::FloatRect cBounds = getGlobalBounds();
+	sf::FloatRect oBounds = obj->getGlobalBounds();
+
+	if (!cBounds.intersects(oBounds))
+		return;
+
+	if(obj->getClassType() == CLASS_TYPE::POINT) {
+		fLevel->destroyGameObject(obj);
+		addPoint();
+	}
 }
 
 void Player::controlMovement()
@@ -68,4 +91,20 @@ void Player::controlMovement()
 	if (bounds.left < fScrollOffsetLeft) {
 		fLevel->scrollMap(bounds.left - fScrollOffsetLeft);
 	}
+}
+
+void Player::addPoint() {
+	++fPoints;
+}
+
+void Player::subPoint() {
+	--fPoints;
+}
+
+int Player::getPoints() {
+	return fPoints;
+}
+
+void Player::setPoints(int p) {
+	fPoints = p;
 }

@@ -13,9 +13,9 @@ public:
 	Platform(sf::Vector2f size, sf::Vector2f position, sf::Color color, Level* lvl = nullptr);
 	~Platform();
 
-	int getClassType();
 	void deserializeData(std::stringstream &ss);
 	void serializeData(std::stringstream &ss, bool last);
+	CLASS_TYPE getClassType();
 
 	sf::FloatRect getGlobalBounds();
 	sf::Transformable *getTransformable();

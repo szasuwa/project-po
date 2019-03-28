@@ -1,18 +1,23 @@
 #pragma once
 #include <sstream>
-const int SERIALIZABLE_CLASS_TYPE_PLAYER = 1;
-const int SERIALIZABLE_CLASS_TYPE_PLATFORM = 2;
-const int SERIALIZABLE_CLASS_TYPE_POINT = 3;
+
 const char SERIALIZABLE_OBJECT_DELIMITER = '\n';
 const char SERIALIZABLE_FIELD_DELIMITER = ' ';
+
 
 class Serializable
 {
 public:
+	enum CLASS_TYPE {
+		PLAYER = 1,
+		PLATFORM = 2,
+		POINT = 3
+	};
+
 	Serializable();
-	~Serializable();
 
 	virtual void serializeData(std::stringstream &ss, bool last = true);
 	virtual void deserializeData(std::stringstream &ss) = 0;
+	virtual CLASS_TYPE getClassType() = 0;
 };
 

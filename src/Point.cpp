@@ -1,5 +1,4 @@
 #include "Point.h"
-int Point::fPointCount = 0;
 
 Point::Point(Level* lvl) : Point(10, sf::Vector2f(0,0), sf::Color(255,255,255,255), lvl)
 {
@@ -16,7 +15,6 @@ Point::Point(float radius, sf::Vector2f &position, Level* lvl) : Point(radius, p
 
 Point::Point(float radius, sf::Vector2f position, sf::Color color, Level* lvl) : GameObject(lvl)
 {
-    fPointCount++;
     fDrawable = new sf::CircleShape(radius);
     ((sf::CircleShape*)fDrawable)->setPosition(position);
 	((sf::CircleShape*)fDrawable)->setFillColor(color);
@@ -24,7 +22,6 @@ Point::Point(float radius, sf::Vector2f position, sf::Color color, Level* lvl) :
 
 Point::~Point()
 {
-    fPointCount--;
 }
 
 void Point::deserializeData(std::stringstream &ss) {
@@ -35,10 +32,14 @@ void Point::deserializeData(std::stringstream &ss) {
 }
 
 void Point::serializeData(std::stringstream &ss, bool last) {
-	ss << SERIALIZABLE_CLASS_TYPE_POINT << SERIALIZABLE_FIELD_DELIMITER;
+	ss << CLASS_TYPE::POINT << SERIALIZABLE_FIELD_DELIMITER;
 	GameObject::serializeData(ss, false);
     ss << ((sf::CircleShape*)fDrawable)->getRadius();
 	Serializable::serializeData(ss, last);
+}
+
+Point::CLASS_TYPE Point::getClassType() {
+	return CLASS_TYPE::POINT;
 }
 
 sf::FloatRect Point::getGlobalBounds() {
@@ -51,8 +52,4 @@ sf::Transformable *Point::getTransformable() {
 
 void Point::update() 
 {
-}
-
-int Point::getPointCount(){
-    return fPointCount;
 }

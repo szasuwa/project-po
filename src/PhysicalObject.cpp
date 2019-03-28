@@ -51,38 +51,41 @@ void PhysicalObject::deserializeData(std::stringstream &ss) {
 }
 
 void PhysicalObject::handleCollisions() {
-	if (fLevel == nullptr) {
-		std::cout << "Null" << std::endl;
+	if (fLevel == nullptr)
 		return;
-	}
-		
 
 	fCollider.resetCollider();
-	sf::FloatRect bounds = getGlobalBounds();
-	sf::FloatRect newBounds = bounds;
-
-	newBounds.left += fForceVector.x*Frame::getFrameTime();
-	newBounds.top += fForceVector.y*Frame::getFrameTime();
 
 	for (GameObject* obj : fLevel->getGameObjectList()) 
 	{
-		if (obj != this) {
-			sf::FloatRect objBounds = obj->getGlobalBounds();
-			if (newBounds.intersects(objBounds)) {
-				fForceVector.x = fCollider.checkHorizontal(fForceVector.x, fDecelerationRate, Frame::getFrameTime(), 
-					bounds.left, bounds.width, objBounds.left, objBounds.width);
+		checkCollision(obj);
+	}
+}
 
-				newBounds.left = bounds.left + fForceVector.x*Frame::getFrameTime();
-				if(newBounds.intersects(objBounds)) {
-					float force = fForceVector.y;
-					fForceVector.y = fCollider.checkVertical(fForceVector.y, fDecelerationSmoothRate, Frame::getFrameTime(),
-						bounds.top, bounds.height, objBounds.top, objBounds.height);
+void PhysicalObject::checkCollision(GameObject* obj) {
+	if (obj == this)
+		return;
 
-					//Temporary fix for unstable bottom collision
-					if (force > fForceVector.y) {
-						fForceVector.y += fGravityRate;
-					}
-				}
+	sf::FloatRect cBounds = getGlobalBounds();
+	sf::FloatRect nBounds = cBounds;
+
+	nBounds.left += fForceVector.x*Frame::getFrameTime();
+	nBounds.top += fForceVector.y*Frame::getFrameTime();
+
+	sf::FloatRect oBounds = obj->getGlobalBounds();
+
+	if (nBounds.intersects(oBounds) && (obj->getClassType() == CLASS_TYPE::PLAYER || obj->getClassType() == CLASS_TYPE::PLATFORM)) {
+		fForceVector.x = fCollider.checkHorizontal(fForceVector.x, fDecelerationSmoothRate, Frame::getFrameTime(), cBounds.left, cBounds.width, oBounds.left, oBounds.width);
+
+		nBounds.left = cBounds.left + fForceVector.x*Frame::getFrameTime();
+
+		if (nBounds.intersects(oBounds)) {
+			float force = fForceVector.y;
+			fForceVector.y = fCollider.checkVertical(fForceVector.y, fDecelerationSmoothRate, Frame::getFrameTime(), cBounds.top, cBounds.height, oBounds.top, oBounds.height);
+
+			//Temporary fix for unstable bottom collision
+			if (force > fForceVector.y) {
+				fForceVector.y += fGravityRate;
 			}
 		}
 	}

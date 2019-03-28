@@ -23,10 +23,6 @@ Platform::~Platform()
 {
 }
 
-int Platform::getClassType() {
-	return 0;
-}
-
 void Platform::deserializeData(std::stringstream &ss) {
 	GameObject::deserializeData(ss);
 	float x, y;
@@ -40,13 +36,17 @@ void Platform::deserializeData(std::stringstream &ss) {
 
 void Platform::serializeData(std::stringstream &ss, bool last)
 {
-	ss << SERIALIZABLE_CLASS_TYPE_PLATFORM << SERIALIZABLE_FIELD_DELIMITER;
+	ss << CLASS_TYPE::PLATFORM << SERIALIZABLE_FIELD_DELIMITER;
 	GameObject::serializeData(ss, false);
 	ss << ((sf::RectangleShape *)fDrawable)->getSize().x << SERIALIZABLE_FIELD_DELIMITER;
 	ss << ((sf::RectangleShape *)fDrawable)->getSize().y << SERIALIZABLE_FIELD_DELIMITER;
 	ss << ((sf::RectangleShape *)fDrawable)->getFillColor().toInteger();
 	Serializable::serializeData(ss, last);
 
+}
+
+Platform::CLASS_TYPE Platform::getClassType() {
+	return CLASS_TYPE::PLATFORM;
 }
 
 sf::FloatRect Platform::getGlobalBounds() {

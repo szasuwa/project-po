@@ -5,6 +5,7 @@
 #include "../Bases/PhysicalObject.h"
 #include "../../Levels/WorldBoundaries.h"
 #include "../../Frame.h"
+#include "../../Menus/Gui.h"
 
 
 class Player : public PhysicalObject
@@ -15,10 +16,11 @@ class Player : public PhysicalObject
 	float fScrollOffsetRight = 400.f;
 	float fScrollOffsetLeft = 400.f;
 
-	int fPoints = 0;
+	static int fPoints;
 
 	void controlMovement();
 	void checkCollision(GameObject* obj);
+	void updateGuiInfo();
 
 public:
 	Player(Level* lvl = nullptr);
@@ -33,8 +35,8 @@ public:
 	sf::Transformable *getTransformable();
 	void update();	
 
-	void addPoint();
-	void subPoint();
+	void addPoint(int p = 1);
+	void subPoint(int p = 1);
 	int getPoints();
 	void setPoints(int p);
 };

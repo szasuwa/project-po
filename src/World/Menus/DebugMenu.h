@@ -5,6 +5,8 @@
 
 class DebugMenu : public Menu
 {
+	int fFpsLastLength = 0;
+	int fFpsLength = 0;
 	sf::Text fFpsMeter;
 
 public:

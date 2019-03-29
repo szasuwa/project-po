@@ -1,6 +1,8 @@
 #include "Player.h"
 #include "../../Levels/Level.h"
 
+int Player::fPoints = 0;
+
 Player::Player(Level* lvl) : Player(sf::Vector2f(Frame::getWindowWidth() / 2, Frame::getWindowHeight() / 2), lvl)
 {
 }
@@ -44,6 +46,10 @@ void Player::update()
 	handleForces();
 }
 
+void Player::updateGuiInfo() {
+	Gui::setPoints(fPoints);
+}
+
 void Player::checkCollision(GameObject* obj) {
 	PhysicalObject::checkCollision(obj);
 
@@ -59,6 +65,7 @@ void Player::checkCollision(GameObject* obj) {
 	if(obj->getClassType() == CLASS_TYPE::POINT) {
 		fLevel->destroyGameObject(obj);
 		addPoint();
+		updateGuiInfo();
 	}
 }
 
@@ -92,12 +99,12 @@ void Player::controlMovement()
 	}
 }
 
-void Player::addPoint() {
-	++fPoints;
+void Player::addPoint(int p) {
+	fPoints += p;
 }
 
-void Player::subPoint() {
-	--fPoints;
+void Player::subPoint(int p) {
+	fPoints -= p;
 }
 
 int Player::getPoints() {

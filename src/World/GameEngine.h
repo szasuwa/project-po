@@ -9,6 +9,7 @@
 #include "Frame.h"
 #include "Levels/LevelLoader.h"
 #include "Menus/DebugMenu.h"
+#include "Menus/Gui.h"
 
 
 class GameEngine
@@ -18,6 +19,7 @@ class GameEngine
 	std::vector<Level *> fLevelList;
 	LevelLoader fLevelLoader;
 	DebugMenu fDebugMenu;
+	Gui fGui;
 
 	bool fDisplayDebug = false;
 	bool fIsDebugKeyPressed = false;
@@ -25,9 +27,8 @@ class GameEngine
 	void initGame();
 	void handleEvents();
 	void updateFrame();
-public:
-	
 
+public:
 	GameEngine(sf::RenderWindow &window);
 	~GameEngine();
 

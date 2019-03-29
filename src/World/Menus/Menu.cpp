@@ -6,7 +6,7 @@ bool Menu::fIsFontLoaded;
 Menu::Menu()
 {
 	if (!fIsFontLoaded) {
-		fIsFontLoaded = fFont.loadFromFile("res/bboron.ttf");
+		fIsFontLoaded = fFont.loadFromFile("res/monofonto.ttf");
 	}
 }
 

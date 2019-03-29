@@ -52,6 +52,8 @@ void GameEngine::updateFrame()
 		fActiveLevel->broadcastUpdate();
 		fActiveLevel->broadcastDraw(fGameWindow);
 	}
+
+	fGui.drawMenu(fGameWindow);
 	
 	fGameWindow.display();
 }

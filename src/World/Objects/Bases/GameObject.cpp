@@ -1,5 +1,5 @@
 #include "GameObject.h"
-#include "Level.h"
+#include "../../Levels/Level.h"
 
 GameObject::GameObject(Level* lvl) : fLevel(lvl)
 {

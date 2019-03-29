@@ -1,12 +1,12 @@
 #pragma once
-#include "Level.h"
-#include "Serializable.h"
-#include "Player.h"
-#include "Platform.h"
-#include "Point.h"
 #include <sstream>
 #include <string>
 
+#include "../Levels/Level.h"
+#include "Serializable.h"
+#include "../Objects/Actors/Player.h"
+#include "../Objects/Map/Platform.h"
+#include "../Objects/Map/Point.h"
 
 
 class SerializationHandler

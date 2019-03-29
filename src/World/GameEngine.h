@@ -4,10 +4,12 @@
 #include <string>
 #include <thread> 
 #include <chrono>
-#include "Level.h"
+
+#include "Levels/Level.h"
 #include "Frame.h"
-#include "LevelLoader.h"
-#include "DebugMenu.h"
+#include "Levels/LevelLoader.h"
+#include "Menus/DebugMenu.h"
+
 
 class GameEngine
 {

@@ -1,9 +1,11 @@
 #pragma once
-#include "PhysicalObject.h"
-#include "WorldBoundaries.h"
-#include "Frame.h"
 #include <SFML/Graphics.hpp>
 #include <algorithm>
+
+#include "../Bases/PhysicalObject.h"
+#include "../../Levels/WorldBoundaries.h"
+#include "../../Frame.h"
+
 
 class Player : public PhysicalObject
 {

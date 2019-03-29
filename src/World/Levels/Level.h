@@ -1,9 +1,11 @@
 #pragma once
-#include "GameObject.h"
-#include "WorldBoundaries.h"
-#include "Frame.h"
 #include <SFML/System/Vector2.hpp>
 #include <vector>
+
+#include "../Objects/Bases/GameObject.h"
+#include "WorldBoundaries.h"
+#include "../Frame.h"
+
 
 class Level {
 	WorldBoundaries fWorldBoundaries;

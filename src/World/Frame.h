@@ -3,6 +3,7 @@
 #include <SFML/System/Clock.hpp>
 #include <algorithm>
 
+
 class Frame
 {
 	static const float F_MAX_FRAME_TIME;

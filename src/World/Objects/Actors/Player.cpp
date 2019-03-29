@@ -1,6 +1,5 @@
 #include "Player.h"
-#include "Level.h"
-#include <iostream>
+#include "../../Levels/Level.h"
 
 Player::Player(Level* lvl) : Player(sf::Vector2f(Frame::getWindowWidth() / 2, Frame::getWindowHeight() / 2), lvl)
 {

@@ -1,6 +1,5 @@
 #include "PhysicalObject.h"
-#include "Level.h"
-#include <iostream>
+#include "../../Levels/Level.h"
 
 float PhysicalObject::fDecelerationRate = 15.f;
 float PhysicalObject::fDecelerationSmoothRate = 0.1f;

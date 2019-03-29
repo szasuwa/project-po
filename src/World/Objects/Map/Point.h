@@ -1,6 +1,8 @@
 #pragma once
-#include "GameObject.h"
 #include <SFML/Graphics/CircleShape.hpp>
+
+#include "../Bases/GameObject.h"
+
 
 class Point : public GameObject {
 public:

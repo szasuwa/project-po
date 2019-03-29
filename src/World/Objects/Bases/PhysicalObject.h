@@ -1,8 +1,10 @@
 #pragma once
-#include "GameObject.h"
-#include "Frame.h"
-#include "Collider.h"
 #include <algorithm>
+
+#include "../../Frame.h"
+#include "GameObject.h"
+#include "Collider.h"
+
 
 class PhysicalObject : public GameObject
 {

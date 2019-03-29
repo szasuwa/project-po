@@ -1,6 +1,7 @@
 #pragma once
 #include "Menu.h"
-#include "Frame.h"
+#include "../Frame.h"
+
 
 class DebugMenu : public Menu
 {

@@ -1,8 +1,9 @@
 #pragma once
-#include "GameObject.h"
-#include "SerializationHandler.h"
 #include <SFML/System/Vector2.hpp>
 #include <SFML/Graphics.hpp>
+
+#include "../Bases/GameObject.h"
+
 
 class Platform : public GameObject
 {

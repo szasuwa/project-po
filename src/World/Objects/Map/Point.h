@@ -2,12 +2,13 @@
 #include <SFML/Graphics/CircleShape.hpp>
 
 #include "../Bases/GameObject.h"
+#include "../../Levels/MapEditorItem.h"
 
 
 class Point : public GameObject {
 public:
     Point(Level* lvl = nullptr);
-    explicit Point(sf::Vector2f &position, Level* lvl = nullptr);
+    explicit Point(sf::Vector2f position, Level* lvl = nullptr);
     explicit Point(float radius, Level* lvl = nullptr);
     explicit Point(float radius, sf::Vector2f &position, Level* lvl = nullptr);
     explicit Point(float radius, sf::Vector2f position, sf::Color color, Level* lvl = nullptr);
@@ -19,7 +20,7 @@ public:
 	CLASS_TYPE getClassType();
 
 	sf::FloatRect getGlobalBounds();
-	sf::Drawable *getGhostDrawable();
+	static MapEditorItem *getGhostDrawable();
 	void resize(sf::Vector2f rb);
 	sf::Transformable *getTransformable();
 	void update();

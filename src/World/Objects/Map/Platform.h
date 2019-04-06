@@ -3,6 +3,7 @@
 #include <SFML/Graphics.hpp>
 
 #include "../Bases/GameObject.h"
+#include "../../Levels/MapEditorItem.h"
 
 
 class Platform : public GameObject
@@ -19,7 +20,7 @@ public:
 	CLASS_TYPE getClassType();
 
 	sf::FloatRect getGlobalBounds();
-	sf::Drawable *getGhostDrawable();
+	static MapEditorItem *getGhostDrawable();
 	void resize(sf::Vector2f rb);
 	sf::Transformable *getTransformable();
 

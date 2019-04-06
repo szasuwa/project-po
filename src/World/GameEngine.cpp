@@ -66,6 +66,14 @@ void GameEngine::drawFrame()
 
 	fGui.drawMenu(fGameWindow);
 
+	if (fIsEditingLevel) {
+		MapEditorItem *fEditorGhost;
+		fEditorGhost = fEditor.getGhost();
+		if (fEditorGhost != nullptr) {
+			fGameWindow.draw(*fEditorGhost->drawable);
+		}
+	}
+
 	fGameWindow.display();
 }
 

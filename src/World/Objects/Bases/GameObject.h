@@ -26,7 +26,6 @@ public:
 	virtual void update() = 0;
 	virtual sf::FloatRect getGlobalBounds() = 0;
 	sf::Drawable *getDrawable();
-	virtual sf::Drawable *getGhostDrawable() = 0;
 	virtual void resize(sf::Vector2f rb) = 0;
 	virtual sf::Transformable *getTransformable() = 0;
 };

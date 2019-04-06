@@ -22,6 +22,10 @@ void MapEditor::handleEditorControls() {
 	{
 		fMode = EditorMode::Select;
 	}
+	else if (fGhost != nullptr)
+	{
+		fMode = EditorMode::Ghost;
+	}
 	else {
 		fMode = EditorMode::None;
 	}
@@ -31,6 +35,37 @@ void MapEditor::handleEditorControls() {
 		if (fSelectedObject != nullptr) {
 			fLevel->destroyGameObject(fSelectedObject);
 			fSelectedObject = nullptr;
+		}
+
+		if (fGhost != nullptr) {
+			delete fGhost;
+		}
+	}
+
+	if (!fIsGhostPressed){
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Num1))
+		{
+			fIsGhostPressed = true;
+			loadGhost(Serializable::CLASS_TYPE::PLAYER);
+		}
+
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Num2))
+		{
+			fIsGhostPressed = true;
+			loadGhost(Serializable::CLASS_TYPE::PLATFORM);
+			
+		}
+
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Num3))
+		{
+			fIsGhostPressed = true;
+			loadGhost(Serializable::CLASS_TYPE::POINT);
+		}
+	}
+	else {
+		if (!sf::Keyboard::isKeyPressed(sf::Keyboard::Num1) && !sf::Keyboard::isKeyPressed(sf::Keyboard::Num2) && !sf::Keyboard::isKeyPressed(sf::Keyboard::Num3))
+		{
+			fIsGhostPressed = false;
 		}
 	}
 
@@ -57,6 +92,34 @@ void MapEditor::handleEditorControls() {
 						fSelectedObject = obj;
 						fGhostType = Serializable::CLASS_TYPE::NONE;
 						std::cout << fSelectedObject->getClassType() << std::endl;
+					}
+				}
+				break;
+			case MapEditor::Ghost:
+				if (fGhost != nullptr) {
+					GameObject * obj;
+					switch (fGhostType)
+					{
+					case Serializable::NONE:
+						break;
+					case Serializable::PLAYER:
+						obj = new Player(fGhost->transformable->getPosition(), fLevel);
+						break;
+					case Serializable::PLATFORM:
+						obj = new Platform(fGhost->transformable->getPosition(), fLevel);
+						break;
+					case Serializable::POINT:
+						obj = new Point(fGhost->transformable->getPosition(), fLevel);
+						break;
+					default:
+						break;
+					}
+
+					if (obj != nullptr) {
+						fLevel->addGameObject(obj);
+						delete fGhost;
+						fGhost = nullptr;
+						fGhostType = Serializable::CLASS_TYPE::NONE;
 					}
 				}
 				break;
@@ -95,10 +158,39 @@ void MapEditor::handleEditorControls() {
 
 	}
 	fLastMousePosition = sf::Mouse::getPosition(fWindow);
+	if (fGhost != nullptr) {
+		fGhost->transformable->setPosition(fWindow.mapPixelToCoords(sf::Mouse::getPosition(fWindow)));
+	}
 }
 
-void MapEditor::loadGhost() {
+void MapEditor::loadGhost(Serializable::CLASS_TYPE type) {
+	fSelectedObject = nullptr;
+	if (fGhost != nullptr) {
+		delete fGhost;
+	}
+	
+	fGhostType = type;
 
+	switch (type)
+	{
+	case Serializable::NONE:
+		break;
+	case Serializable::PLAYER:
+		fGhost = Player::getGhostDrawable();
+		break;
+	case Serializable::PLATFORM:
+		fGhost = Platform::getGhostDrawable();
+		break;
+	case Serializable::POINT:
+		fGhost = Point::getGhostDrawable();
+		break;
+	default:
+		break;
+	}
+
+	if (fGhost != nullptr) {
+		fMode = EditorMode::Ghost;
+	}
 }
 
 void MapEditor::selectObject() {
@@ -116,4 +208,8 @@ void MapEditor::moveObject() {
 
 void MapEditor::clearMap() {
 
+}
+
+MapEditorItem* MapEditor::getGhost() {
+	return fGhost;
 }

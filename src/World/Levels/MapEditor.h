@@ -5,17 +5,22 @@
 #include <SFML/Window/Mouse.hpp>
 #include <SFML/Graphics/Drawable.hpp>
 #include "../Serialization/Serializable.h"
+#include "../Objects/Actors/Player.h"
+#include "../Objects/Map/Platform.h"
+#include "../Objects/Map/Point.h"
+#include "MapEditorItem.h"
 
 class MapEditor {
 	enum EditorMode {
 		None = 0,
 		Resize = 1,
 		Move = 2,
-		Select = 3
+		Select = 3,
+		Ghost = 4
 	};
 	Level *fLevel;
 	sf::RenderWindow &fWindow;
-	sf::Drawable* fGhost;
+	MapEditorItem* fGhost = nullptr;
 	Serializable::CLASS_TYPE fGhostType = Serializable::CLASS_TYPE::NONE;
 	sf::Vector2i fLastMousePosition;
 
@@ -23,10 +28,11 @@ class MapEditor {
 	EditorMode fMode;
 
 	bool fIsLmbPressed = false;
+	bool fIsGhostPressed = false;
 	bool fMoveObject = false;
 	bool fResizeObject = false;
 
-	void loadGhost();
+	void loadGhost(Serializable::CLASS_TYPE type);
 	void selectObject();
 	void resizeObject();
 	void moveObject();
@@ -37,4 +43,5 @@ public:
 
 	void handleEditorControls();
 	void setLevel(Level *lvl);
+	MapEditorItem* getGhost();
 };

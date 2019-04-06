@@ -11,6 +11,7 @@
 #include "Menus/DebugMenu.h"
 #include "Menus/Gui.h"
 #include "Levels/MapEditor.h"
+#include "Levels/MapEditorItem.h"
 
 
 class GameEngine

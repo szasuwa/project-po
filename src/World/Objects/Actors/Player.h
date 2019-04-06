@@ -4,9 +4,9 @@
 
 #include "../Bases/PhysicalObject.h"
 #include "../../Levels/WorldBoundaries.h"
+#include "../../Levels/MapEditorItem.h"
 #include "../../Frame.h"
 #include "../../Menus/Gui.h"
-
 
 class Player : public PhysicalObject
 {
@@ -33,7 +33,7 @@ public:
 
 	sf::FloatRect getGlobalBounds();
 	sf::Transformable *getTransformable();
-	sf::Drawable *getGhostDrawable();
+	static MapEditorItem *getGhostDrawable();
 	void resize(sf::Vector2f rb);
 	void update();	
 

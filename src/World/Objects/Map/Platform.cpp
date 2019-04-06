@@ -4,7 +4,7 @@ Platform::Platform(Level* lvl) : Platform(sf::Vector2f(10, 10), sf::Vector2f(0, 
 {
 }
 
-Platform::Platform(sf::Vector2f position, Level* lvl) : Platform(sf::Vector2f(10, 10), position, sf::Color(255, 255, 255, 255), lvl)
+Platform::Platform(sf::Vector2f position, Level* lvl) : Platform(sf::Vector2f(20, 5), position, sf::Color(255, 255, 255, 255), lvl)
 {
 }
 
@@ -53,11 +53,15 @@ sf::FloatRect Platform::getGlobalBounds() {
 	return ((sf::Shape*)fDrawable)->getGlobalBounds();
 };
 
-sf::Drawable *Platform::getGhostDrawable() {
-	sf::Drawable *x = new sf::RectangleShape(sf::Vector2f(10, 10));
-	((sf::RectangleShape*)x)->setFillColor(sf::Color(255, 255, 255, 255));
-	return x;
+MapEditorItem *Platform::getGhostDrawable() {
+	MapEditorItem *out = new MapEditorItem();
+	sf::RectangleShape *rs = new sf::RectangleShape(sf::Vector2f(20, 5));
+	rs->setFillColor(sf::Color(255, 255, 255, 255));
+	out->drawable = rs;
+	out->transformable = rs;
+	return out;
 };
+
 
 void Platform::resize(sf::Vector2f rb) {
 	sf::RectangleShape *shape = (sf::RectangleShape*)fDrawable;

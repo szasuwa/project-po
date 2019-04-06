@@ -36,8 +36,12 @@ sf::FloatRect Player::getGlobalBounds() {
 	return ((sf::Shape*)fDrawable)->getGlobalBounds();
 };
 
-sf::Drawable *Player::getGhostDrawable() {
-	return new sf::RectangleShape(sf::Vector2f(10, 10));;
+MapEditorItem *Player::getGhostDrawable() {
+	MapEditorItem *out = new MapEditorItem();
+	sf::RectangleShape *rs = new sf::RectangleShape(sf::Vector2f(10, 10));
+	out->drawable = rs;
+	out->transformable = rs;
+	return out;
 };
 
 void Player::resize(sf::Vector2f rb) {

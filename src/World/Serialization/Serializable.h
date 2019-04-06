@@ -9,6 +9,7 @@ class Serializable
 {
 public:
 	enum CLASS_TYPE {
+		NONE = 0,
 		PLAYER = 1,
 		PLATFORM = 2,
 		POINT = 3

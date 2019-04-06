@@ -19,6 +19,8 @@ public:
 	CLASS_TYPE getClassType();
 
 	sf::FloatRect getGlobalBounds();
+	sf::Drawable *getGhostDrawable();
+	void resize(sf::Vector2f rb);
 	sf::Transformable *getTransformable();
 
 	void update();

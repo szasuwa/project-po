@@ -10,6 +10,7 @@
 #include "Levels/LevelLoader.h"
 #include "Menus/DebugMenu.h"
 #include "Menus/Gui.h"
+#include "Levels/MapEditor.h"
 
 
 class GameEngine
@@ -19,13 +20,18 @@ class GameEngine
 	std::vector<Level *> fLevelList;
 	LevelLoader fLevelLoader;
 	DebugMenu fDebugMenu;
+	MapEditor fEditor;
 	Gui fGui;
+	
+	bool fIsEditingLevel = false;
+	bool fIsEditKeyPressed = false;
 
 	bool fDisplayDebug = false;
 	bool fIsDebugKeyPressed = false;
 	
 	void initGame();
 	void handleEvents();
+	void drawFrame();
 	void updateFrame();
 
 public:

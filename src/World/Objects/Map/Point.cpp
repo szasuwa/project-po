@@ -46,6 +46,15 @@ sf::FloatRect Point::getGlobalBounds() {
 	return ((sf::Shape*)fDrawable)->getGlobalBounds();
 };
 
+void Point::resize(sf::Vector2f rb) {
+}
+
+sf::Drawable *Point::getGhostDrawable() {
+	sf::Drawable *x = new sf::CircleShape(10);
+	((sf::CircleShape*)x)->setFillColor(sf::Color(255, 255, 255, 255));
+	return x;
+};
+
 sf::Transformable *Point::getTransformable() {
 	return ((sf::Shape*)fDrawable);
 };

@@ -36,6 +36,19 @@ sf::FloatRect Player::getGlobalBounds() {
 	return ((sf::Shape*)fDrawable)->getGlobalBounds();
 };
 
+sf::Drawable *Player::getGhostDrawable() {
+	return new sf::RectangleShape(sf::Vector2f(10, 10));;
+};
+
+void Player::resize(sf::Vector2f rb) {
+	sf::RectangleShape *shape = (sf::RectangleShape*)fDrawable;
+	sf::FloatRect bound = shape->getGlobalBounds();
+	sf::Transformable *transform = getTransformable();
+	sf::Vector2f position = transform->getPosition();
+	shape->setSize(sf::Vector2f(rb.x - position.x, rb.y - position.y));
+	transform->setPosition(position);
+}
+
 sf::Transformable *Player::getTransformable() {
 	return ((sf::Shape*)fDrawable);
 };

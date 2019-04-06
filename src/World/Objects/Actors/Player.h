@@ -33,6 +33,8 @@ public:
 
 	sf::FloatRect getGlobalBounds();
 	sf::Transformable *getTransformable();
+	sf::Drawable *getGhostDrawable();
+	void resize(sf::Vector2f rb);
 	void update();	
 
 	void addPoint(int p = 1);

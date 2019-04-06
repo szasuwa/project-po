@@ -53,6 +53,22 @@ sf::FloatRect Platform::getGlobalBounds() {
 	return ((sf::Shape*)fDrawable)->getGlobalBounds();
 };
 
+sf::Drawable *Platform::getGhostDrawable() {
+	sf::Drawable *x = new sf::RectangleShape(sf::Vector2f(10, 10));
+	((sf::RectangleShape*)x)->setFillColor(sf::Color(255, 255, 255, 255));
+	return x;
+};
+
+void Platform::resize(sf::Vector2f rb) {
+	sf::RectangleShape *shape = (sf::RectangleShape*)fDrawable;
+	sf::FloatRect bound = shape->getGlobalBounds();
+	sf::Transformable *transform = getTransformable();
+	sf::Vector2f position = transform->getPosition();
+	shape->setSize(sf::Vector2f(rb.x - position.x, rb.y - position.y));
+	transform->setPosition(position);
+}
+
+
 sf::Transformable *Platform::getTransformable() {
 	return ((sf::Shape*)fDrawable);
 };

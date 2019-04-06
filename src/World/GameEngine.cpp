@@ -1,6 +1,6 @@
 #include "GameEngine.h"
 
-GameEngine::GameEngine(sf::RenderWindow &window) : fGameWindow(window)
+GameEngine::GameEngine(sf::RenderWindow &window) : fGameWindow(window), fEditor(nullptr, window)
 {
 	Frame::setWindowSize(fGameWindow.getSize());
 }
@@ -19,6 +19,7 @@ void GameEngine::initGame()
 	fGameWindow.setFramerateLimit(120);
 	fLevelList.push_back(fLevelLoader.loadLevel(1));
 	fActiveLevel = fLevelList[0];
+	fEditor.setLevel(fActiveLevel);
 }
 
 void GameEngine::gameLoop()
@@ -31,7 +32,13 @@ void GameEngine::gameLoop()
 	{
 		handleEvents();
 		if (fGameWindow.hasFocus()) {
-			updateFrame();
+			if (!fIsEditingLevel) {
+				updateFrame();
+			}
+			else {
+				fEditor.handleEditorControls();
+			}
+			drawFrame();
 		}
 		else
 		{
@@ -43,18 +50,22 @@ void GameEngine::gameLoop()
 
 void GameEngine::updateFrame() 
 {
+	fActiveLevel->broadcastUpdate();
+}
+
+void GameEngine::drawFrame()
+{
 	fGameWindow.clear();
 	if (fDisplayDebug) {
 		fDebugMenu.drawMenu(fGameWindow);
 	}
 
 	if (fActiveLevel != nullptr) {
-		fActiveLevel->broadcastUpdate();
 		fActiveLevel->broadcastDraw(fGameWindow);
 	}
 
 	fGui.drawMenu(fGameWindow);
-	
+
 	fGameWindow.display();
 }
 
@@ -69,11 +80,20 @@ void GameEngine::handleEvents() {
 					fIsDebugKeyPressed = true;
 					fDisplayDebug = !fDisplayDebug;
 				}
+
+				if (!fIsEditKeyPressed && sf::Keyboard::isKeyPressed(sf::Keyboard::Key::F2)) {
+					fIsEditKeyPressed = true;
+					fIsEditingLevel = !fIsEditingLevel;
+				}
 				break;
 
 			case sf::Event::KeyReleased:
 				if (fIsDebugKeyPressed && !sf::Keyboard::isKeyPressed(sf::Keyboard::Key::F3)) {
 					fIsDebugKeyPressed = false;
+				}
+
+				if (fIsEditKeyPressed && !sf::Keyboard::isKeyPressed(sf::Keyboard::Key::F2)) {
+					fIsEditKeyPressed = false;
 				}
 				break;
 

@@ -15,8 +15,7 @@ class MapEditor {
 		None = 0,
 		Resize = 1,
 		Move = 2,
-		Select = 3,
-		Ghost = 4
+		Ghost = 3
 	};
 	Level *fLevel;
 	sf::RenderWindow &fWindow;

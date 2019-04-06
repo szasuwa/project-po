@@ -18,10 +18,6 @@ void MapEditor::handleEditorControls() {
 	{
 		fMode = EditorMode::Resize;
 	}
-	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::LAlt))
-	{
-		fMode = EditorMode::Select;
-	}
 	else if (fGhost != nullptr)
 	{
 		fMode = EditorMode::Ghost;
@@ -75,24 +71,22 @@ void MapEditor::handleEditorControls() {
 			switch (fMode)
 			{
 			case MapEditor::None:
+				selectObject();
 				break;
 			case MapEditor::Resize:
+				if (fSelectedObject == nullptr) {
+					selectObject();
+				}
 				if (fSelectedObject != nullptr && fSelectedObject->getGlobalBounds().contains(fWindow.mapPixelToCoords(sf::Mouse::getPosition(fWindow)))) {
 					fResizeObject = true;
 				}
 				break;
 			case MapEditor::Move:
+				if (fSelectedObject == nullptr) {
+					selectObject();
+				}
 				if (fSelectedObject != nullptr && fSelectedObject->getGlobalBounds().contains(fWindow.mapPixelToCoords(sf::Mouse::getPosition(fWindow)))) {
 					fMoveObject = true;
-				}
-				break;
-			case MapEditor::Select:
-				for (GameObject * obj : fLevel->getGameObjectList()) {
-					if (obj->getGlobalBounds().contains(fWindow.mapPixelToCoords(sf::Mouse::getPosition(fWindow)))) {
-						fSelectedObject = obj;
-						fGhostType = Serializable::CLASS_TYPE::NONE;
-						std::cout << fSelectedObject->getClassType() << std::endl;
-					}
 				}
 				break;
 			case MapEditor::Ghost:
@@ -150,8 +144,6 @@ void MapEditor::handleEditorControls() {
 				moveObject();
 			}
 			break;
-		case MapEditor::Select:
-			break;
 		default:
 			break;
 		}
@@ -194,8 +186,13 @@ void MapEditor::loadGhost(Serializable::CLASS_TYPE type) {
 }
 
 void MapEditor::selectObject() {
-	
-
+	for (GameObject * obj : fLevel->getGameObjectList()) {
+		if (obj->getGlobalBounds().contains(fWindow.mapPixelToCoords(sf::Mouse::getPosition(fWindow)))) {
+			fSelectedObject = obj;
+			fGhostType = Serializable::CLASS_TYPE::NONE;
+			std::cout << fSelectedObject->getClassType() << std::endl;
+		}
+	}
 }
 
 void MapEditor::resizeObject() {

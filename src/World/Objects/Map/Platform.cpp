@@ -63,7 +63,7 @@ MapEditorItem *Platform::getGhostDrawable() {
 };
 
 
-void Platform::resize(sf::Vector2f rb, bool vLock, bool hLock) {
+void Platform::resize(sf::Vector2f rb, bool vLock, bool hLock, bool snapToGrid) {
 	sf::RectangleShape *shape = (sf::RectangleShape*)fDrawable;
 	sf::Transformable *transform = getTransformable();
 	sf::Vector2f position = transform->getPosition();
@@ -71,10 +71,18 @@ void Platform::resize(sf::Vector2f rb, bool vLock, bool hLock) {
 
 	if (!hLock) {
 		size.x = rb.x - position.x;
+
+		if (snapToGrid) {
+			size.x = MapGrid::roundToGrid(size.x);
+		}
 	}
 
 	if (!vLock) {
 		size.y = rb.y - position.y;
+
+		if (snapToGrid) {
+			size.y = MapGrid::roundToGrid(size.y);
+		}
 	}
 
 	shape->setSize(size);

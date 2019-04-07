@@ -9,11 +9,15 @@ class MapEditorInterface : public InterfaceGroup {
 	static bool fHorizontalLockStatus;
 	static bool fAxisLockUpdated;
 
+	static bool fGridSnapStatus;
+	static bool fGridSnapUpdated;
+
 	InterfaceText fSelectionKey;
 	InterfaceText fMoveKey;
 	InterfaceText fResizeKey;
 	InterfaceText fVerticalLockKey;
 	InterfaceText fHorizontalLockKey;
+	InterfaceText fGridSnapKey;
 	InterfaceText fDeleteKey;
 	InterfaceText fGhostPlayerKey;
 	InterfaceText fGhostPlatformKey;
@@ -24,4 +28,5 @@ public:
 	void update();
 
 	static void reportAxisLockStatus(bool v, bool h);
+	static void reportGridSnapStatus(bool s);
 };

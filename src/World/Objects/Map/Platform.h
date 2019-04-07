@@ -21,7 +21,7 @@ public:
 
 	sf::FloatRect getGlobalBounds();
 	static MapEditorItem *getGhostDrawable();
-	void resize(sf::Vector2f rb, bool vLock, bool hLock);
+	void resize(sf::Vector2f rb, bool vLock, bool hLock, bool snapToGrid);
 	sf::Transformable *getTransformable();
 
 	void update();

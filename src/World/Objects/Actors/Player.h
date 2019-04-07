@@ -35,7 +35,7 @@ public:
 	sf::FloatRect getGlobalBounds();
 	sf::Transformable *getTransformable();
 	static MapEditorItem *getGhostDrawable();
-	void resize(sf::Vector2f rb, bool vLock, bool hLock);
+	void resize(sf::Vector2f rb, bool vLock, bool hLock, bool snapToGrid);
 	void update();	
 
 	void addPoint(int p = 1);

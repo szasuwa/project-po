@@ -4,6 +4,7 @@
 #include <SFML/Graphics/RenderWindow.hpp>
 
 #include "../../Serialization/Serializable.h"
+#include "../../Levels/MapGrid.h"
 
 
 class Level;
@@ -26,7 +27,7 @@ public:
 	virtual void update() = 0;
 	virtual sf::FloatRect getGlobalBounds() = 0;
 	sf::Drawable *getDrawable();
-	virtual void resize(sf::Vector2f rb, bool vLock, bool hLock) = 0;
+	virtual void resize(sf::Vector2f rb, bool vLock, bool hLock, bool snapToGrid) = 0;
 	virtual sf::Transformable *getTransformable() = 0;
 };
 

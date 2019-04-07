@@ -11,6 +11,7 @@
 #include "../Objects/Map/Point.h"
 #include "Level.h"
 #include "MapEditorItem.h"
+#include "MapGrid.h"
 
 
 class MapEditor {
@@ -20,10 +21,16 @@ class MapEditor {
 		Move = 2,
 		Ghost = 3
 	};
+
+	//Map and windows
 	Level *fLevel;
 	sf::RenderWindow &fWindow;
+
+	//Ghost
 	MapEditorItem* fGhost = nullptr;
 	Serializable::CLASS_TYPE fGhostType = Serializable::CLASS_TYPE::NONE;
+
+	//Edition modes
 	sf::Vector2f fLastMouseOffset;
 
 	GameObject* fSelectedObject = nullptr;
@@ -37,8 +44,12 @@ class MapEditor {
 	bool fVerticalLock = false;
 	bool fIsHorizontalLockPressed = false;
 	bool fHorizontalLock = false;
-	bool fAxisLockUpdated = false;
+	
+	//Grid
+	bool fIsGridSnapPressed = false;
+	bool fSnapToGrid = false;
 
+	//Edition actions
 	void loadGhost(Serializable::CLASS_TYPE type);
 	void selectObject();
 	void resizeObject();

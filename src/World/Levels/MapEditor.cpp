@@ -1,5 +1,6 @@
 #include "MapEditor.h"
 
+
 MapEditor::MapEditor(Level *lvl, sf::RenderWindow &wdw) : fWindow(wdw) {
 	setLevel(lvl);
 }
@@ -41,7 +42,7 @@ void MapEditor::handleEditorControls() {
 	}
 
 
-	//Axis Locking
+	//Axis Locking and Grid Snapping
 	if (!fIsVerticalLockPressed && sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Q)) {
 		fIsVerticalLockPressed = true;
 		fVerticalLock = !fVerticalLock;
@@ -60,6 +61,16 @@ void MapEditor::handleEditorControls() {
 
 	if (fIsHorizontalLockPressed && !sf::Keyboard::isKeyPressed(sf::Keyboard::Key::E)) {
 		fIsHorizontalLockPressed = false;
+	}
+
+	if (!fIsGridSnapPressed && sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Tab)) {
+		fIsGridSnapPressed = true;
+		fSnapToGrid = !fSnapToGrid;
+		MapEditorInterface::reportGridSnapStatus(fSnapToGrid);
+	}
+
+	if (fIsGridSnapPressed && !sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Tab)) {
+		fIsGridSnapPressed = false;
 	}
 
 
@@ -226,7 +237,7 @@ void MapEditor::selectObject() {
 }
 
 void MapEditor::resizeObject() {
-	fSelectedObject->resize(fWindow.mapPixelToCoords(sf::Mouse::getPosition(fWindow)), fVerticalLock, fHorizontalLock);
+	fSelectedObject->resize(fWindow.mapPixelToCoords(sf::Mouse::getPosition(fWindow)), fVerticalLock, fHorizontalLock, fSnapToGrid);
 }
 
 void MapEditor::moveObject() {
@@ -237,6 +248,11 @@ void MapEditor::moveObject() {
 
 	if (fVerticalLock) {
 		vect.y = 0;
+	}
+
+	if (fSnapToGrid) {
+		vect.x = MapGrid::roundToGrid(vect.x);
+		vect.y = MapGrid::roundToGrid(vect.y);
 	}
 
 	fSelectedObject->getTransformable()->setPosition(vect);

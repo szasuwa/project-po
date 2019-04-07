@@ -1,13 +1,13 @@
 #include "Point.h"
 
-Point::Point(Level* lvl) : Point(10, sf::Vector2f(0,0), sf::Color(255,255,255,255), lvl)
+Point::Point(Level* lvl) : Point(5, sf::Vector2f(0,0), sf::Color(255,255,255,255), lvl)
 {
 }
 
 Point::Point(float radius, Level* lvl) : Point(radius, sf::Vector2f(0,0), sf::Color(255,255,255,255), lvl)
 {}
 
-Point::Point(sf::Vector2f position, Level* lvl) : Point(10, position, sf::Color(255,255,255,255), lvl)
+Point::Point(sf::Vector2f position, Level* lvl) : Point(5, position, sf::Color(255,255,255,255), lvl)
 {}
 
 Point::Point(float radius, sf::Vector2f &position, Level* lvl) : Point(radius, position, sf::Color(255,255,255,255), lvl)
@@ -47,10 +47,11 @@ sf::FloatRect Point::getGlobalBounds() {
 };
 
 void Point::resize(sf::Vector2f rb, bool vLock, bool hLock) {
+
 }
 
 MapEditorItem *Point::getGhostDrawable() {
-	sf::CircleShape *x = new sf::CircleShape(10);
+	sf::CircleShape *x = new sf::CircleShape(5);
 	x->setFillColor(sf::Color(255, 255, 255, 255));
 	MapEditorItem *out = new MapEditorItem();
 	out->drawable = x;

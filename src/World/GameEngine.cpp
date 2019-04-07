@@ -59,7 +59,6 @@ void GameEngine::gameLoop()
 void GameEngine::updateFrame() 
 {
 	fActiveLevel->broadcastUpdate();
-	fInterface.update();
 }
 
 void GameEngine::drawFrame()
@@ -69,6 +68,7 @@ void GameEngine::drawFrame()
 	fDebugInterface.setVisibility(fDisplayDebug);
 	fMapEditorInterface.setVisibility(fIsEditingLevel);
 
+	fInterface.update();
 	fInterface.draw(fGameWindow);
 
 	if (fActiveLevel != nullptr) {

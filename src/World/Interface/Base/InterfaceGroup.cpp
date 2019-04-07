@@ -1,5 +1,4 @@
 #include "InterfaceGroup.h"
-#include <iostream>
 
 void InterfaceGroup::drawGroup(sf::RenderWindow &window) {
 	if (fVisible) {

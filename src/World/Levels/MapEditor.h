@@ -3,6 +3,7 @@
 #include <SFML/Window/Mouse.hpp>
 #include <SFML/Graphics/Drawable.hpp>
 
+#include "../Interface/MapEditorInterface.h"
 #include "../Serialization/Serializable.h"
 #include "../Objects/Bases/GameObject.h"
 #include "../Objects/Actors/Player.h"
@@ -32,8 +33,11 @@ class MapEditor {
 	bool fIsGhostPressed = false;
 	bool fMoveObject = false;
 	bool fResizeObject = false;
+	bool fIsVerticalLockPressed = false;
 	bool fVerticalLock = false;
+	bool fIsHorizontalLockPressed = false;
 	bool fHorizontalLock = false;
+	bool fAxisLockUpdated = false;
 
 	void loadGhost(Serializable::CLASS_TYPE type);
 	void selectObject();

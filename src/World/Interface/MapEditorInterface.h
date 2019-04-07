@@ -5,6 +5,10 @@
 
 
 class MapEditorInterface : public InterfaceGroup {
+	static bool fVerticalLockStatus;
+	static bool fHorizontalLockStatus;
+	static bool fAxisLockUpdated;
+
 	InterfaceText fSelectionKey;
 	InterfaceText fMoveKey;
 	InterfaceText fResizeKey;
@@ -18,4 +22,6 @@ public:
 	MapEditorInterface();
 	explicit MapEditorInterface(Alignment align);
 	void update();
+
+	static void reportAxisLockStatus(bool v, bool h);
 };

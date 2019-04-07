@@ -1,5 +1,4 @@
 #include "MapEditor.h"
-#include <iostream>
 
 MapEditor::MapEditor(Level *lvl, sf::RenderWindow &wdw) : fWindow(wdw) {
 	setLevel(lvl);
@@ -10,6 +9,7 @@ void MapEditor::setLevel(Level *lvl) {
 }
 
 void MapEditor::handleEditorControls() {
+	//Mode Handling
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::LControl) || fMoveObject)
 	{
 		fMode = EditorMode::Move;
@@ -26,6 +26,8 @@ void MapEditor::handleEditorControls() {
 		fMode = EditorMode::None;
 	}
 
+
+	//Deleting objects
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Delete))
 	{
 		if (fSelectedObject != nullptr) {
@@ -38,12 +40,30 @@ void MapEditor::handleEditorControls() {
 		}
 	}
 
-	if (fIsLmbPressed)
-	{
-		fVerticalLock = sf::Keyboard::isKeyPressed(sf::Keyboard::Q);
-		fHorizontalLock = sf::Keyboard::isKeyPressed(sf::Keyboard::E);
+
+	//Axis Locking
+	if (!fIsVerticalLockPressed && sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Q)) {
+		fIsVerticalLockPressed = true;
+		fVerticalLock = !fVerticalLock;
+		MapEditorInterface::reportAxisLockStatus(fVerticalLock, fHorizontalLock);
 	}
 
+	if (fIsVerticalLockPressed && !sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Q)) {
+		fIsVerticalLockPressed = false;
+	}
+
+	if (!fIsHorizontalLockPressed && sf::Keyboard::isKeyPressed(sf::Keyboard::Key::E)) {
+		fIsHorizontalLockPressed = true;
+		fHorizontalLock = !fHorizontalLock;
+		MapEditorInterface::reportAxisLockStatus(fVerticalLock, fHorizontalLock);
+	}
+
+	if (fIsHorizontalLockPressed && !sf::Keyboard::isKeyPressed(sf::Keyboard::Key::E)) {
+		fIsHorizontalLockPressed = false;
+	}
+
+
+	//Ghost
 	if (!fIsGhostPressed){
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Num1))
 		{
@@ -71,6 +91,8 @@ void MapEditor::handleEditorControls() {
 		}
 	}
 
+
+	//Mouse
 	if (!fIsLmbPressed && sf::Mouse::isButtonPressed(sf::Mouse::Button::Left)) {
 		fIsLmbPressed = true;
 
@@ -132,31 +154,34 @@ void MapEditor::handleEditorControls() {
 		fIsLmbPressed = false;
 		fResizeObject = false;
 		fMoveObject = false;
-		fVerticalLock = false;
-		fHorizontalLock = false;
+		fSelectedObject = nullptr;
 	}
 
+
+	//Actions
 	if (fSelectedObject != nullptr) {
 		switch (fMode)
 		{
-		case MapEditor::None:
-			break;
-		case MapEditor::Resize:
-			if (fResizeObject) {
-				resizeObject();
-			}
-			break;
-		case MapEditor::Move:
-			if (fMoveObject) {
-				moveObject();
-			}
-			break;
-		default:
-			break;
+			case MapEditor::None:
+				break;
+			case MapEditor::Resize:
+				if (fResizeObject) {
+					resizeObject();
+				}
+				break;
+			case MapEditor::Move:
+				if (fMoveObject) {
+					moveObject();
+				}
+				break;
+			default:
+				break;
 		}
 
 	}
+
 	fLastMousePosition = sf::Mouse::getPosition(fWindow);
+
 	if (fGhost != nullptr) {
 		fGhost->transformable->setPosition(fWindow.mapPixelToCoords(sf::Mouse::getPosition(fWindow)));
 	}
@@ -197,7 +222,6 @@ void MapEditor::selectObject() {
 		if (obj->getGlobalBounds().contains(fWindow.mapPixelToCoords(sf::Mouse::getPosition(fWindow)))) {
 			fSelectedObject = obj;
 			fGhostType = Serializable::CLASS_TYPE::NONE;
-			std::cout << fSelectedObject->getClassType() << std::endl;
 		}
 	}
 }

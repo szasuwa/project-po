@@ -1,4 +1,8 @@
 #include "MapEditorInterface.h"
+bool MapEditorInterface::fVerticalLockStatus = false;
+bool MapEditorInterface::fHorizontalLockStatus = false;
+bool MapEditorInterface::fAxisLockUpdated = true;
+
 
 MapEditorInterface::MapEditorInterface() : MapEditorInterface(Alignment::Left) {
 }
@@ -28,4 +32,16 @@ MapEditorInterface::MapEditorInterface(Alignment align) {
 }
 
 void MapEditorInterface::update() {
+	if (fAxisLockUpdated) {
+		fAxisLockUpdated = false;
+		fVerticalLockKey.setText(std::string("Q - Vertical Lock") + (fVerticalLockStatus ? " : On" : " : Off"));
+		fHorizontalLockKey.setText(std::string("E - Horizontal Lock") + (fHorizontalLockStatus ? " : On" : " : Off"));
+	}
+	
+}
+
+void MapEditorInterface::reportAxisLockStatus(bool v, bool h) {
+	fVerticalLockStatus = v;
+	fHorizontalLockStatus = h;
+	fAxisLockUpdated = true;
 }

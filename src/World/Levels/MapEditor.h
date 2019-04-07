@@ -1,14 +1,16 @@
 #pragma once
-#include "../Objects/Bases/GameObject.h"
-#include "Level.h"
 #include <SFML/Window/Keyboard.hpp>
 #include <SFML/Window/Mouse.hpp>
 #include <SFML/Graphics/Drawable.hpp>
+
 #include "../Serialization/Serializable.h"
+#include "../Objects/Bases/GameObject.h"
 #include "../Objects/Actors/Player.h"
 #include "../Objects/Map/Platform.h"
 #include "../Objects/Map/Point.h"
+#include "Level.h"
 #include "MapEditorItem.h"
+
 
 class MapEditor {
 	enum EditorMode {

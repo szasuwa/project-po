@@ -6,7 +6,8 @@
 #include "../../Levels/WorldBoundaries.h"
 #include "../../Levels/MapEditorItem.h"
 #include "../../Frame.h"
-#include "../../Menus/Gui.h"
+#include "../../Interface/Gui.h"
+
 
 class Player : public PhysicalObject
 {

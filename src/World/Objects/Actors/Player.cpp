@@ -55,7 +55,7 @@ void Player::resize(sf::Vector2f rb, bool vLock, bool hLock) {
 	}
 
 	if (!vLock) {
-		rb.y - position.y;
+		size.y = rb.y - position.y;
 	}
 
 	shape->setSize(size);

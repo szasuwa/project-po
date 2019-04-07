@@ -20,6 +20,14 @@ void GameEngine::initGame()
 	fLevelList.push_back(fLevelLoader.loadLevel(1));
 	fActiveLevel = fLevelList[0];
 	fEditor.setLevel(fActiveLevel);
+	fDebugInterface.setAlignment(InterfaceGroup::Alignment::Right);
+	fInfoInterface.setAlignment(InterfaceGroup::Alignment::Left);
+	fMapEditorInterface.setAlignment(InterfaceGroup::Alignment::Left);
+	fGui.setAlignment(InterfaceGroup::Alignment::Center);
+	fInterface.addGroup(&fDebugInterface);
+	fInterface.addGroup(&fInfoInterface);
+	fInterface.addGroup(&fMapEditorInterface);
+	fInterface.addGroup(&fGui);
 }
 
 void GameEngine::gameLoop()
@@ -51,20 +59,21 @@ void GameEngine::gameLoop()
 void GameEngine::updateFrame() 
 {
 	fActiveLevel->broadcastUpdate();
+	fInterface.update();
 }
 
 void GameEngine::drawFrame()
 {
 	fGameWindow.clear();
-	if (fDisplayDebug) {
-		fDebugMenu.drawMenu(fGameWindow);
-	}
+	
+	fDebugInterface.setVisibility(fDisplayDebug);
+	fMapEditorInterface.setVisibility(fIsEditingLevel);
+
+	fInterface.draw(fGameWindow);
 
 	if (fActiveLevel != nullptr) {
 		fActiveLevel->broadcastDraw(fGameWindow);
 	}
-
-	fGui.drawMenu(fGameWindow);
 
 	if (fIsEditingLevel) {
 		MapEditorItem *fEditorGhost;

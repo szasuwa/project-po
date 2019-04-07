@@ -5,13 +5,16 @@
 #include <thread> 
 #include <chrono>
 
-#include "Levels/Level.h"
 #include "Frame.h"
+#include "Levels/Level.h"
 #include "Levels/LevelLoader.h"
-#include "Menus/DebugMenu.h"
-#include "Menus/Gui.h"
 #include "Levels/MapEditor.h"
 #include "Levels/MapEditorItem.h"
+#include "Interface/Base/InterfaceController.h"
+#include "Interface/DebugInterface.h"
+#include "Interface/InfoInterface.h"
+#include "Interface/MapEditorInterface.h"
+#include "Interface/Gui.h"
 
 
 class GameEngine
@@ -20,9 +23,12 @@ class GameEngine
 	Level * fActiveLevel;
 	std::vector<Level *> fLevelList;
 	LevelLoader fLevelLoader;
-	DebugMenu fDebugMenu;
-	MapEditor fEditor;
+	InterfaceController fInterface;
+	DebugInterface fDebugInterface;
+	InfoInterface fInfoInterface;
+	MapEditorInterface fMapEditorInterface;
 	Gui fGui;
+	MapEditor fEditor;
 	
 	bool fIsEditingLevel = false;
 	bool fIsEditKeyPressed = false;

@@ -113,6 +113,7 @@ void MapEditor::handleEditorControls() {
 					selectObject();
 				}
 				if (fSelectedObject != nullptr && fSelectedObject->getGlobalBounds().contains(fWindow.mapPixelToCoords(sf::Mouse::getPosition(fWindow)))) {
+					fLastMouseOffset = fSelectedObject->getTransformable()->getPosition() - fWindow.mapPixelToCoords(sf::Mouse::getPosition(fWindow));
 					fMoveObject = true;
 				}
 				break;
@@ -180,8 +181,6 @@ void MapEditor::handleEditorControls() {
 
 	}
 
-	fLastMousePosition = sf::Mouse::getPosition(fWindow);
-
 	if (fGhost != nullptr) {
 		fGhost->transformable->setPosition(fWindow.mapPixelToCoords(sf::Mouse::getPosition(fWindow)));
 	}
@@ -231,7 +230,7 @@ void MapEditor::resizeObject() {
 }
 
 void MapEditor::moveObject() {
-	sf::Vector2f vect = (sf::Vector2f)(sf::Mouse::getPosition(fWindow) - fLastMousePosition);
+	sf::Vector2f vect = fWindow.mapPixelToCoords(sf::Mouse::getPosition(fWindow)) + fLastMouseOffset;
 	if (fHorizontalLock) {
 		vect.x = 0;
 	}
@@ -240,7 +239,7 @@ void MapEditor::moveObject() {
 		vect.y = 0;
 	}
 
-	fSelectedObject->getTransformable()->move(vect);
+	fSelectedObject->getTransformable()->setPosition(vect);
 }
 
 void MapEditor::clearMap() {

@@ -24,7 +24,7 @@ class MapEditor {
 	sf::RenderWindow &fWindow;
 	MapEditorItem* fGhost = nullptr;
 	Serializable::CLASS_TYPE fGhostType = Serializable::CLASS_TYPE::NONE;
-	sf::Vector2i fLastMousePosition;
+	sf::Vector2f fLastMouseOffset;
 
 	GameObject* fSelectedObject = nullptr;
 	EditorMode fMode;

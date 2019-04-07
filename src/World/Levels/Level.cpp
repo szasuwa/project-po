@@ -35,6 +35,9 @@ const std::vector<GameObject *>& Level::getGameObjectList() const {
 	return fGameObjectList;
 }
 
+void Level::setGrid(MapGrid* g) {
+	fGrid = g;
+}
 
 void Level::setWorldBoundaries(float l, float r) {
 	fWorldBoundaries.left = l;
@@ -43,6 +46,7 @@ void Level::setWorldBoundaries(float l, float r) {
 
 void Level::scrollMap(float x) {
 	fLevelOrigin.x = std::max(fWorldBoundaries.left, std::min(fLevelOrigin.x + x, fWorldBoundaries.right - Frame::getWindowWidth()));
+	fGrid->setOrigin(fLevelOrigin);
 	broadcastOriginChange(fLevelOrigin);
 }
 

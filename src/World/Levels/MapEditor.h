@@ -46,6 +46,7 @@ class MapEditor {
 	bool fHorizontalLock = false;
 	
 	//Grid
+	MapGrid fGrid;
 	bool fIsGridSnapPressed = false;
 	bool fSnapToGrid = false;
 
@@ -58,6 +59,8 @@ class MapEditor {
 
 public:
 	explicit MapEditor(Level *lvl, sf::RenderWindow &wdw);
+
+	MapGrid &getMapGrid();
 
 	void handleEditorControls();
 	void setLevel(Level *lvl);

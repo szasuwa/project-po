@@ -5,8 +5,15 @@ MapEditor::MapEditor(Level *lvl, sf::RenderWindow &wdw) : fWindow(wdw) {
 	setLevel(lvl);
 }
 
+MapGrid &MapEditor::getMapGrid() {
+	return fGrid;
+}
+
 void MapEditor::setLevel(Level *lvl) {
 	fLevel = lvl;
+	if (fLevel != nullptr) {
+		fLevel->setGrid(&fGrid);
+	}
 }
 
 void MapEditor::handleEditorControls() {

@@ -5,12 +5,14 @@
 #include "../Objects/Bases/GameObject.h"
 #include "WorldBoundaries.h"
 #include "../Frame.h"
+#include "MapGrid.h"
 
 
 class Level {
 	WorldBoundaries fWorldBoundaries;
 	std::vector<GameObject *> fGameObjectList;
 	sf::Vector2f fLevelOrigin;
+	MapGrid * fGrid;
 
 public:
 	Level();
@@ -21,6 +23,7 @@ public:
 	void destroyAllGameObjects();
 	const std::vector<GameObject *>& getGameObjectList() const;
 
+	void setGrid(MapGrid* grid);
 	void setWorldBoundaries(float l, float r);
 	void scrollMap(float x);
 	

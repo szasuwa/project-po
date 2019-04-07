@@ -20,6 +20,7 @@ void GameEngine::initGame()
 	fLevelList.push_back(fLevelLoader.loadLevel(1));
 	fActiveLevel = fLevelList[0];
 	fEditor.setLevel(fActiveLevel);
+	fEditor.getMapGrid().update();
 
 	fDebugInterface.setAlignment(InterfaceGroup::Alignment::Right);
 	fInfoInterface.setAlignment(InterfaceGroup::Alignment::Left);
@@ -78,6 +79,7 @@ void GameEngine::drawFrame()
 	}
 
 	if (fIsEditingLevel) {
+		fGameWindow.draw(fEditor.getMapGrid());
 		MapEditorItem *fEditorGhost;
 		fEditorGhost = fEditor.getGhost();
 		if (fEditorGhost != nullptr) {

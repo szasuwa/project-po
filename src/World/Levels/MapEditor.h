@@ -30,6 +30,8 @@ class MapEditor {
 	bool fIsGhostPressed = false;
 	bool fMoveObject = false;
 	bool fResizeObject = false;
+	bool fVerticalLock = false;
+	bool fHorizontalLock = false;
 
 	void loadGhost(Serializable::CLASS_TYPE type);
 	void selectObject();

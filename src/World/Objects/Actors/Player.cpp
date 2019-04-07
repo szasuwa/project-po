@@ -44,13 +44,21 @@ MapEditorItem *Player::getGhostDrawable() {
 	return out;
 };
 
-void Player::resize(sf::Vector2f rb) {
+void Player::resize(sf::Vector2f rb, bool vLock, bool hLock) {
 	sf::RectangleShape *shape = (sf::RectangleShape*)fDrawable;
-	sf::FloatRect bound = shape->getGlobalBounds();
 	sf::Transformable *transform = getTransformable();
 	sf::Vector2f position = transform->getPosition();
-	shape->setSize(sf::Vector2f(rb.x - position.x, rb.y - position.y));
-	transform->setPosition(position);
+	sf::Vector2f size = shape->getSize();
+
+	if (!hLock) {
+		size.x = rb.x - position.x;
+	}
+
+	if (!vLock) {
+		rb.y - position.y;
+	}
+
+	shape->setSize(size);
 }
 
 sf::Transformable *Player::getTransformable() {

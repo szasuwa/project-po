@@ -10,11 +10,11 @@ void MapEditor::setLevel(Level *lvl) {
 }
 
 void MapEditor::handleEditorControls() {
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::LControl))
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::LControl) || fMoveObject)
 	{
 		fMode = EditorMode::Move;
 	}
-	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::LShift))
+	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::LShift) || fResizeObject)
 	{
 		fMode = EditorMode::Resize;
 	}
@@ -36,6 +36,12 @@ void MapEditor::handleEditorControls() {
 		if (fGhost != nullptr) {
 			delete fGhost;
 		}
+	}
+
+	if (fIsLmbPressed)
+	{
+		fVerticalLock = sf::Keyboard::isKeyPressed(sf::Keyboard::Q);
+		fHorizontalLock = sf::Keyboard::isKeyPressed(sf::Keyboard::E);
 	}
 
 	if (!fIsGhostPressed){
@@ -67,9 +73,8 @@ void MapEditor::handleEditorControls() {
 
 	if (!fIsLmbPressed && sf::Mouse::isButtonPressed(sf::Mouse::Button::Left)) {
 		fIsLmbPressed = true;
-			
-			switch (fMode)
-			{
+
+		switch (fMode){
 			case MapEditor::None:
 				selectObject();
 				break;
@@ -119,7 +124,7 @@ void MapEditor::handleEditorControls() {
 				break;
 			default:
 				break;
-			}
+		}
 		
 	}
 
@@ -127,6 +132,8 @@ void MapEditor::handleEditorControls() {
 		fIsLmbPressed = false;
 		fResizeObject = false;
 		fMoveObject = false;
+		fVerticalLock = false;
+		fHorizontalLock = false;
 	}
 
 	if (fSelectedObject != nullptr) {
@@ -196,11 +203,20 @@ void MapEditor::selectObject() {
 }
 
 void MapEditor::resizeObject() {
-	fSelectedObject->resize(fWindow.mapPixelToCoords(sf::Mouse::getPosition(fWindow)));
+	fSelectedObject->resize(fWindow.mapPixelToCoords(sf::Mouse::getPosition(fWindow)), fVerticalLock, fHorizontalLock);
 }
 
 void MapEditor::moveObject() {
-	fSelectedObject->getTransformable()->move((sf::Vector2f)( sf::Mouse::getPosition(fWindow) - fLastMousePosition));
+	sf::Vector2f vect = (sf::Vector2f)(sf::Mouse::getPosition(fWindow) - fLastMousePosition);
+	if (fHorizontalLock) {
+		vect.x = 0;
+	}
+
+	if (fVerticalLock) {
+		vect.y = 0;
+	}
+
+	fSelectedObject->getTransformable()->move(vect);
 }
 
 void MapEditor::clearMap() {

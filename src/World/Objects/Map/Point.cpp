@@ -46,7 +46,7 @@ sf::FloatRect Point::getGlobalBounds() {
 	return ((sf::Shape*)fDrawable)->getGlobalBounds();
 };
 
-void Point::resize(sf::Vector2f rb) {
+void Point::resize(sf::Vector2f rb, bool vLock, bool hLock) {
 }
 
 MapEditorItem *Point::getGhostDrawable() {

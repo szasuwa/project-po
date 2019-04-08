@@ -3,6 +3,8 @@
 
 MapEditor::MapEditor(Level *lvl, sf::RenderWindow &wdw) : fWindow(wdw) {
 	setLevel(lvl);
+	MapEditorInterface::reportAxisLockStatus(fVerticalLock, fHorizontalLock);
+	MapEditorInterface::reportGridSnapStatus(fSnapToGrid);
 }
 
 MapGrid &MapEditor::getMapGrid() {

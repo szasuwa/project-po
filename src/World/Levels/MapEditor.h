@@ -48,7 +48,7 @@ class MapEditor {
 	//Grid
 	MapGrid fGrid;
 	bool fIsGridSnapPressed = false;
-	bool fSnapToGrid = false;
+	bool fSnapToGrid = true;
 
 	//Edition actions
 	void loadGhost(Serializable::CLASS_TYPE type);

@@ -36,13 +36,13 @@ void InterfaceGroup::calculatePositions(float offset) {
 			switch (fAlignment)
 			{
 			case InterfaceGroup::Left:
-				item->setPosition(sf::Vector2f(0, offset));
+				item->setPosition(sf::Vector2f(fMarginLeft, offset + fMarginTop));
 				break;
 			case InterfaceGroup::Right:
-				item->setPosition(sf::Vector2f(Frame::getWindowWidth() - item->getWidth(), offset));
+				item->setPosition(sf::Vector2f(Frame::getWindowWidth() - item->getWidth() - fMarginRight, offset + fMarginTop));
 				break;
 			case InterfaceGroup::Center:
-				item->setPosition(sf::Vector2f((Frame::getWindowWidth() - item->getWidth())/2, offset));
+				item->setPosition(sf::Vector2f((Frame::getWindowWidth() - item->getWidth())/2, offset + fMarginTop));
 				break;
 			default:
 				break;

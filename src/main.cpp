@@ -1,7 +1,6 @@
 #include <SFML/Graphics.hpp>
 #include "World/GameEngine.h"
 
-
 int main() {
 	sf::RenderWindow appWindow(sf::VideoMode(1280, 720, 32), "Project PO");
 	GameEngine engine(appWindow);

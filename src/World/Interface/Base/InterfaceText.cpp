@@ -3,6 +3,7 @@ sf::Font InterfaceText::fFont;
 bool InterfaceText::fIsFontLoaded;
 float InterfaceText::F_TEXT_HEIGHT_OFFSET = 2;
 
+
 InterfaceText::InterfaceText()
 {
 	if (!fIsFontLoaded) {
@@ -12,7 +13,7 @@ InterfaceText::InterfaceText()
 	fText.setFont(fFont);
 }
 
-void InterfaceText::setText(std::string &txt) {
+void InterfaceText::setText(const std::string &txt) {
 	fText.setString(txt);
 }
 
@@ -20,7 +21,7 @@ sf::Drawable * InterfaceText::getDrawable() {
 	return &fText;
 }
 
-void InterfaceText::setPosition(sf::Vector2f &pos) {
+void InterfaceText::setPosition(const sf::Vector2f &pos) {
 	fText.setPosition(pos);
 }
 

@@ -15,9 +15,9 @@ protected:
 
 public:
 	InterfaceText();
-	void setText(std::string &txt);
+	void setText(const std::string &txt);
 	sf::Drawable * getDrawable();
-	void setPosition(sf::Vector2f &pos);
+	void setPosition(const sf::Vector2f &pos);
 	float getWidth();
 	float getHeight();
 };

@@ -17,7 +17,7 @@ protected:
 	float fMarginLeft = 5;
 	float fMarginRight = 5;
 	float fMarginTop = 5;
-	bool fVisible;
+	bool fVisible = true;
 	Alignment fAlignment;
 	std::vector<InterfaceItem *> fItemList;
 

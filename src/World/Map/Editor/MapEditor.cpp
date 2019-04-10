@@ -145,19 +145,21 @@ void MapEditor::handleEditorControls() {
 					case Serializable::NONE:
 						break;
 					case Serializable::PLAYER:
-						obj = new Player(fGhost->transformable->getPosition(), fMap);
+						obj = new Player(fMap);
 						break;
 					case Serializable::PLATFORM:
-						obj = new Platform(fGhost->transformable->getPosition(), fMap);
+						obj = new Platform(fMap);
 						break;
 					case Serializable::POINT:
-						obj = new Point(fGhost->transformable->getPosition(), fMap);
+						obj = new Point(fMap);
 						break;
 					default:
 						break;
 					}
 
 					if (obj != nullptr) {
+						fMap->updateObjectOrigin(obj);
+						obj->getTransformable()->setPosition(obj->getTransformable()->getOrigin() + fGhost->transformable->getPosition());
 						fMap->addGameObject(obj);
 						delete fGhost;
 						fGhost = nullptr;

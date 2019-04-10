@@ -28,6 +28,8 @@ public:
 	void setGrid(MapGrid* grid);
 	void setMapBoundaries(float l, float r);
 	void scrollMap(float x);
+
+	void updateObjectOrigin(GameObject * obj);
 	
 	void broadcastOriginChange(const sf::Vector2f &o);
 	void broadcastUpdate();

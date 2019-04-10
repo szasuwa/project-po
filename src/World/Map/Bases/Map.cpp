@@ -60,11 +60,15 @@ void Map::scrollMap(float x) {
 	broadcastOriginChange(fMapOrigin);
 }
 
+void Map::updateObjectOrigin(GameObject * obj) {
+	if (obj != nullptr) {
+		obj->getTransformable()->setOrigin(fMapOrigin);
+	}
+}
+
 void Map::broadcastOriginChange(const sf::Vector2f &o) {
 	for (size_t i = 0; i < fGameObjectList.size(); ++i) {
-		if (fGameObjectList[i] != nullptr) {
-			fGameObjectList[i]->getTransformable()->setOrigin(o);
-		}
+		updateObjectOrigin(fGameObjectList[i]);
 	}
 	for (GameObject* ptr : fGameObjectList) {
 		

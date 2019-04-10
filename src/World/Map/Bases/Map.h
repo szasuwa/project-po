@@ -2,29 +2,31 @@
 #include <SFML/System/Vector2.hpp>
 #include <vector>
 
-#include "../Objects/Bases/GameObject.h"
-#include "WorldBoundaries.h"
-#include "../Frame.h"
-#include "MapGrid.h"
+#include "../../Objects/Bases/GameObject.h"
+#include "MapBoundaries.h"
+#include "../../Frame.h"
+#include "../Editor/MapGrid.h"
 
 
-class Level {
-	WorldBoundaries fWorldBoundaries;
+class Map {
+	MapBoundaries fWorldBoundaries;
 	std::vector<GameObject *> fGameObjectList;
-	sf::Vector2f fLevelOrigin;
+	sf::Vector2f fMapOrigin;
 	MapGrid * fGrid;
 
 public:
-	Level();
-	~Level();
+	Map();
+	~Map();
 
 	void addGameObject(GameObject* obj);
+	void addGameObjects(const std::vector<GameObject *> &list);
 	void destroyGameObject(GameObject* obj);
 	void destroyAllGameObjects();
+	
 	const std::vector<GameObject *>& getGameObjectList() const;
 
 	void setGrid(MapGrid* grid);
-	void setWorldBoundaries(float l, float r);
+	void setMapBoundaries(float l, float r);
 	void scrollMap(float x);
 	
 	void broadcastOriginChange(const sf::Vector2f &o);

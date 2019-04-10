@@ -1,7 +1,7 @@
 #include "GameObject.h"
-#include "../../Levels/Level.h"
+#include "../../Map/Bases/Map.h"
 
-GameObject::GameObject(Level* lvl) : fLevel(lvl)
+GameObject::GameObject(Map* map) : fMap(map)
 {
 }
 
@@ -10,8 +10,8 @@ GameObject::~GameObject()
 	delete fDrawable;
 }
 
-void GameObject::setLevel(Level* lvl) {
-	fLevel = lvl;
+void GameObject::setMap(Map* map) {
+	fMap = map;
 }
 
 void GameObject::serializeData(std::stringstream &ss, bool last) {

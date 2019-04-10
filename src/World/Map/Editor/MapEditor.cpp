@@ -1,8 +1,8 @@
 #include "MapEditor.h"
 
 
-MapEditor::MapEditor(Level *lvl, sf::RenderWindow &wdw) : fWindow(wdw) {
-	setLevel(lvl);
+MapEditor::MapEditor(Map *map, sf::RenderWindow &wdw) : fWindow(wdw) {
+	setMap(map);
 	MapEditorInterface::reportAxisLockStatus(fVerticalLock, fHorizontalLock);
 	MapEditorInterface::reportGridSnapStatus(fSnapToGrid);
 }
@@ -11,10 +11,10 @@ MapGrid &MapEditor::getMapGrid() {
 	return fGrid;
 }
 
-void MapEditor::setLevel(Level *lvl) {
-	fLevel = lvl;
-	if (fLevel != nullptr) {
-		fLevel->setGrid(&fGrid);
+void MapEditor::setMap(Map *map) {
+	fMap = map;
+	if (fMap != nullptr) {
+		fMap->setGrid(&fGrid);
 	}
 }
 
@@ -41,7 +41,7 @@ void MapEditor::handleEditorControls() {
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Delete))
 	{
 		if (fSelectedObject != nullptr) {
-			fLevel->destroyGameObject(fSelectedObject);
+			fMap->destroyGameObject(fSelectedObject);
 			fSelectedObject = nullptr;
 		}
 
@@ -145,20 +145,20 @@ void MapEditor::handleEditorControls() {
 					case Serializable::NONE:
 						break;
 					case Serializable::PLAYER:
-						obj = new Player(fGhost->transformable->getPosition(), fLevel);
+						obj = new Player(fGhost->transformable->getPosition(), fMap);
 						break;
 					case Serializable::PLATFORM:
-						obj = new Platform(fGhost->transformable->getPosition(), fLevel);
+						obj = new Platform(fGhost->transformable->getPosition(), fMap);
 						break;
 					case Serializable::POINT:
-						obj = new Point(fGhost->transformable->getPosition(), fLevel);
+						obj = new Point(fGhost->transformable->getPosition(), fMap);
 						break;
 					default:
 						break;
 					}
 
 					if (obj != nullptr) {
-						fLevel->addGameObject(obj);
+						fMap->addGameObject(obj);
 						delete fGhost;
 						fGhost = nullptr;
 						fGhostType = Serializable::CLASS_TYPE::NONE;
@@ -237,7 +237,7 @@ void MapEditor::loadGhost(Serializable::CLASS_TYPE type) {
 }
 
 void MapEditor::selectObject() {
-	for (GameObject * obj : fLevel->getGameObjectList()) {
+	for (GameObject * obj : fMap->getGameObjectList()) {
 		if (obj->getGlobalBounds().contains(fWindow.mapPixelToCoords(sf::Mouse::getPosition(fWindow)))) {
 			fSelectedObject = obj;
 			fGhostType = Serializable::CLASS_TYPE::NONE;

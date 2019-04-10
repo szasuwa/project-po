@@ -1,18 +1,18 @@
 #include "Platform.h"
 
-Platform::Platform(Level* lvl) : Platform(sf::Vector2f(10, 10), sf::Vector2f(0, 0), sf::Color(2105376255), lvl)
+Platform::Platform(Map* map) : Platform(sf::Vector2f(10, 10), sf::Vector2f(0, 0), sf::Color(2105376255), map)
 {
 }
 
-Platform::Platform(sf::Vector2f position, Level* lvl) : Platform(sf::Vector2f(20, 5), position, sf::Color(2105376255), lvl)
+Platform::Platform(sf::Vector2f position, Map* map) : Platform(sf::Vector2f(20, 5), position, sf::Color(2105376255), map)
 {
 }
 
-Platform::Platform(sf::Vector2f size, sf::Vector2f position, Level* lvl) : Platform(size, position, sf::Color(2105376255), lvl)
+Platform::Platform(sf::Vector2f size, sf::Vector2f position, Map* map) : Platform(size, position, sf::Color(2105376255), map)
 {
 }
 
-Platform::Platform(sf::Vector2f size, sf::Vector2f position, sf::Color color, Level* lvl) : GameObject(lvl)
+Platform::Platform(sf::Vector2f size, sf::Vector2f position, sf::Color color, Map* map) : GameObject(map)
 {
 	fDrawable = new sf::RectangleShape(size);
 	((sf::RectangleShape*)fDrawable)->setPosition(position);

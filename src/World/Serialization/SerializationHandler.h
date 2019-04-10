@@ -1,8 +1,8 @@
 #pragma once
 #include <sstream>
 #include <string>
+#include <vector>
 
-#include "../Levels/Level.h"
 #include "Serializable.h"
 #include "../Objects/Actors/Player.h"
 #include "../Objects/Map/Platform.h"
@@ -17,7 +17,7 @@ public:
 	~SerializationHandler();
 	std::string serializeObject(Serializable *obj);
 	std::string serializeBundle(Serializable **obj, int size);
-	Serializable * deserializeObject(std::string &data, Level* lvl = nullptr);
-	void deserializeBundle(std::string &data, Level* lvl = nullptr);
+	Serializable * deserializeObject(std::string &data);
+	std::vector<Serializable*> deserializeBundle(std::string &data);
 };
 

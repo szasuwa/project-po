@@ -1,6 +1,6 @@
 #pragma once
-#include "Base/InterfaceGroup.h"
-#include "Base/InterfaceText.h"
+#include "Bases/InterfaceGroup.h"
+#include "Bases/InterfaceText.h"
 #include "../Frame.h"
 
 

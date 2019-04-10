@@ -4,7 +4,7 @@
 #include <SFML/Graphics/Drawable.hpp>
 #include <SFML/Graphics/RenderTarget.hpp>
 
-#include "../Frame.h"
+#include "../../Frame.h"
 
 
 class MapGrid : public sf::Drawable, public sf::Transformable {

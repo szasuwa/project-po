@@ -5,21 +5,11 @@ GameEngine::GameEngine(sf::RenderWindow &window) : fGameWindow(window), fEditor(
 	Frame::setWindowSize(fGameWindow.getSize());
 }
 
-GameEngine::~GameEngine()
-{
-	for (size_t i = 0; i < fLevelList.size(); ++i) {
-		if (fLevelList[i] != nullptr) {
-			delete fLevelList[i];
-		}
-	}
-}
-
 void GameEngine::initGame() 
 {
 	fGameWindow.setFramerateLimit(120);
-	fLevelList.push_back(fLevelLoader.loadLevel(1));
-	fActiveLevel = fLevelList[0];
-	fEditor.setLevel(fActiveLevel);
+	fActiveMap = fMapManager.load(1);
+	fEditor.setMap(fActiveMap);
 	fEditor.getMapGrid().update();
 
 	fDebugInterface.setAlignment(InterfaceGroup::Alignment::Right);
@@ -43,7 +33,7 @@ void GameEngine::gameLoop()
 	{
 		handleEvents();
 		if (fGameWindow.hasFocus()) {
-			if (!fIsEditingLevel) {
+			if (!fIsEditingMap) {
 				updateFrame();
 			}
 			else {
@@ -61,7 +51,9 @@ void GameEngine::gameLoop()
 
 void GameEngine::updateFrame() 
 {
-	fActiveLevel->broadcastUpdate();
+	if (fActiveMap != nullptr) {
+		fActiveMap->broadcastUpdate();
+	}
 }
 
 void GameEngine::drawFrame()
@@ -69,16 +61,16 @@ void GameEngine::drawFrame()
 	fGameWindow.clear();
 	
 	fDebugInterface.setVisibility(fDisplayDebug);
-	fMapEditorInterface.setVisibility(fIsEditingLevel);
+	fMapEditorInterface.setVisibility(fIsEditingMap);
 
 	fInterface.update();
 	fInterface.draw(fGameWindow);
 
-	if (fActiveLevel != nullptr) {
-		fActiveLevel->broadcastDraw(fGameWindow);
+	if (fActiveMap != nullptr) {
+		fActiveMap->broadcastDraw(fGameWindow);
 	}
 
-	if (fIsEditingLevel) {
+	if (fIsEditingMap) {
 		fGameWindow.draw(fEditor.getMapGrid());
 		MapEditorItem *fEditorGhost;
 		fEditorGhost = fEditor.getGhost();
@@ -104,7 +96,7 @@ void GameEngine::handleEvents() {
 
 				if (!fIsEditKeyPressed && sf::Keyboard::isKeyPressed(sf::Keyboard::Key::F2)) {
 					fIsEditKeyPressed = true;
-					fIsEditingLevel = !fIsEditingLevel;
+					fIsEditingMap = !fIsEditingMap;
 				}
 				break;
 

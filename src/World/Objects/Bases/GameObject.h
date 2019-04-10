@@ -4,22 +4,22 @@
 #include <SFML/Graphics/RenderWindow.hpp>
 
 #include "../../Serialization/Serializable.h"
-#include "../../Levels/MapGrid.h"
+#include "../../Map/Editor/MapGrid.h"
 
 
-class Level;
+class Map;
 
 class GameObject : public Serializable
 {
 protected:
-	Level* fLevel;
+	Map* fMap;
 	sf::Drawable *fDrawable;
 
 public:
-	explicit GameObject(Level* lvl = nullptr);
+	explicit GameObject(Map* map = nullptr);
 	~GameObject();
 
-	void setLevel(Level* lvl);
+	void setMap(Map* map);
 
 	void serializeData(std::stringstream &ss, bool last = true);
 	void deserializeData(std::stringstream &ss);

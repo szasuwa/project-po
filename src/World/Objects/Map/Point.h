@@ -2,16 +2,16 @@
 #include <SFML/Graphics/CircleShape.hpp>
 
 #include "../Bases/GameObject.h"
-#include "../../Levels/MapEditorItem.h"
+#include "../../Map/Editor/MapEditorItem.h"
 
 
 class Point : public GameObject {
 public:
-    Point(Level* lvl = nullptr);
-    explicit Point(sf::Vector2f position, Level* lvl = nullptr);
-    explicit Point(float radius, Level* lvl = nullptr);
-    explicit Point(float radius, sf::Vector2f &position, Level* lvl = nullptr);
-    explicit Point(float radius, sf::Vector2f position, sf::Color color, Level* lvl = nullptr);
+    Point(Map* map = nullptr);
+    explicit Point(sf::Vector2f position, Map* map = nullptr);
+    explicit Point(float radius, Map* map = nullptr);
+    explicit Point(float radius, sf::Vector2f &position, Map* map = nullptr);
+    explicit Point(float radius, sf::Vector2f position, sf::Color color, Map* map = nullptr);
 
     ~Point();
     

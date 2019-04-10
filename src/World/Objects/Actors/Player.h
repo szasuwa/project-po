@@ -3,8 +3,7 @@
 #include <algorithm>
 
 #include "../Bases/PhysicalObject.h"
-#include "../../Levels/WorldBoundaries.h"
-#include "../../Levels/MapEditorItem.h"
+#include "../../Map/Editor/MapEditorItem.h"
 #include "../../Frame.h"
 #include "../../Interface/Gui.h"
 
@@ -24,8 +23,8 @@ class Player : public PhysicalObject
 	void updateGuiInfo();
 
 public:
-	Player(Level* lvl = nullptr);
-	Player(sf::Vector2f position, Level* lvl = nullptr);
+	Player(Map* map = nullptr);
+	Player(sf::Vector2f position, Map* map = nullptr);
 	~Player();
 
 	void serializeData(std::stringstream &ss, bool last = true);

@@ -1,13 +1,13 @@
 #include "Player.h"
-#include "../../Levels/Level.h"
+#include "../../Map/Bases/Map.h"
 
 int Player::fPoints = 0;
 
-Player::Player(Level* lvl) : Player(sf::Vector2f(Frame::getWindowWidth() / 2, Frame::getWindowHeight() / 2), lvl)
+Player::Player(Map* map) : Player(sf::Vector2f(Frame::getWindowWidth() / 2, Frame::getWindowHeight() / 2), map)
 {
 }
 
-Player::Player(sf::Vector2f position, Level* lvl) : PhysicalObject(true, true, lvl)
+Player::Player(sf::Vector2f position, Map* map) : PhysicalObject(true, true, map)
 {
 	fDrawable = new sf::RectangleShape(sf::Vector2f(10, 10));
 	getTransformable()->setPosition(position);
@@ -96,7 +96,7 @@ void Player::checkCollision(GameObject* obj) {
 		return;
 
 	if(obj->getClassType() == CLASS_TYPE::POINT) {
-		fLevel->destroyGameObject(obj);
+		fMap->destroyGameObject(obj);
 		addPoint();
 		updateGuiInfo();
 	}
@@ -124,11 +124,11 @@ void Player::controlMovement()
 	sf::FloatRect bounds = getGlobalBounds();
 
 	if ((bounds.left + bounds.width + fForceVector.x*Frame::getFrameTime() > Frame::getWindowWidth() - fScrollOffsetRight)) {
-		fLevel->scrollMap(bounds.left + bounds.width + fForceVector.x*Frame::getFrameTime() - Frame::getWindowWidth() + fScrollOffsetRight);
+		fMap->scrollMap(bounds.left + bounds.width + fForceVector.x*Frame::getFrameTime() - Frame::getWindowWidth() + fScrollOffsetRight);
 	}
 
 	if (bounds.left < fScrollOffsetLeft) {
-		fLevel->scrollMap(bounds.left - fScrollOffsetLeft);
+		fMap->scrollMap(bounds.left - fScrollOffsetLeft);
 	}
 }
 

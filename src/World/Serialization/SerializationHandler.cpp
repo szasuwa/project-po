@@ -34,7 +34,7 @@ std::string SerializationHandler::serializeBundle(Serializable **obj, int size)
 	return ss.str();
 }
 
-Serializable * SerializationHandler::deserializeObject(std::string &data, Level* lvl)
+Serializable * SerializationHandler::deserializeObject(std::string &data)
 {
 	std::stringstream ss;
 	ss.str(data);
@@ -46,15 +46,15 @@ Serializable * SerializationHandler::deserializeObject(std::string &data, Level*
 	switch (type)
 	{
 		case Serializable::CLASS_TYPE::PLAYER:
-			output = new Player(lvl);
+			output = new Player();
 			break;
 
 		case Serializable::CLASS_TYPE::PLATFORM:
-			output = new Platform(lvl);
+			output = new Platform();
 			break;
 
 		case Serializable::CLASS_TYPE::POINT:
-			output = new Point(lvl);
+			output = new Point();
 			break;
 
 		default:
@@ -62,19 +62,18 @@ Serializable * SerializationHandler::deserializeObject(std::string &data, Level*
 	}
 
 	output->deserializeData(ss);
-	if (lvl != nullptr) {
-		lvl->addGameObject((GameObject*)output);
-	}
 	return output;
 }
 
-void SerializationHandler::deserializeBundle(std::string &data, Level* lvl)
+std::vector<Serializable*> SerializationHandler::deserializeBundle(std::string &data)
 {
+	std::vector<Serializable*> output;
 	std::stringstream ss;
 	ss.str(data);
 	while (ss.rdbuf()->in_avail() > 0) {
 		std::string temp;
 		getline(ss, temp);
-		deserializeObject(temp, lvl);
+		output.push_back(deserializeObject(temp));
 	}
+	return output;
 }

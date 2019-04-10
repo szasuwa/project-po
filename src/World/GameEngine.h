@@ -6,11 +6,11 @@
 #include <chrono>
 
 #include "Frame.h"
-#include "Levels/Level.h"
-#include "Levels/LevelLoader.h"
-#include "Levels/MapEditor.h"
-#include "Levels/MapEditorItem.h"
-#include "Interface/Base/InterfaceController.h"
+#include "Map/Bases/Map.h"
+#include "Map/Manager/MapManager.h"
+#include "Map/Editor/MapEditor.h"
+#include "Map/Editor/MapEditorItem.h"
+#include "Interface/Bases/InterfaceController.h"
 #include "Interface/DebugInterface.h"
 #include "Interface/InfoInterface.h"
 #include "Interface/MapEditorInterface.h"
@@ -20,9 +20,8 @@
 class GameEngine
 {
 	sf::RenderWindow &fGameWindow;
-	Level * fActiveLevel;
-	std::vector<Level *> fLevelList;
-	LevelLoader fLevelLoader;
+	Map * fActiveMap;
+	MapManager fMapManager;
 	InterfaceController fInterface;
 	DebugInterface fDebugInterface;
 	InfoInterface fInfoInterface;
@@ -30,7 +29,7 @@ class GameEngine
 	Gui fGui;
 	MapEditor fEditor;
 	
-	bool fIsEditingLevel = false;
+	bool fIsEditingMap = false;
 	bool fIsEditKeyPressed = false;
 
 	bool fDisplayDebug = false;
@@ -43,7 +42,6 @@ class GameEngine
 
 public:
 	GameEngine(sf::RenderWindow &window);
-	~GameEngine();
 
 	void gameLoop();
 };

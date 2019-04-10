@@ -26,8 +26,8 @@ protected:
 	virtual void checkCollision(GameObject* obj);
 
 public:
-	PhysicalObject(Level* lvl = nullptr);
-	PhysicalObject(bool boundsV, bool boundsH, Level* lvl = nullptr);
+	PhysicalObject(Map* map = nullptr);
+	PhysicalObject(bool boundsV, bool boundsH, Map* map = nullptr);
 	~PhysicalObject();
 
 	void serializeData(std::stringstream &ss, bool last = true);

@@ -1,19 +1,19 @@
 #include "Point.h"
 
-Point::Point(Level* lvl) : Point(5, sf::Vector2f(0,0), sf::Color(255,255,255,255), lvl)
+Point::Point(Map* map) : Point(5, sf::Vector2f(0,0), sf::Color(255,255,255,255), map)
 {
 }
 
-Point::Point(float radius, Level* lvl) : Point(radius, sf::Vector2f(0,0), sf::Color(255,255,255,255), lvl)
+Point::Point(float radius, Map* map) : Point(radius, sf::Vector2f(0,0), sf::Color(255,255,255,255), map)
 {}
 
-Point::Point(sf::Vector2f position, Level* lvl) : Point(5, position, sf::Color(255,255,255,255), lvl)
+Point::Point(sf::Vector2f position, Map* map) : Point(5, position, sf::Color(255,255,255,255), map)
 {}
 
-Point::Point(float radius, sf::Vector2f &position, Level* lvl) : Point(radius, position, sf::Color(255,255,255,255), lvl)
+Point::Point(float radius, sf::Vector2f &position, Map* map) : Point(radius, position, sf::Color(255,255,255,255), map)
 {}
 
-Point::Point(float radius, sf::Vector2f position, sf::Color color, Level* lvl) : GameObject(lvl)
+Point::Point(float radius, sf::Vector2f position, sf::Color color, Map* map) : GameObject(map)
 {
     fDrawable = new sf::CircleShape(radius);
     ((sf::CircleShape*)fDrawable)->setPosition(position);

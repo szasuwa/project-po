@@ -3,13 +3,13 @@
 #include <SFML/Window/Mouse.hpp>
 #include <SFML/Graphics/Drawable.hpp>
 
-#include "../Interface/MapEditorInterface.h"
-#include "../Serialization/Serializable.h"
-#include "../Objects/Bases/GameObject.h"
-#include "../Objects/Actors/Player.h"
-#include "../Objects/Map/Platform.h"
-#include "../Objects/Map/Point.h"
-#include "Level.h"
+#include "../../Interface/MapEditorInterface.h"
+#include "../../Serialization/Serializable.h"
+#include "../../Objects/Bases/GameObject.h"
+#include "../../Objects/Actors/Player.h"
+#include "../../Objects/Map/Platform.h"
+#include "../../Objects/Map/Point.h"
+#include "../Bases/Map.h"
 #include "MapEditorItem.h"
 #include "MapGrid.h"
 
@@ -23,7 +23,7 @@ class MapEditor {
 	};
 
 	//Map and windows
-	Level *fLevel;
+	Map *fMap;
 	sf::RenderWindow &fWindow;
 
 	//Ghost
@@ -58,11 +58,11 @@ class MapEditor {
 	void clearMap();
 
 public:
-	explicit MapEditor(Level *lvl, sf::RenderWindow &wdw);
+	explicit MapEditor(Map *map, sf::RenderWindow &wdw);
 
 	MapGrid &getMapGrid();
 
 	void handleEditorControls();
-	void setLevel(Level *lvl);
+	void setMap(Map *map);
 	MapEditorItem* getGhost();
 };

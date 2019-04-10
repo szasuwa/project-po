@@ -3,16 +3,16 @@
 #include <SFML/Graphics.hpp>
 
 #include "../Bases/GameObject.h"
-#include "../../Levels/MapEditorItem.h"
+#include "../../Map/Editor/MapEditorItem.h"
 
 
 class Platform : public GameObject
 {
 public:
-	Platform(Level* lvl = nullptr);
-	Platform(sf::Vector2f position, Level* lvl = nullptr);
-	Platform(sf::Vector2f size, sf::Vector2f position, Level* lvl = nullptr);
-	Platform(sf::Vector2f size, sf::Vector2f position, sf::Color color, Level* lvl = nullptr);
+	Platform(Map* map = nullptr);
+	Platform(sf::Vector2f position, Map* map = nullptr);
+	Platform(sf::Vector2f size, sf::Vector2f position, Map* map = nullptr);
+	Platform(sf::Vector2f size, sf::Vector2f position, sf::Color color, Map* map = nullptr);
 	~Platform();
 
 	void deserializeData(std::stringstream &ss);

@@ -1,5 +1,5 @@
 #include "PhysicalObject.h"
-#include "../../Levels/Level.h"
+#include "../../Map/Bases/Map.h"
 
 float PhysicalObject::fDecelerationRate = 15.f;
 float PhysicalObject::fDecelerationSmoothRate = 0.1f;
@@ -7,11 +7,11 @@ float PhysicalObject::fGravityRate = 15.f;
 float PhysicalObject::fGravityForce = 500.f;
 
 
-PhysicalObject::PhysicalObject(Level* lvl) : PhysicalObject(false, false, lvl)
+PhysicalObject::PhysicalObject(Map* map) : PhysicalObject(false, false, map)
 {
 }
 
-PhysicalObject::PhysicalObject(bool boundsV, bool boundsH, Level* lvl) : GameObject(lvl)
+PhysicalObject::PhysicalObject(bool boundsV, bool boundsH, Map* map) : GameObject(map)
 {
 	fForceVector.x = 0;
 	fForceVector.y = 0;
@@ -50,12 +50,12 @@ void PhysicalObject::deserializeData(std::stringstream &ss) {
 }
 
 void PhysicalObject::handleCollisions() {
-	if (fLevel == nullptr)
+	if (fMap == nullptr)
 		return;
 
 	fCollider.resetCollider();
 
-	for (GameObject* obj : fLevel->getGameObjectList()) 
+	for (GameObject* obj : fMap->getGameObjectList()) 
 	{
 		checkCollision(obj);
 	}

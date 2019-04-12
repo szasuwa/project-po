@@ -1,0 +1,95 @@
+#include "InterfaceGroup.h"
+
+
+InterfaceGroup::InterfaceGroup(const Alignment &a):fAlignment(a)
+{
+}
+
+void InterfaceGroup::drawGroup() const 
+{
+	if (!fVisible)
+		return;
+
+	Frame & frame = Frame::getInstance();
+	for (InterfaceItem * item : fItemList) 
+	{
+		if (item != nullptr && item->getVisibility()) 
+		{
+			frame.draw(item->getDrawable());
+		}
+	}
+}
+
+float InterfaceGroup::calculateHeight() const 
+{
+	float out = 0;
+	for (InterfaceItem * item : fItemList) 
+	{
+		if (item != nullptr && item->getVisibility()) 
+		{
+			out += item->getHeight();
+		}
+	}
+	return out;
+}
+
+float InterfaceGroup::calculateWidth() const 
+{
+	float out = 0;
+	for (InterfaceItem * item : fItemList) {
+		if (item != nullptr && item->getVisibility()) 
+		{
+			out = std::max(out, item->getWidth());
+		}
+	}
+	return out;
+}
+
+void InterfaceGroup::calculatePositions(float offset) 
+{
+	Frame & frame = Frame::getInstance();
+
+	for (InterfaceItem * item : fItemList) 
+	{
+		if (item != nullptr && item->getVisibility()) 
+		{
+			switch (fAlignment)
+			{
+				case InterfaceGroup::Left:
+					item->setPosition(sf::Vector2f(fMargin.left, offset + fMargin.top));
+					break;
+				case InterfaceGroup::Right:
+					item->setPosition(sf::Vector2f(frame.getFrameWidth() - item->getWidth() - fMargin.right, offset + fMargin.top));
+					break;
+				case InterfaceGroup::Center:
+					item->setPosition(sf::Vector2f((frame.getFrameWidth() - item->getWidth())/2, offset + fMargin.top));
+					break;
+				default:
+					break;
+			}
+			
+			offset += item->getHeight();
+		}
+	}
+}
+
+bool InterfaceGroup::getVisibility() const 
+{
+	return fVisible;
+}
+
+void InterfaceGroup::setVisibility(const bool & v) 
+{
+	fVisible = v;
+}
+
+InterfaceGroup::Alignment InterfaceGroup::getAlignment() const
+{
+	return fAlignment;
+}
+
+void InterfaceGroup::setAlignment(const Alignment & v) 
+{
+	fAlignment = v;
+}
+

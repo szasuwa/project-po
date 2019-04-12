@@ -52,7 +52,11 @@ private:
 		KeyGroup({sf::Keyboard::Key::F1})										//MapEditorSave
 	};
 
+	KeyController();
+	KeyController(const KeyController & o);
+
 public:
+	static KeyController & getInstance();
 	void update();
 	const KeyGroup & getKeyGroup(const KeyBinding & key) const;
 };

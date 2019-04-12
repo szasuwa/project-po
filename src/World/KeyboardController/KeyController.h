@@ -1,0 +1,58 @@
+#include "KeyGroup.h"
+
+
+class KeyController {
+public:
+	enum KeyBinding {
+		CameraLeft,
+		CameraRight,
+		CameraUp,
+		CameraDown,
+		MoveLeft,
+		MoveRight,
+		Jump,
+		Debug,
+		MapEditor,
+		MapEditorMove,
+		MapEditorResize,
+		MapEditorVLock,
+		MapEditorHLock,
+		MapEditorGridLock,
+		MapEditorDelete,
+		MapEditorClone,
+		MapEditorGhostPlayer,
+		MapEditorGhostPlatform,
+		MapEditorGhostPoint,
+		MapEditorReset,
+		MapEditorSave
+	};
+
+private:
+	std::vector<KeyGroup> fKeyBindings = std::vector<KeyGroup>{
+		KeyGroup({sf::Keyboard::Key::Left}),									//CameraLeft
+		KeyGroup({sf::Keyboard::Key::Right}),									//CameraRight
+		KeyGroup({sf::Keyboard::Key::Up}),										//CameraUp
+		KeyGroup({sf::Keyboard::Key::Down}),									//CameraDown
+		KeyGroup({sf::Keyboard::Key::A}),										//MoveLeft
+		KeyGroup({sf::Keyboard::Key::D}),										//MoveRight
+		KeyGroup({sf::Keyboard::Key::W, sf::Keyboard::Key::Space}),				//Jump
+		KeyGroup({sf::Keyboard::Key::F3}),										//Debug
+		KeyGroup({sf::Keyboard::Key::F2}),										//MapEditor
+		KeyGroup({sf::Keyboard::Key::LControl, sf::Keyboard::Key::RControl}),	//MapEditorMove
+		KeyGroup({sf::Keyboard::Key::LShift, sf::Keyboard::Key::RShift}),		//MapEditorResize
+		KeyGroup({sf::Keyboard::Key::Q}),										//MapEditorVLock
+		KeyGroup({sf::Keyboard::Key::E}),										//MapEditorHLock
+		KeyGroup({sf::Keyboard::Key::Tab}),										//MapEditorGridLock
+		KeyGroup({sf::Keyboard::Key::Delete}),									//MapEditorDelete
+		KeyGroup({sf::Keyboard::Key::LAlt, sf::Keyboard::Key::RAlt}),			//MapEditorClone
+		KeyGroup({sf::Keyboard::Key::Num1, sf::Keyboard::Key::Numpad1}),		//MapEditorGhostPlayer
+		KeyGroup({sf::Keyboard::Key::Num2, sf::Keyboard::Key::Numpad2}),		//MapEditorGhostPlatform
+		KeyGroup({sf::Keyboard::Key::Num3, sf::Keyboard::Key::Numpad3}),		//MapEditorGhostPoint
+		KeyGroup({sf::Keyboard::Key::Escape}),									//MapEditorReset
+		KeyGroup({sf::Keyboard::Key::F1})										//MapEditorSave
+	};
+
+public:
+	void update();
+	const KeyGroup & getKeyGroup(const KeyBinding & key) const;
+};

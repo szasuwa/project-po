@@ -1,5 +1,6 @@
 #include "Frame.h"
 
+
 Frame & Frame::getInstance() 
 {
 	static Frame instance;

@@ -6,17 +6,31 @@ float PhysicalObject::fDecelerationSmoothRate = 0.1f;
 float PhysicalObject::fGravityRate = 15.f;
 float PhysicalObject::fGravityForce = 500.f;
 
-
-PhysicalObject::PhysicalObject(Map* map) : PhysicalObject(false, false, map)
+PhysicalObject::PhysicalObject(Map* map) : PhysicalObject(sf::Vector2f(0,0), map)
 {
 }
 
-PhysicalObject::PhysicalObject(bool boundsV, bool boundsH, Map* map) : GameObject(map)
+PhysicalObject::PhysicalObject(const sf::Vector2f &position, Map* map) : PhysicalObject(position, false, false, map)
+{
+}
+
+PhysicalObject::PhysicalObject(bool boundsV, bool boundsH, Map* map) : PhysicalObject(sf::Vector2f(0,0), boundsV, boundsH, map)
+{
+}
+
+PhysicalObject::PhysicalObject(const sf::Vector2f &position, bool boundsV, bool boundsH, Map* map) : GameObject(position, map)
 {
 	fForceVector.x = 0;
 	fForceVector.y = 0;
 	fInWindowBoundsVertical = boundsV;
 	fInWindowBoundsHorizontal = boundsH;
+}
+
+PhysicalObject::PhysicalObject(const PhysicalObject &obj) : GameObject(obj)
+{
+	fForceVector = obj.fForceVector;
+	fCollider = obj.fCollider;
+	fInWindowBoundsVertical = obj.fInWindowBoundsVertical;
 }
 
 

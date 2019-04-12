@@ -4,24 +4,37 @@ Point::Point(Map* map) : Point(5, sf::Vector2f(0,0), sf::Color(255,255,255,255),
 {
 }
 
-Point::Point(float radius, Map* map) : Point(radius, sf::Vector2f(0,0), sf::Color(255,255,255,255), map)
+Point::Point(const float &radius, Map* map) : Point(radius, sf::Vector2f(0,0), sf::Color(255,255,255,255), map)
 {}
 
-Point::Point(sf::Vector2f position, Map* map) : Point(5, position, sf::Color(255,255,255,255), map)
+Point::Point(const sf::Vector2f &position, Map* map) : Point(5, position, sf::Color(255,255,255,255), map)
 {}
 
-Point::Point(float radius, sf::Vector2f &position, Map* map) : Point(radius, position, sf::Color(255,255,255,255), map)
+Point::Point(const float &radius, const sf::Vector2f &position, Map* map) : Point(radius, position, sf::Color(255,255,255,255), map)
 {}
 
-Point::Point(float radius, sf::Vector2f position, sf::Color color, Map* map) : GameObject(map)
+Point::Point(const float &radius, const sf::Vector2f &position, const sf::Color &color, Map* map) : GameObject(position, map)
 {
-    fDrawable = new sf::CircleShape(radius);
-    ((sf::CircleShape*)fDrawable)->setPosition(position);
+	fDrawable = createDrawable();
+	((sf::CircleShape*)fDrawable)->setPosition(position);
+	((sf::CircleShape*)fDrawable)->setRadius(radius);
 	((sf::CircleShape*)fDrawable)->setFillColor(color);
+}
+
+Point::Point(const Point &obj) : GameObject(obj)
+{
+	fDrawable = createDrawable();
+	((sf::CircleShape*)fDrawable)->setPosition(((sf::CircleShape*)obj.fDrawable)->getPosition());
+	((sf::CircleShape*)fDrawable)->setRadius(((sf::CircleShape*)obj.fDrawable)->getRadius());
+	((sf::CircleShape*)fDrawable)->setFillColor(((sf::CircleShape*)obj.fDrawable)->getFillColor());
 }
 
 Point::~Point()
 {
+}
+
+sf::Drawable * Point::createDrawable() {
+	return new sf::CircleShape();
 }
 
 void Point::deserializeData(std::stringstream &ss) {
@@ -46,7 +59,7 @@ sf::FloatRect Point::getGlobalBounds() {
 	return ((sf::Shape*)fDrawable)->getGlobalBounds();
 };
 
-void Point::resize(sf::Vector2f rb, bool vLock, bool hLock, bool snapToGrid) {
+void Point::resize(const sf::Vector2f &rb, bool vLock, bool hLock, bool snapToGrid) {
 
 }
 

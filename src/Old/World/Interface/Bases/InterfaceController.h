@@ -6,9 +6,6 @@
 
 class InterfaceController {
 	std::vector<InterfaceGroup*> fInterfaceGroups;
-	float fLeftHeight;
-	float fRightHeight;
-	float fCenterHeight;
 
 public:
 	void update();

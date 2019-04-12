@@ -5,6 +5,16 @@ GameObject::GameObject(Map* map) : fMap(map)
 {
 }
 
+GameObject::GameObject(const sf::Vector2f &position, Map* map) : fMap(map)
+{
+}
+
+
+GameObject::GameObject(const GameObject &obj) {
+	fDrawable = createDrawable();
+	fMap = obj.fMap;
+}
+
 GameObject::~GameObject()
 {
 	delete fDrawable;

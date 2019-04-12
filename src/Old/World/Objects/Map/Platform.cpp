@@ -1,26 +1,38 @@
 #include "Platform.h"
 
-Platform::Platform(Map* map) : Platform(sf::Vector2f(10, 10), sf::Vector2f(0, 0), sf::Color(2105376255), map)
+Platform::Platform(Map* map) : Platform(sf::Vector2f(0, 0), map)
 {
 }
 
-Platform::Platform(sf::Vector2f position, Map* map) : Platform(sf::Vector2f(20, 5), position, sf::Color(2105376255), map)
+Platform::Platform(const sf::Vector2f & position, Map* map) : Platform(sf::Vector2f(20, 5), position, map)
 {
 }
 
-Platform::Platform(sf::Vector2f size, sf::Vector2f position, Map* map) : Platform(size, position, sf::Color(2105376255), map)
+Platform::Platform(const sf::Vector2f & size, const sf::Vector2f & position, Map* map) : Platform(size, position, sf::Color(2105376255), map)
 {
 }
 
-Platform::Platform(sf::Vector2f size, sf::Vector2f position, sf::Color color, Map* map) : GameObject(map)
+Platform::Platform(const sf::Vector2f & size, const sf::Vector2f & position, const sf::Color & color, Map* map) : GameObject(position, map)
 {
-	fDrawable = new sf::RectangleShape(size);
+	fDrawable = createDrawable();
 	((sf::RectangleShape*)fDrawable)->setPosition(position);
+	((sf::RectangleShape*)fDrawable)->setSize(size);
 	((sf::RectangleShape*)fDrawable)->setFillColor(color);
+}
+
+Platform::Platform(const Platform &obj) : GameObject(obj) {
+	fDrawable = createDrawable();
+	((sf::RectangleShape*)fDrawable)->setPosition(((sf::RectangleShape*)obj.fDrawable)->getPosition());
+	((sf::RectangleShape*)fDrawable)->setSize(((sf::RectangleShape*)obj.fDrawable)->getSize());
+	((sf::RectangleShape*)fDrawable)->setFillColor(((sf::RectangleShape*)obj.fDrawable)->getFillColor());
 }
 
 Platform::~Platform()
 {
+}
+
+sf::Drawable * Platform::createDrawable() {
+	return new sf::RectangleShape();
 }
 
 void Platform::deserializeData(std::stringstream &ss) {
@@ -63,7 +75,7 @@ MapEditorItem *Platform::getGhostDrawable() {
 };
 
 
-void Platform::resize(sf::Vector2f rb, bool vLock, bool hLock, bool snapToGrid) {
+void Platform::resize(const sf::Vector2f &rb, bool vLock, bool hLock, bool snapToGrid) {
 	sf::RectangleShape *shape = (sf::RectangleShape*)fDrawable;
 	sf::Transformable *transform = getTransformable();
 	sf::Vector2f position = transform->getPosition();

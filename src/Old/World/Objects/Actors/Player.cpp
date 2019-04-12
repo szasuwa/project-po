@@ -7,14 +7,27 @@ Player::Player(Map* map) : Player(sf::Vector2f(Frame::getWindowWidth() / 2, Fram
 {
 }
 
-Player::Player(sf::Vector2f position, Map* map) : PhysicalObject(true, true, map)
+Player::Player(const sf::Vector2f &position, Map* map) : PhysicalObject(position, true, true, map)
 {
-	fDrawable = new sf::RectangleShape(sf::Vector2f(10, 10));
-	getTransformable()->setPosition(position);
+	fDrawable = createDrawable();
+	((sf::RectangleShape*)fDrawable)->setPosition(position);
+}
+
+Player::Player(const Player &obj) : PhysicalObject(obj) {
+	fDrawable = createDrawable();
+	((sf::RectangleShape*)fDrawable)->setPosition(((sf::RectangleShape*)obj.fDrawable)->getPosition());
+	fSpeed = obj.fSpeed;
+	fJumpForce = obj.fJumpForce;
+	fScrollOffsetRight = obj.fScrollOffsetRight;
+	fScrollOffsetLeft = obj.fScrollOffsetLeft;
 }
 
 Player::~Player()
 {
+}
+
+sf::Drawable * Player::createDrawable() {
+	return new sf::RectangleShape(sf::Vector2f(10, 10));
 }
 
 void Player::deserializeData(std::stringstream &ss) {
@@ -44,7 +57,7 @@ MapEditorItem *Player::getGhostDrawable() {
 	return out;
 };
 
-void Player::resize(sf::Vector2f rb, bool vLock, bool hLock, bool snapToGrid) {
+void Player::resize(const sf::Vector2f &rb, bool vLock, bool hLock, bool snapToGrid) {
 	sf::RectangleShape *shape = (sf::RectangleShape*)fDrawable;
 	sf::Transformable *transform = getTransformable();
 	sf::Vector2f position = transform->getPosition();

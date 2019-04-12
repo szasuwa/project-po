@@ -1,6 +1,7 @@
 #include "InterfaceController.h"
 
 void InterfaceController::update() {
+	float fLeftHeight, fCenterHeight, fRightHeight;
 	fLeftHeight = fCenterHeight = fRightHeight = 1;
 
 	for (InterfaceGroup * item : fInterfaceGroups) {

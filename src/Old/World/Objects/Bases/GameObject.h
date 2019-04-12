@@ -14,9 +14,12 @@ class GameObject : public Serializable
 protected:
 	Map* fMap;
 	sf::Drawable *fDrawable;
+	virtual sf::Drawable * createDrawable() = 0;
 
 public:
 	explicit GameObject(Map* map = nullptr);
+	GameObject(const sf::Vector2f &position, Map* map = nullptr);
+	GameObject(const GameObject &obj);
 	~GameObject();
 
 	void setMap(Map* map);
@@ -27,7 +30,7 @@ public:
 	virtual void update() = 0;
 	virtual sf::FloatRect getGlobalBounds() = 0;
 	sf::Drawable *getDrawable();
-	virtual void resize(sf::Vector2f rb, bool vLock, bool hLock, bool snapToGrid) = 0;
+	virtual void resize(const sf::Vector2f &rb, bool vLock, bool hLock, bool snapToGrid) = 0;
 	virtual sf::Transformable *getTransformable() = 0;
 };
 

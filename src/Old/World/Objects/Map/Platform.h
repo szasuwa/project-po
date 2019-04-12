@@ -8,11 +8,13 @@
 
 class Platform : public GameObject
 {
+	sf::Drawable * createDrawable();
 public:
 	Platform(Map* map = nullptr);
-	Platform(sf::Vector2f position, Map* map = nullptr);
-	Platform(sf::Vector2f size, sf::Vector2f position, Map* map = nullptr);
-	Platform(sf::Vector2f size, sf::Vector2f position, sf::Color color, Map* map = nullptr);
+	Platform(const sf::Vector2f &position, Map* map = nullptr);
+	Platform(const sf::Vector2f &size, const sf::Vector2f &position, Map* map = nullptr);
+	Platform(const sf::Vector2f &size, const sf::Vector2f &position, const sf::Color &color, Map* map = nullptr);
+	Platform(const Platform &obj);
 	~Platform();
 
 	void deserializeData(std::stringstream &ss);
@@ -21,7 +23,7 @@ public:
 
 	sf::FloatRect getGlobalBounds();
 	static MapEditorItem *getGhostDrawable();
-	void resize(sf::Vector2f rb, bool vLock, bool hLock, bool snapToGrid);
+	void resize(const sf::Vector2f &rb, bool vLock, bool hLock, bool snapToGrid);
 	sf::Transformable *getTransformable();
 
 	void update();

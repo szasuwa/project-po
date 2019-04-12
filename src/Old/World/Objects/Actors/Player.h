@@ -18,13 +18,16 @@ class Player : public PhysicalObject
 
 	static int fPoints;
 
+	sf::Drawable * createDrawable();
+
 	void controlMovement();
 	void checkCollision(GameObject* obj);
 	void updateGuiInfo();
 
 public:
-	Player(Map* map = nullptr);
-	Player(sf::Vector2f position, Map* map = nullptr);
+	explicit Player(Map* map = nullptr);
+	Player(const sf::Vector2f &position, Map* map = nullptr);
+	Player(const Player &obj);
 	~Player();
 
 	void serializeData(std::stringstream &ss, bool last = true);
@@ -34,7 +37,7 @@ public:
 	sf::FloatRect getGlobalBounds();
 	sf::Transformable *getTransformable();
 	static MapEditorItem *getGhostDrawable();
-	void resize(sf::Vector2f rb, bool vLock, bool hLock, bool snapToGrid);
+	void resize(const sf::Vector2f &rb, bool vLock, bool hLock, bool snapToGrid);
 	void update();	
 
 	void addPoint(int p = 1);

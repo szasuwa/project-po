@@ -8,7 +8,6 @@ class UserInterface : public InterfaceGroup {
 	static int fPoints;
 
 public:
-	UserInterface();
 	explicit UserInterface(const Alignment & a = Alignment::Left);
 	void update();
 

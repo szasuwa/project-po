@@ -6,20 +6,13 @@
 #include "InterfaceGroups/InfoInterface.h"
 #include "InterfaceGroups/DebugInterface.h"
 #include "InterfaceGroups/MapEditorInterface.h"
+#include "InterfaceGroups/ControlsInterface.h"
+#include "InterfaceType.h"
 
 
 class InterfaceController {
-public:
-	enum InterfaceType {
-		User,
-		Info,
-		Debug,
-		MapEditor,
-		num_values
-	};
-
 private:
-	InterfaceGroup* fInterfaceGroups[num_values];
+	InterfaceGroup* fInterfaceGroups[(int)(InterfaceType::num_values)];
 
 public:
 	~InterfaceController();

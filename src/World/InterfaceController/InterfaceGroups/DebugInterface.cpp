@@ -7,6 +7,7 @@ DebugInterface::DebugInterface(const Alignment & a) : InterfaceGroup(a)
 
 	fItemList.push_back(&fVersion);
 	fItemList.push_back(&fFpsMeter);
+	fItemList.push_back(&fSeparator);
 }
 
 void DebugInterface::update() 

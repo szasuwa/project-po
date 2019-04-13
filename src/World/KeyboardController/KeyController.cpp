@@ -15,5 +15,5 @@ KeyController & KeyController::getInstance()
 
 KeyGroup & KeyController::getKeyGroup(const KeyBinding & key)
 {
-	return fKeyBindings[key];
+	return fKeyBindings[(int)(key)];
 }

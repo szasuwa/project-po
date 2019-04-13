@@ -5,11 +5,12 @@
 #include "../../KeyboardController/KeyController.h"
 
 
-class InfoInterface : public InterfaceGroup {
-	InterfaceText fDebugKey;
-	InterfaceText fMapEditorKey;
+class ControlsInterface : public InterfaceGroup {
+	InterfaceText fMoveLeftKey;
+	InterfaceText fMoveRightKey;
+	InterfaceText fMoveJumpKey;
 
 public:
-	explicit InfoInterface(const Alignment & a);
+	explicit ControlsInterface(const Alignment & a);
 	void update();
 };

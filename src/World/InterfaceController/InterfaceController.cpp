@@ -29,15 +29,15 @@ void InterfaceController::update()
 
 			switch (item->getAlignment())
 			{
-				case InterfaceGroup::Left:
+				case InterfaceGroup::Alignment::Left:
 					item->calculatePositions(fLeftHeight);
 					fLeftHeight += item->calculateHeight();
 					break;
-				case InterfaceGroup::Right:
+				case InterfaceGroup::Alignment::Right:
 					item->calculatePositions(fRightHeight);
 					fRightHeight += item->calculateHeight();
 					break;
-				case InterfaceGroup::Center:
+				case InterfaceGroup::Alignment::Center:
 					item->calculatePositions(fCenterHeight);
 					fCenterHeight += item->calculateHeight();
 					break;
@@ -61,42 +61,39 @@ void InterfaceController::addInterface(const InterfaceType & i, const bool & v)
 {
 	switch (i)
 	{
-		case User:
-			fInterfaceGroups[i] = new UserInterface(InterfaceGroup::Alignment::Center);
+		case InterfaceType::User:
+			fInterfaceGroups[(int)i] = new UserInterface(InterfaceGroup::Alignment::Center);
 			break;
-		case Info:
-			fInterfaceGroups[i] = new InfoInterface(InterfaceGroup::Alignment::Left);
+		case InterfaceType::Info:
+			fInterfaceGroups[(int)i] = new InfoInterface(InterfaceGroup::Alignment::Left);
 			break;
-		case Debug:
-			fInterfaceGroups[i] = new DebugInterface(InterfaceGroup::Alignment::Right);
+		case InterfaceType::Debug:
+			fInterfaceGroups[(int)i] = new DebugInterface(InterfaceGroup::Alignment::Right);
 			break;
-		case MapEditor:
-			fInterfaceGroups[i] = new MapEditorInterface(InterfaceGroup::Alignment::Left);
+		case InterfaceType::MapEditor:
+			fInterfaceGroups[(int)i] = new MapEditorInterface(InterfaceGroup::Alignment::Left);
+			break;
+		case InterfaceType::Controls:
+			fInterfaceGroups[(int)i] = new ControlsInterface(InterfaceGroup::Alignment::Right);
 			break;
 		default:
 			return;
 	}
-	fInterfaceGroups[i]->setVisibility(v);
+	fInterfaceGroups[(int)i]->setVisibility(v);
 }
 
 void InterfaceController::setInterfaceVisibility(const bool & v, const InterfaceType & i)
 {
-	if (i < 0 && i >= InterfaceController::num_values)
+	if (i == InterfaceType::num_values || fInterfaceGroups[(int)i] == nullptr)
 		return;
 
-	if (fInterfaceGroups[i] == nullptr)
-		return;
-
-	fInterfaceGroups[i]->setVisibility(v);
+	fInterfaceGroups[(int)i]->setVisibility(v);
 }
 
 void InterfaceController::toggleInterfaceVisibility(const InterfaceType & i)
 {
-	if (i < 0 && i >= InterfaceController::num_values)
+	if (i == InterfaceType::num_values || fInterfaceGroups[(int)i] == nullptr)
 		return;
 
-	if (fInterfaceGroups[i] == nullptr)
-		return;
-
-	fInterfaceGroups[i]->toggleVisibility();
+	fInterfaceGroups[(int)i]->toggleVisibility();
 }

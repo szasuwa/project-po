@@ -71,7 +71,7 @@ GameObjectClassType Platform::getClassType() const
 
 void Platform::serializeObject(std::ostream & ss) const
 {
-	ss << getClassType() << SERIALIZABLE_FIELD_DELIMITER;
+	ss << (int)(getClassType()) << SERIALIZABLE_FIELD_DELIMITER;
 	GameObject::serializeObject(ss);
 	ss << ((sf::RectangleShape *)fDrawable)->getSize().x << SERIALIZABLE_FIELD_DELIMITER;
 	ss << ((sf::RectangleShape *)fDrawable)->getSize().y << SERIALIZABLE_FIELD_DELIMITER;

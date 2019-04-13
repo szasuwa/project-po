@@ -9,7 +9,7 @@
 class MapController;
 
 class MapEditor {
-	enum EditorMode {
+	enum class EditorMode {
 		None = 0,
 		Resize = 1,
 		Move = 2,

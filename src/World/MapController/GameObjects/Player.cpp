@@ -47,17 +47,17 @@ void Player::controlMovement()
 	
 
 	//Check movement keys
-	if (key.getKeyGroup(KeyController::MoveLeft).isPressed())
+	if (key.getKeyGroup(KeyBinding::MoveLeft).isPressed())
 	{
 		fForceVector.x -= fSpeed;
 	}
-	if (key.getKeyGroup(KeyController::MoveRight).isPressed())
+	if (key.getKeyGroup(KeyBinding::MoveRight).isPressed())
 	{
 		fForceVector.x += fSpeed;
 	}
 	fForceVector.x = std::max(-fSpeed, std::min(fSpeed, fForceVector.x));
 
-	if (key.getKeyGroup(KeyController::Jump).isPressed() && fCollider.getBottom())
+	if (key.getKeyGroup(KeyBinding::Jump).isPressed() && fCollider.getBottom())
 	{
 		fForceVector.y = -fJumpForce;
 	}
@@ -183,7 +183,7 @@ GameObjectClassType Player::getClassType() const
 
 void Player::serializeObject(std::ostream & ss) const
 {
-	ss << getClassType() << SERIALIZABLE_FIELD_DELIMITER;
+	ss << (int)(getClassType()) << SERIALIZABLE_FIELD_DELIMITER;
 	PhysicalObject::serializeObject(ss);
 	ss << ((sf::RectangleShape *)fDrawable)->getSize().x << SERIALIZABLE_FIELD_DELIMITER;
 	ss << ((sf::RectangleShape *)fDrawable)->getSize().y << SERIALIZABLE_FIELD_DELIMITER;

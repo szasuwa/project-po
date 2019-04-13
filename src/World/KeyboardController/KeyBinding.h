@@ -1,0 +1,27 @@
+#pragma once
+enum class KeyBinding : unsigned int {
+	CameraLeft,
+	CameraRight,
+	CameraUp,
+	CameraDown,
+	MoveLeft,
+	MoveRight,
+	Jump,
+	Debug,
+	MapEditor,
+	MapEditorTime,
+	MapEditorMove,
+	MapEditorResize,
+	MapEditorVLock,
+	MapEditorHLock,
+	MapEditorGridLock,
+	MapEditorDelete,
+	MapEditorClone,
+	MapEditorGhostPlayer,
+	MapEditorGhostPlatform,
+	MapEditorGhostPoint,
+	MapEditorReset,
+	MapEditorSave,
+	MapEditorExit,
+	MapEditorCancel
+};

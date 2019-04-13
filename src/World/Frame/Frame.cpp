@@ -23,24 +23,21 @@ void Frame::nextFrame()
 
 void Frame::updateView(const sf::View & v, const FrameLayer & layer) 
 {
-	if (layer < 0 || layer >= FrameLayer::num_values)
+	if (layer == FrameLayer::num_values)
 		return;
 
-	fViewLayers[layer] = v;
+	fViewLayers[(int)layer] = v;
 }
 
 void Frame::draw(const sf::Drawable & o, const FrameLayer & layer)
 {
-	if (fWindow == nullptr)
-		return;
-
-	if (layer < 0 || layer >= FrameLayer::num_values)
+	if (fWindow == nullptr || layer == FrameLayer::num_values)
 		return;
 
 	if (fActiveView != layer)
 	{
 		fActiveView = layer;
-		fWindow->setView(fViewLayers[layer]);
+		fWindow->setView(fViewLayers[(int)layer]);
 	}
 
 	fWindow->draw(o);
@@ -48,16 +45,13 @@ void Frame::draw(const sf::Drawable & o, const FrameLayer & layer)
 
 sf::Vector2f Frame::getMousePosition(const FrameLayer & layer) 
 {
-	if (fWindow == nullptr)
+	if (fWindow == nullptr || layer == FrameLayer::num_values)
 		return sf::Vector2f();
-
-	if (layer < 0 || layer >= FrameLayer::num_values)
-		return sf::Vector2f();;
 
 	if (fActiveView != layer)
 	{
 		fActiveView = layer;
-		fWindow->setView(fViewLayers[layer]);
+		fWindow->setView(fViewLayers[(int)layer]);
 	}
 
 	return fWindow->mapPixelToCoords(sf::Mouse::getPosition(*fWindow));

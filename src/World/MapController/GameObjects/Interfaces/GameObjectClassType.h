@@ -1,7 +1,5 @@
 #pragma once
-
-
-enum GameObjectClassType {
+enum class GameObjectClassType : unsigned int {
 	NONE,
 	PLAYER,
 	PLATFORM,

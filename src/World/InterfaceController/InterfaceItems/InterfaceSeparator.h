@@ -8,7 +8,7 @@
 class InterfaceSeparator : public InterfaceItem {
 	float fHeight;
 public:
-	explicit InterfaceSeparator(float h = 5);
+	explicit InterfaceSeparator(float h = 50);
 	virtual void draw() const;
 	virtual void setPosition(const sf::Vector2f & p);
 	virtual float getWidth() const;

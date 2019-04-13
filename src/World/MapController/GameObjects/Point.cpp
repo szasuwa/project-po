@@ -84,7 +84,7 @@ GameObjectClassType Point::getClassType() const
 }
 
 void Point::serializeObject(std::ostream & ss) const {
-	ss << getClassType() << SERIALIZABLE_FIELD_DELIMITER;
+	ss << (int)(getClassType()) << SERIALIZABLE_FIELD_DELIMITER;
 	GameObject::serializeObject(ss);
 	ss << ((sf::CircleShape*)fDrawable)->getRadius() << SERIALIZABLE_FIELD_DELIMITER;
 	ss << ((sf::CircleShape*)fDrawable)->getFillColor().toInteger() << SERIALIZABLE_FIELD_DELIMITER;

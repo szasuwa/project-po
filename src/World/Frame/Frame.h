@@ -9,7 +9,7 @@
 class Frame
 {
 public:
-	enum FrameLayer {
+	enum class FrameLayer {
 		MapArea,
 		Interface,
 		num_values
@@ -25,7 +25,7 @@ private:
 	int fFrameRate;
 
 	FrameLayer fActiveView;
-	sf::View fViewLayers[FrameLayer::num_values];
+	sf::View fViewLayers[(int)(FrameLayer::num_values)];
 
 	Frame();
 	Frame(const Frame &o);

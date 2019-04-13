@@ -11,10 +11,11 @@ void GameEngine::initGame()
 	fMapManager.load("map1");
 	
 	fInterface.updateView();
-	fInterface.addInterface(InterfaceController::InterfaceType::Debug, false);
-	fInterface.addInterface(InterfaceController::InterfaceType::Info);
-	fInterface.addInterface(InterfaceController::InterfaceType::MapEditor, false);
-	fInterface.addInterface(InterfaceController::InterfaceType::User);
+	fInterface.addInterface(InterfaceType::Debug, false);
+	fInterface.addInterface(InterfaceType::Info);
+	fInterface.addInterface(InterfaceType::MapEditor, false);
+	fInterface.addInterface(InterfaceType::User);
+	fInterface.addInterface(InterfaceType::Controls);
 }
 
 void GameEngine::gameLoop()
@@ -51,58 +52,58 @@ void GameEngine::gameLoop()
 
 void GameEngine::handleTriggers()
 {
-	if (fKeyController.getKeyGroup(KeyController::Debug).wasToggled() && fKeyController.getKeyGroup(KeyController::Debug).isPressed())
+	if (fKeyController.getKeyGroup(KeyBinding::Debug).wasToggled() && fKeyController.getKeyGroup(KeyBinding::Debug).isPressed())
 	{
-		fInterface.toggleInterfaceVisibility(InterfaceController::InterfaceType::Debug);
+		fInterface.toggleInterfaceVisibility(InterfaceType::Debug);
 	}
 
 	
 		
 	if (fIsEditingMap) 
 	{
-		if (fKeyController.getKeyGroup(KeyController::MapEditorTime).wasToggled() && fKeyController.getKeyGroup(KeyController::MapEditorTime).isPressed())
+		if (fKeyController.getKeyGroup(KeyBinding::MapEditorTime).wasToggled() && fKeyController.getKeyGroup(KeyBinding::MapEditorTime).isPressed())
 		{
 			fTimeFlowEnabled = !fTimeFlowEnabled;
 			MapEditorInterface::reportTimeFlowStatus(fTimeFlowEnabled);
 		}
 
-		if (fKeyController.getKeyGroup(KeyController::MapEditorSave).wasToggled() && fKeyController.getKeyGroup(KeyController::MapEditorSave).isPressed())
+		if (fKeyController.getKeyGroup(KeyBinding::MapEditorSave).wasToggled() && fKeyController.getKeyGroup(KeyBinding::MapEditorSave).isPressed())
 		{
 			fMapManager.saveEditedMap();
 		}
 
-		if (fKeyController.getKeyGroup(KeyController::MapEditorReset).wasToggled() && fKeyController.getKeyGroup(KeyController::MapEditorReset).isPressed())
+		if (fKeyController.getKeyGroup(KeyBinding::MapEditorReset).wasToggled() && fKeyController.getKeyGroup(KeyBinding::MapEditorReset).isPressed())
 		{
 			fMapManager.resetEditedMap();
 		}		
 
-		if (fKeyController.getKeyGroup(KeyController::MapEditorExit).wasToggled() && fKeyController.getKeyGroup(KeyController::MapEditorExit).isPressed())
+		if (fKeyController.getKeyGroup(KeyBinding::MapEditorExit).wasToggled() && fKeyController.getKeyGroup(KeyBinding::MapEditorExit).isPressed())
 		{
 			fIsEditingMap = !fIsEditingMap;
 			fTimeFlowEnabled = true;
-			fInterface.setInterfaceVisibility(fIsEditingMap, InterfaceController::InterfaceType::MapEditor);
-			fInterface.setInterfaceVisibility(true, InterfaceController::InterfaceType::Info);
+			fInterface.setInterfaceVisibility(fIsEditingMap, InterfaceType::MapEditor);
+			fInterface.setInterfaceVisibility(true, InterfaceType::Info);
 			fMapManager.stopEditing();
 		}
 
-		if (fKeyController.getKeyGroup(KeyController::MapEditorCancel).wasToggled() && fKeyController.getKeyGroup(KeyController::MapEditorCancel).isPressed())
+		if (fKeyController.getKeyGroup(KeyBinding::MapEditorCancel).wasToggled() && fKeyController.getKeyGroup(KeyBinding::MapEditorCancel).isPressed())
 		{
 			fIsEditingMap = !fIsEditingMap;
 			fTimeFlowEnabled = true;
-			fInterface.setInterfaceVisibility(fIsEditingMap, InterfaceController::InterfaceType::MapEditor);
-			fInterface.setInterfaceVisibility(true, InterfaceController::InterfaceType::Info);
+			fInterface.setInterfaceVisibility(fIsEditingMap, InterfaceType::MapEditor);
+			fInterface.setInterfaceVisibility(true, InterfaceType::Info);
 			fMapManager.cancelEditing();
 		}
 	}
 	else 
 	{
-		if (fKeyController.getKeyGroup(KeyController::MapEditor).wasToggled() && fKeyController.getKeyGroup(KeyController::MapEditor).isPressed())
+		if (fKeyController.getKeyGroup(KeyBinding::MapEditor).wasToggled() && fKeyController.getKeyGroup(KeyBinding::MapEditor).isPressed())
 		{
 			fIsEditingMap = !fIsEditingMap;
 			fTimeFlowEnabled = false;
 			MapEditorInterface::reportTimeFlowStatus(fTimeFlowEnabled);
-			fInterface.setInterfaceVisibility(fIsEditingMap, InterfaceController::InterfaceType::MapEditor);
-			fInterface.setInterfaceVisibility(false, InterfaceController::InterfaceType::Info);
+			fInterface.setInterfaceVisibility(fIsEditingMap, InterfaceType::MapEditor);
+			fInterface.setInterfaceVisibility(false, InterfaceType::Info);
 			fMapManager.startEditing();
 		}
 	}

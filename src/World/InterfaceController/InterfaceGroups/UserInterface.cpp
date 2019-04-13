@@ -1,9 +1,6 @@
 #include "UserInterface.h"
 int UserInterface::fPoints = 0;
 
-UserInterface::UserInterface() : InterfaceGroup()
-{
-}
 
 UserInterface::UserInterface(const Alignment & a) : InterfaceGroup(a)
 {

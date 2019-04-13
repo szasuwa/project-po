@@ -8,7 +8,7 @@
 
 class InterfaceGroup {
 public:
-	enum Alignment {
+	enum class Alignment {
 		Left,
 		Right,
 		Center

@@ -16,7 +16,7 @@ class MapEditorInterface : public InterfaceGroup {
 	static bool fTimeFlowStatus;
 	static bool fTimeFlowUpdated;
 
-	InterfaceSeparator fSeparator = InterfaceSeparator(50);
+	InterfaceSeparator fSeparator;
 
 	InterfaceText fTimeKey;
 	InterfaceText fResetKey;
@@ -40,7 +40,6 @@ class MapEditorInterface : public InterfaceGroup {
 	InterfaceText fGhostPointKey;
 
 public:
-	MapEditorInterface();
 	explicit MapEditorInterface(const Alignment & a);
 	void update();
 

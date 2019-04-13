@@ -1,36 +1,9 @@
 #pragma once
 #include "KeyGroup.h"
+#include "KeyBinding.h"
 
 
 class KeyController {
-public:
-	enum KeyBinding {
-		CameraLeft,
-		CameraRight,
-		CameraUp,
-		CameraDown,
-		MoveLeft,
-		MoveRight,
-		Jump,
-		Debug,
-		MapEditor,
-		MapEditorTime,
-		MapEditorMove,
-		MapEditorResize,
-		MapEditorVLock,
-		MapEditorHLock,
-		MapEditorGridLock,
-		MapEditorDelete,
-		MapEditorClone,
-		MapEditorGhostPlayer,
-		MapEditorGhostPlatform,
-		MapEditorGhostPoint,
-		MapEditorReset,
-		MapEditorSave,
-		MapEditorExit,
-		MapEditorCancel
-	};
-
 private:
 	static KeyController * instance;
 

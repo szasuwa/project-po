@@ -30,16 +30,16 @@ void MapEditor::handleGrid()
 
 	sf::Vector2f cam;
 
-	if (fKey.getKeyGroup(KeyController::CameraLeft).isPressed())
+	if (fKey.getKeyGroup(KeyBinding::CameraLeft).isPressed())
 		cam.x -= 10;
 
-	if (fKey.getKeyGroup(KeyController::CameraRight).isPressed())
+	if (fKey.getKeyGroup(KeyBinding::CameraRight).isPressed())
 		cam.x += 10;
 
-	if (fKey.getKeyGroup(KeyController::CameraUp).isPressed())
+	if (fKey.getKeyGroup(KeyBinding::CameraUp).isPressed())
 		cam.y -= 10;
 
-	if (fKey.getKeyGroup(KeyController::CameraDown).isPressed())
+	if (fKey.getKeyGroup(KeyBinding::CameraDown).isPressed())
 		cam.y += 10;
 
 	fMap.moveCamera(cam);
@@ -47,9 +47,9 @@ void MapEditor::handleGrid()
 
 void MapEditor::handleModeSelection()
 {
-	if (fKey.getKeyGroup(KeyController::MapEditorMove).isPressed() || fMoveObject)
+	if (fKey.getKeyGroup(KeyBinding::MapEditorMove).isPressed() || fMoveObject)
 		fMode = EditorMode::Move;
-	else if (fKey.getKeyGroup(KeyController::MapEditorResize).isPressed() || fResizeObject)
+	else if (fKey.getKeyGroup(KeyBinding::MapEditorResize).isPressed() || fResizeObject)
 		fMode = EditorMode::Resize;
 	else if (fGhost != nullptr)
 		fMode = EditorMode::Ghost;
@@ -59,7 +59,7 @@ void MapEditor::handleModeSelection()
 
 void MapEditor::handleDeletion()
 {
-	if (fKey.getKeyGroup(KeyController::MapEditorDelete).isPressed())
+	if (fKey.getKeyGroup(KeyBinding::MapEditorDelete).isPressed())
 	{
 		if (fSelectedObject != nullptr) 
 		{
@@ -77,7 +77,7 @@ void MapEditor::handleDeletion()
 
 void MapEditor::handleClone()
 {
-	if (fSelectedObject != nullptr && !fCloned && fKey.getKeyGroup(KeyController::MapEditorClone).isPressed())
+	if (fSelectedObject != nullptr && !fCloned && fKey.getKeyGroup(KeyBinding::MapEditorClone).isPressed())
 	{
 		fCloned = true;
 		GameObject * temp;
@@ -100,26 +100,26 @@ void MapEditor::handleClone()
 		fMoveObject = true;
 	}
 
-	if (fCloned && fKey.getKeyGroup(KeyController::MapEditorClone).isReleased())
+	if (fCloned && fKey.getKeyGroup(KeyBinding::MapEditorClone).isReleased())
 		fCloned = !fCloned;
 }
 
 void MapEditor::handleAxes()
 {
 	//Axis Locking and Grid Snapping
-	if (fKey.getKeyGroup(KeyController::MapEditorVLock).wasToggled() && fKey.getKeyGroup(KeyController::MapEditorVLock).isPressed())
+	if (fKey.getKeyGroup(KeyBinding::MapEditorVLock).wasToggled() && fKey.getKeyGroup(KeyBinding::MapEditorVLock).isPressed())
 	{
 		fVerticalLock = !fVerticalLock;
 		MapEditorInterface::reportAxisLockStatus(fVerticalLock, fHorizontalLock);
 	}
 
-	if (fKey.getKeyGroup(KeyController::MapEditorHLock).wasToggled() && fKey.getKeyGroup(KeyController::MapEditorHLock).isPressed())
+	if (fKey.getKeyGroup(KeyBinding::MapEditorHLock).wasToggled() && fKey.getKeyGroup(KeyBinding::MapEditorHLock).isPressed())
 	{
 		fHorizontalLock = !fHorizontalLock;
 		MapEditorInterface::reportAxisLockStatus(fVerticalLock, fHorizontalLock);
 	}
 
-	if (fKey.getKeyGroup(KeyController::MapEditorGridLock).wasToggled() && fKey.getKeyGroup(KeyController::MapEditorGridLock).isPressed())
+	if (fKey.getKeyGroup(KeyBinding::MapEditorGridLock).wasToggled() && fKey.getKeyGroup(KeyBinding::MapEditorGridLock).isPressed())
 	{
 		fSnapToGrid = !fSnapToGrid;
 		MapEditorInterface::reportGridSnapStatus(fSnapToGrid);
@@ -128,13 +128,13 @@ void MapEditor::handleAxes()
 
 void MapEditor::handleGhost()
 {
-	if (fKey.getKeyGroup(KeyController::MapEditorGhostPlayer).wasToggled() && fKey.getKeyGroup(KeyController::MapEditorGhostPlayer).isPressed())
+	if (fKey.getKeyGroup(KeyBinding::MapEditorGhostPlayer).wasToggled() && fKey.getKeyGroup(KeyBinding::MapEditorGhostPlayer).isPressed())
 		loadGhost(GameObjectClassType::PLAYER);
 
-	if (fKey.getKeyGroup(KeyController::MapEditorGhostPlatform).wasToggled() && fKey.getKeyGroup(KeyController::MapEditorGhostPlatform).isPressed())
+	if (fKey.getKeyGroup(KeyBinding::MapEditorGhostPlatform).wasToggled() && fKey.getKeyGroup(KeyBinding::MapEditorGhostPlatform).isPressed())
 		loadGhost(GameObjectClassType::PLATFORM);
 
-	if (fKey.getKeyGroup(KeyController::MapEditorGhostPoint).wasToggled() && fKey.getKeyGroup(KeyController::MapEditorGhostPoint).isPressed())
+	if (fKey.getKeyGroup(KeyBinding::MapEditorGhostPoint).wasToggled() && fKey.getKeyGroup(KeyBinding::MapEditorGhostPoint).isPressed())
 		loadGhost(GameObjectClassType::POINT);
 }
 
@@ -146,10 +146,10 @@ void MapEditor::handleMouse()
 		fIsLmbPressed = true;
 
 		switch (fMode) {
-			case MapEditor::None:
+			case EditorMode::None:
 				selectObject();
 				break;
-			case MapEditor::Resize:
+			case EditorMode::Resize:
 				if (fSelectedObject == nullptr) 
 					selectObject();
 
@@ -159,7 +159,7 @@ void MapEditor::handleMouse()
 				}
 
 				break;
-			case MapEditor::Move:
+			case EditorMode::Move:
 				if (fSelectedObject == nullptr)
 					selectObject();
 			
@@ -170,7 +170,7 @@ void MapEditor::handleMouse()
 					fMoveObject = true;
 				}
 				break;
-			case MapEditor::Ghost:
+			case EditorMode::Ghost:
 				if (fGhost != nullptr) 
 				{
 					fMap.addGameObject(fGhost);
@@ -198,10 +198,10 @@ void MapEditor::handleActions()
 	{
 		switch (fMode)
 		{
-			case MapEditor::Resize:
+			case EditorMode::Resize:
 				fSelectedObject->resize(fFrame.getMousePosition(Frame::FrameLayer::MapArea), fSnapToGrid, fVerticalLock, fHorizontalLock);
 				break;
-			case MapEditor::Move:
+			case EditorMode::Move:
 				fSelectedObject->setPosition(fFrame.getMousePosition(Frame::FrameLayer::MapArea) + fLastMouseOffset, fSnapToGrid, fVerticalLock, fHorizontalLock);
 				break;
 			default:

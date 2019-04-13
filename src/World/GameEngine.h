@@ -18,7 +18,11 @@ class GameEngine
 	InterfaceController fInterface;
 	MapController fMapManager;
 
+	bool fIsEditingMap = false;
+	bool fTimeFlowEnabled = true;
+
 	void initGame();
+	void handleTriggers();
 	void handleEvents();
 
 public:

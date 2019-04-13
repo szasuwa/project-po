@@ -1,5 +1,6 @@
 #pragma once
 #include <SFML/Graphics/RenderWindow.hpp>
+#include <SFML/Window/Mouse.hpp>
 #include <SFML/System/Vector2.hpp>
 #include <SFML/System/Clock.hpp>
 #include <algorithm>
@@ -36,6 +37,7 @@ public:
 	void updateView(const sf::View & v, const FrameLayer & layer);
 	void draw(const sf::Drawable & o, const FrameLayer & layer);
 
+	sf::Vector2f getMousePosition(const FrameLayer & layer);
 	void setWindow(sf::RenderWindow & w);
 	float getMaxFrameTime() const;
 	float getFrameTime() const;

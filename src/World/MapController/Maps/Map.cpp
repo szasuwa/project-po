@@ -8,6 +8,39 @@ Map::Map()
 	fCamera = sf::FloatRect(w/2, h/2, w, h);
 }
 
+Map::Map(const Map & o)
+{
+	fCamera = o.fCamera;
+	fMapBoundaries = o.fMapBoundaries;
+	fDecelerationRate = o.fDecelerationRate;
+	fDecelerationSmoothRate = o.fDecelerationSmoothRate;
+	fGravityRate = o.fGravityRate;
+	fMaxGravityForce = o.fMaxGravityForce;
+
+	for (GameObject * obj : o.fGameObjectList) 
+	{
+		if (obj == nullptr)
+			continue;
+
+		switch (obj->getClassType())
+		{
+			case GameObjectClassType::PLAYER:
+				fGameObjectList.push_back(new Player(*(Player *)obj));
+				break;
+			case GameObjectClassType::PLATFORM:
+				fGameObjectList.push_back(new Platform(*(Platform *)obj));
+				break;
+			case GameObjectClassType::POINT:
+				fGameObjectList.push_back(new Point(*(Point *)obj));
+				break;
+		default:
+			break;
+		}
+
+		fGameObjectList.back()->setMap(this);
+	}
+}
+
 Map::~Map() 
 {
 	destroyAllGameObjects();
@@ -139,4 +172,42 @@ void Map::broadcastDraw() const
 			fGameObjectList[i]->draw();
 		}
 	}
+}
+
+Map & Map::operator=(const Map & o)
+{
+	if (this == &o)
+		return *this;
+
+	fCamera = o.fCamera;
+	fMapBoundaries = o.fMapBoundaries;
+	fDecelerationRate = o.fDecelerationRate;
+	fDecelerationSmoothRate = o.fDecelerationSmoothRate;
+	fGravityRate = o.fGravityRate;
+	fMaxGravityForce = o.fMaxGravityForce;
+
+	for (GameObject * obj : o.fGameObjectList)
+	{
+		if (obj == nullptr)
+			continue;
+
+		switch (obj->getClassType())
+		{
+		case GameObjectClassType::PLAYER:
+			fGameObjectList.push_back(new Player(*(Player *)obj));
+			break;
+		case GameObjectClassType::PLATFORM:
+			fGameObjectList.push_back(new Platform(*(Platform *)obj));
+			break;
+		case GameObjectClassType::POINT:
+			fGameObjectList.push_back(new Point(*(Point *)obj));
+			break;
+		default:
+			break;
+		}
+
+		fGameObjectList.back()->setMap(this);
+	}
+	
+	return *this;
 }

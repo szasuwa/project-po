@@ -6,6 +6,9 @@
 #include "MapBoundaries.h"
 #include "../GameObjects/Interfaces/GameObject.h"
 #include "../GameObjects/Interfaces/PhysicalObject.h"
+#include "../GameObjects/Player.h"
+#include "../GameObjects/Platform.h"
+#include "../GameObjects/Point.h"
 
 class MapController;
 
@@ -24,6 +27,7 @@ class Map {
 
 public:
 	Map();
+	Map(const Map & o);
 	~Map();
 
 	void addGameObject(GameObject* obj);
@@ -40,4 +44,6 @@ public:
 	
 	void broadcastUpdate();
 	void broadcastDraw() const;
+
+	Map & operator=(const Map & o);
 };

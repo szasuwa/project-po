@@ -116,6 +116,53 @@ void MapController::deserializeMap(const std::string & s, Map * map)
 	}
 }
 
+void MapController::startEditing()
+{
+	fEditedMap = fActiveMap;
+
+	fEditor = new MapEditor();
+	fActiveMap = fEditor->loadMap(*fEditedMap);
+}
+
+void MapController::saveEditedMap()
+{
+	if (fEditor == nullptr)
+		return;
+
+	save("editedmap", *fActiveMap);
+}
+
+void MapController::resetEditedMap() 
+{
+	if (fEditor == nullptr)
+		return;
+
+	fEditor->loadMap(*fEditedMap);
+}
+
+void MapController::stopEditing()
+{
+	if (fEditor == nullptr)
+		return;
+
+	fMapList.push_back(Map(*fActiveMap));
+	fActiveMap = &fMapList.back();
+	fEditedMap = nullptr;
+	delete fEditor;
+	fEditor = nullptr;
+}
+
+void MapController::cancelEditing()
+{
+	if (fEditor == nullptr)
+		return;
+
+	fActiveMap = fEditedMap;
+	fEditedMap = nullptr;
+	delete fEditor;
+	fEditor = nullptr;
+}
+
 void MapController::updateCamera()
 {
 	if (fActiveMap == nullptr)
@@ -130,6 +177,14 @@ void MapController::updateMap()
 		return;
 
 	fActiveMap->broadcastUpdate();
+}
+
+void MapController::updateEditor()
+{
+	if (fActiveMap == nullptr || fEditor == nullptr)
+		return;
+
+	fEditor->update();
 }
 
 void MapController::drawMap()

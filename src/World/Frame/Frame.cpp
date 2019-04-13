@@ -7,7 +7,7 @@ Frame::Frame()
 	fClk.restart();
 }
 
-Frame & Frame::getInstance() 
+Frame & Frame::getInstance()
 {
 	if (instance == nullptr)
 		instance = new Frame();
@@ -46,6 +46,22 @@ void Frame::draw(const sf::Drawable & o, const FrameLayer & layer)
 	fWindow->draw(o);
 }
 
+sf::Vector2f Frame::getMousePosition(const FrameLayer & layer) 
+{
+	if (fWindow == nullptr)
+		return sf::Vector2f();
+
+	if (layer < 0 || layer >= FrameLayer::num_values)
+		return sf::Vector2f();;
+
+	if (fActiveView != layer)
+	{
+		fActiveView = layer;
+		fWindow->setView(fViewLayers[layer]);
+	}
+
+	return fWindow->mapPixelToCoords(sf::Mouse::getPosition(*fWindow));
+}
 void Frame::setWindow(sf::RenderWindow & w) 
 {
 	fWindow = &w;

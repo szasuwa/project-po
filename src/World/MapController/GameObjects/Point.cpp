@@ -59,7 +59,7 @@ void Point::resize(const sf::Vector2f & p, bool gridSnap, bool vLock, bool hLock
 
 	if (hLock) 
 	{
-		radius = std::abs(p.y - pos.y);
+		radius = p.y - pos.y;
 		radius = (gridSnap ? std::abs(MapGrid::roundToGrid(p.y) - MapGrid::roundToGrid(pos.y)) : std::abs(p.y - pos.y));
 	} else if(vLock) 
 	{
@@ -67,8 +67,8 @@ void Point::resize(const sf::Vector2f & p, bool gridSnap, bool vLock, bool hLock
 	}
 	else 
 	{
-		radius = std::max((gridSnap ? std::abs(MapGrid::roundToGrid(p.y) - MapGrid::roundToGrid(pos.y)) : std::abs(p.y - pos.y)), 
-			(gridSnap ? std::abs(MapGrid::roundToGrid(p.x) - MapGrid::roundToGrid(pos.x)) : std::abs(p.x - pos.x)));
+		radius = std::max((gridSnap ? MapGrid::roundToGrid(p.y) - MapGrid::roundToGrid(pos.y) : p.y - pos.y), 
+			(gridSnap ? MapGrid::roundToGrid(p.x) - MapGrid::roundToGrid(pos.x) : p.x - pos.x));
 	}
 
 	shape->setRadius(radius);

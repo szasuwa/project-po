@@ -57,7 +57,7 @@ void InterfaceController::draw() const {
 	}
 }
 
-void InterfaceController::addInterface(const InterfaceType & i)
+void InterfaceController::addInterface(const InterfaceType & i, const bool & v)
 {
 	switch (i)
 	{
@@ -76,6 +76,7 @@ void InterfaceController::addInterface(const InterfaceType & i)
 		default:
 			return;
 	}
+	fInterfaceGroups[i]->setVisibility(v);
 }
 
 void InterfaceController::setInterfaceVisibility(const bool & v, const InterfaceType & i)
@@ -87,4 +88,15 @@ void InterfaceController::setInterfaceVisibility(const bool & v, const Interface
 		return;
 
 	fInterfaceGroups[i]->setVisibility(v);
+}
+
+void InterfaceController::toggleInterfaceVisibility(const InterfaceType & i)
+{
+	if (i < 0 && i >= InterfaceController::num_values)
+		return;
+
+	if (fInterfaceGroups[i] == nullptr)
+		return;
+
+	fInterfaceGroups[i]->toggleVisibility();
 }

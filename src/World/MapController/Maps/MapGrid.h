@@ -5,6 +5,7 @@
 #include <SFML/Graphics/RenderTarget.hpp>
 
 #include "../../Frame/Frame.h"
+#include "MapBoundaries.h"
 
 
 class MapGrid : public sf::Drawable, public sf::Transformable {
@@ -19,7 +20,7 @@ class MapGrid : public sf::Drawable, public sf::Transformable {
 public:
 	MapGrid();
 
-	void update();
+	void update(const MapBoundaries & map);
 
 	/*
 		Rounding formula:

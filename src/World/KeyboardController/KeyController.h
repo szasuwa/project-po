@@ -14,6 +14,7 @@ public:
 		Jump,
 		Debug,
 		MapEditor,
+		MapEditorTime,
 		MapEditorMove,
 		MapEditorResize,
 		MapEditorVLock,
@@ -25,7 +26,9 @@ public:
 		MapEditorGhostPlatform,
 		MapEditorGhostPoint,
 		MapEditorReset,
-		MapEditorSave
+		MapEditorSave,
+		MapEditorExit,
+		MapEditorCancel
 	};
 
 private:
@@ -41,6 +44,7 @@ private:
 		KeyGroup({sf::Keyboard::Key::W, sf::Keyboard::Key::Space}),				//Jump
 		KeyGroup({sf::Keyboard::Key::F3}),										//Debug
 		KeyGroup({sf::Keyboard::Key::F2}),										//MapEditor
+		KeyGroup({sf::Keyboard::Key::F1}),										//MapEditorTime
 		KeyGroup({sf::Keyboard::Key::LControl, sf::Keyboard::Key::RControl}),	//MapEditorMove
 		KeyGroup({sf::Keyboard::Key::LShift, sf::Keyboard::Key::RShift}),		//MapEditorResize
 		KeyGroup({sf::Keyboard::Key::Q}),										//MapEditorVLock
@@ -51,8 +55,10 @@ private:
 		KeyGroup({sf::Keyboard::Key::Num1, sf::Keyboard::Key::Numpad1}),		//MapEditorGhostPlayer
 		KeyGroup({sf::Keyboard::Key::Num2, sf::Keyboard::Key::Numpad2}),		//MapEditorGhostPlatform
 		KeyGroup({sf::Keyboard::Key::Num3, sf::Keyboard::Key::Numpad3}),		//MapEditorGhostPoint
-		KeyGroup({sf::Keyboard::Key::Escape}),									//MapEditorReset
-		KeyGroup({sf::Keyboard::Key::F1})										//MapEditorSave
+		KeyGroup({sf::Keyboard::Key::F5}),										//MapEditorReset
+		KeyGroup({sf::Keyboard::Key::F6}),										//MapEditorSave
+		KeyGroup({sf::Keyboard::Key::F8}),										//MapEditorExit
+		KeyGroup({sf::Keyboard::Key::F9})										//MapEditorCancel
 	};
 
 	KeyController();

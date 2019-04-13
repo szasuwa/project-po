@@ -3,16 +3,12 @@
 #include <string>
 
 #include "InterfaceItem.h"
-#include "../../Frame/Frame.h"
 
 
-class InterfaceText : public InterfaceItem {
-	static float F_TEXT_HEIGHT_OFFSET;
-	sf::Text fText;
-
+class InterfaceSeparator : public InterfaceItem {
+	float fHeight;
 public:
-	InterfaceText();
-	void setText(const std::string &txt);
+	explicit InterfaceSeparator(float h = 5);
 	virtual void draw() const;
 	virtual void setPosition(const sf::Vector2f & p);
 	virtual float getWidth() const;

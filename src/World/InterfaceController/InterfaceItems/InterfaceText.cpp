@@ -19,9 +19,10 @@ void InterfaceText::setText(const std::string &txt)
 	fText.setString(txt);
 }
 
-const sf::Drawable & InterfaceText::getDrawable() const
+void InterfaceText::draw() const
 {
-	return fText;
+	if(fVisible)
+		Frame::getInstance().draw(fText, Frame::FrameLayer::Interface);
 }
 
 void InterfaceText::setPosition(const sf::Vector2f & p)

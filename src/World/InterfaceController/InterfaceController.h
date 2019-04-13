@@ -26,6 +26,7 @@ public:
 	void updateView();
 	void update();
 	void draw() const;
-	void addInterface(const InterfaceType & i);
+	void addInterface(const InterfaceType & i, const bool & v = true);
 	void setInterfaceVisibility(const bool & v, const InterfaceType & i);
+	void toggleInterfaceVisibility(const InterfaceType & i);
 };

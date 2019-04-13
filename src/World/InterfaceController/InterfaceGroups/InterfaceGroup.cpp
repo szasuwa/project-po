@@ -10,12 +10,11 @@ void InterfaceGroup::drawGroup() const
 	if (!fVisible)
 		return;
 
-	Frame & frame = Frame::getInstance();
 	for (InterfaceItem * item : fItemList) 
 	{
-		if (item != nullptr && item->getVisibility()) 
+		if (item != nullptr) 
 		{
-			frame.draw(item->getDrawable(), Frame::FrameLayer::Interface);
+			item->draw();
 		}
 	}
 }
@@ -82,6 +81,12 @@ void InterfaceGroup::setVisibility(const bool & v)
 {
 	fVisible = v;
 }
+
+void InterfaceGroup::toggleVisibility()
+{
+	fVisible = !fVisible;
+}
+
 
 InterfaceGroup::Alignment InterfaceGroup::getAlignment() const
 {

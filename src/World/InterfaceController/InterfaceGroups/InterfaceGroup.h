@@ -31,6 +31,7 @@ public:
 
 	bool getVisibility() const;
 	void setVisibility(const bool &v);
+	void toggleVisibility();
 	Alignment getAlignment() const;
 	void setAlignment(const Alignment &align);
 };

@@ -8,18 +8,21 @@
 #include "GameObjects/Player.h"
 #include "GameObjects/Platform.h"
 #include "GameObjects/Point.h"
+#include "Maps/MapEditor.h"
 
 
 class MapController
 {
 	const std::string F_MAP_PATH = "res/";
 	std::vector<Map> fMapList;
-	Map * fActiveMap;
+	Map * fActiveMap = nullptr;
+	Map * fEditedMap = nullptr;
+	MapEditor * fEditor = nullptr;
 
 public:
 	Map * load(const int & id);
 	Map * load(const std::string & name);
-	void save(const std::string & name, const const Map & map) const;
+	void save(const std::string & name, const Map & map) const;
 
 	/*
 		<<Data format>>
@@ -50,8 +53,15 @@ public:
 	GameObject * deserializeGameObject(const std::string s);
 	void deserializeMap(const std::string & s, Map * map);
 
+	void startEditing();
+	void saveEditedMap();
+	void resetEditedMap();
+	void stopEditing();
+	void cancelEditing();
+
 	void updateCamera();
 	void updateMap();
+	void updateEditor();
 	void drawMap();
 };
 

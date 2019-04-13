@@ -15,7 +15,7 @@ void InterfaceGroup::drawGroup() const
 	{
 		if (item != nullptr && item->getVisibility()) 
 		{
-			frame.draw(item->getDrawable());
+			frame.draw(item->getDrawable(), Frame::FrameLayer::Interface);
 		}
 	}
 }

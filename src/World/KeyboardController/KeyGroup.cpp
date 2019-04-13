@@ -8,7 +8,7 @@ KeyGroup::KeyGroup(const std::vector<sf::Keyboard::Key> & keys)
 
 void KeyGroup::update() 
 {
-	fIsPressed = fIsPressed;
+	fWasPressed = fIsPressed;
 	fIsPressed = false;
 	for (sf::Keyboard::Key k : fKeys)
 	{
@@ -16,18 +16,21 @@ void KeyGroup::update()
 	}
 }
 
-bool KeyGroup::isPressed() const
+bool KeyGroup::isPressed()
 {
+	update();
 	return fIsPressed;
 }
 
-bool KeyGroup::isReleased()  const
+bool KeyGroup::isReleased()
 {
+	update();
 	return !fIsPressed;
 }
 
-bool KeyGroup::wasToggled()  const
+bool KeyGroup::wasToggled()
 {
+	update();
 	return (fIsPressed != fWasPressed);
 }
 
@@ -37,15 +40,13 @@ std::string KeyGroup::toString() const
 	std::string out = "[";
 	for (sf::Keyboard::Key k : fKeys)
 	{
-		if (first) 
-		{
-			!first;
-		}
-		else {
+		if (out.length() > 1) 
 			out += "/";
-		}
+
 		out += getKeyName(k);
 	}
+	out += "]";
+	return out;
 }
 
 const std::string KeyGroup::getKeyName(const sf::Keyboard::Key & key) const {

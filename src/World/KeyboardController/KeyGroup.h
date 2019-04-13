@@ -9,12 +9,14 @@ class KeyGroup {
 	bool fIsPressed = false;
 
 	const std::string KeyGroup::getKeyName(const sf::Keyboard::Key & key) const;
+	void update();
 
 public:
 	KeyGroup(const std::vector<sf::Keyboard::Key> & keys);
-	void update();
-	bool isPressed() const;
-	bool isReleased() const;
-	bool wasToggled() const;
+
+	bool isPressed();
+	bool isReleased();
+	bool wasToggled();
+
 	std::string toString() const;
 };

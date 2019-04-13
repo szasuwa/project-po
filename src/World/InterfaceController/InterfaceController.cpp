@@ -1,5 +1,21 @@
 #include "InterfaceController.h"
 
+
+InterfaceController::~InterfaceController() 
+{
+	for (InterfaceGroup * item : fInterfaceGroups)
+	{
+		delete item;
+	}
+}
+
+void InterfaceController::updateView()
+{
+	Frame & f = Frame::getInstance();
+	sf::View view(sf::FloatRect(0,0, f.getFrameWidth(), f.getFrameHeight()));
+	f.updateView(view, Frame::FrameLayer::Interface);
+}
+
 void InterfaceController::update() 
 {
 	float fLeftHeight, fCenterHeight, fRightHeight;
@@ -41,21 +57,21 @@ void InterfaceController::draw() const {
 	}
 }
 
-int InterfaceController::addInterface(const InterfaceType & i)
+void InterfaceController::addInterface(const InterfaceType & i)
 {
 	switch (i)
 	{
 		case User:
-			fInterfaceGroups[i] = &UserInterface(InterfaceGroup::Alignment::Center);;
+			fInterfaceGroups[i] = new UserInterface(InterfaceGroup::Alignment::Center);
 			break;
 		case Info:
-			fInterfaceGroups[i] = &InfoInterface(InterfaceGroup::Alignment::Left);
+			fInterfaceGroups[i] = new InfoInterface(InterfaceGroup::Alignment::Left);
 			break;
 		case Debug:
-			fInterfaceGroups[i] = &DebugInterface(InterfaceGroup::Alignment::Right);
+			fInterfaceGroups[i] = new DebugInterface(InterfaceGroup::Alignment::Right);
 			break;
 		case MapEditor:
-			fInterfaceGroups[i] = &MapEditorInterface(InterfaceGroup::Alignment::Left);
+			fInterfaceGroups[i] = new MapEditorInterface(InterfaceGroup::Alignment::Left);
 			break;
 		default:
 			return;
@@ -64,7 +80,7 @@ int InterfaceController::addInterface(const InterfaceType & i)
 
 void InterfaceController::setInterfaceVisibility(const bool & v, const InterfaceType & i)
 {
-	if (i == InterfaceController::num_values)
+	if (i < 0 && i >= InterfaceController::num_values)
 		return;
 
 	if (fInterfaceGroups[i] == nullptr)

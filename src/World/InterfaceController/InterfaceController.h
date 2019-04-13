@@ -19,11 +19,13 @@ public:
 	};
 
 private:
-	std::vector<InterfaceGroup*> fInterfaceGroups = std::vector<InterfaceGroup*>(num_values, nullptr);
+	InterfaceGroup* fInterfaceGroups[num_values];
 
 public:
+	~InterfaceController();
+	void updateView();
 	void update();
 	void draw() const;
-	int addInterface(const InterfaceType & i);
+	void addInterface(const InterfaceType & i);
 	void setInterfaceVisibility(const bool & v, const InterfaceType & i);
 };

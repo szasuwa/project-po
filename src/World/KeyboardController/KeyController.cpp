@@ -1,20 +1,19 @@
 #include "KeyController.h"
+KeyController * KeyController::instance = nullptr;
+
+KeyController::KeyController()
+{
+}
 
 KeyController & KeyController::getInstance() 
 {
-	static KeyController instance;
-	return instance;
+	if (instance == nullptr)
+		instance = new KeyController();
+
+	return *instance;
 }
 
-void KeyController::update() 
-{
-	for (KeyGroup k : fKeyBindings) 
-	{
-		k.update();
-	}
-}
-
-const KeyGroup & KeyController::getKeyGroup(const KeyBinding & key) const 
+KeyGroup & KeyController::getKeyGroup(const KeyBinding & key)
 {
 	return fKeyBindings[key];
 }

@@ -1,2 +1,16 @@
+#pragma once
 #include <string>
+#include <SFML/Config.hpp>
 const std::string GAME_VERSION = "0.1"; 
+
+const char SERIALIZABLE_OBJECT_DELIMITER = '\n';
+const char SERIALIZABLE_FIELD_DELIMITER = ' ';
+
+const sf::Vector2f PLAYER_SIZE(10, 10);
+const sf::Color PLAYER_COLOR(1278476287);
+
+const sf::Vector2f PLATFORM_SIZE(20, 5);
+const sf::Color PLATFORM_COLOR(2105376255);
+
+const float POINT_RADIUS = 5;
+const  sf::Color POINT_COLOR(4291366655);

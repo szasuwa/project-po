@@ -1,0 +1,72 @@
+#pragma once
+#include <SFML/Graphics.hpp>
+#include <algorithm>
+
+#include "Interfaces/PhysicalObject.h"
+#include "../../Frame/FrameMargin.h"
+#include "../../InterfaceController/InterfaceGroups/UserInterface.h"
+#include "../../KeyboardController/KeyController.h"
+#include "../Maps/MapBoundaries.h"
+
+
+class Player : public PhysicalObject
+{
+	//Movement
+	float fSpeed = 250.f;
+	float fJumpForce = 500.f;
+	FrameMargin fScrollZone{ 0.3f,0.3f,0.3f,0.3f };
+	int fScore = 0;
+
+	void controlMovement();
+	void checkCollision(const GameObject & obj);
+	void updateGui();
+
+public:
+	explicit Player(Map* map = nullptr);
+	Player(const sf::Vector2f & position, Map * map = nullptr);
+	Player(const sf::Vector2f & position, const sf::Vector2f & size, Map * map = nullptr);
+	Player(const sf::Vector2f & position, const sf::Vector2f & size, const sf::Color & color, Map * map = nullptr);
+	Player(const Player & obj);
+	~Player();
+
+	void update();
+	sf::FloatRect getGlobalBounds() const;
+	void resize(const sf::Vector2f & p, bool gridSnap = false, bool vLock = false, bool hLock = false);
+	void setColor(const sf::Color & c);
+
+	void addScore(int p = 1);
+	void subScore(int p = 1);
+	int getScore() const ;
+	void setScore(int p);
+
+	/*
+		<<Data format>>
+		Properties separated using SERIALIZABLE_FIELD_DELIMITER.
+
+		<<Data order>>
+		class type
+		position.x
+		position.y
+		mass
+		force.x
+		force.y
+		collider.left
+		collider.right
+		collider.top
+		collider.bottom
+		size.x
+		size.y
+		color
+		speed
+		jump force
+		scroll.left
+		scroll.right
+		scroll.top
+		scroll.bottom
+		score
+	*/
+	virtual GameObjectClassType getClassType() const;
+	virtual void serializeObject(std::ostream & ss) const;
+	virtual void deserializeObject(std::istream & ss);	
+};
+

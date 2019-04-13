@@ -1,3 +1,6 @@
+#pragma once
+
+
 struct FrameMargin {
 	float left;
 	float right;

@@ -14,11 +14,13 @@ MapGrid::MapGrid(){
 
 void MapGrid::update() {
 	sf::Color gridColor = sf::Color(200, 200, 200, 100);
+	Frame & frame = Frame::getInstance();
+	float w = frame.getFrameWidth(), h = frame.getFrameHeight();
 
-	fHorizontalLines = sf::VertexArray(sf::Lines, (Frame::getWindowHeight() / fDisplayGridSize) * 2 + 2 * 4);
+	fHorizontalLines = sf::VertexArray(sf::Lines, (h / fDisplayGridSize) * 2 + 2 * 4);
 	int x = -2 * fDisplayGridSize;
 	int y = x;
-	int width = 2 * fDisplayGridSize + Frame::getWindowWidth();
+	int width = 2 * fDisplayGridSize + w;
 
 	for (int i = 0; i < fHorizontalLines.getVertexCount(); i += 2) {
 		fHorizontalLines[i].position = sf::Vector2f(x, y);
@@ -31,8 +33,8 @@ void MapGrid::update() {
 		y += fDisplayGridSize;
 	}
 
-	fVerticalLines = sf::VertexArray(sf::Lines, (Frame::getWindowWidth() / fDisplayGridSize) * 2 + 2 * 4);
-	int height = 2 * fDisplayGridSize + Frame::getWindowHeight();
+	fVerticalLines = sf::VertexArray(sf::Lines, (w / fDisplayGridSize) * 2 + 2 * 4);
+	int height = 2 * fDisplayGridSize + h;
 	y = x;
 
 	for (int i = 0; i < fVerticalLines.getVertexCount(); i += 2) {

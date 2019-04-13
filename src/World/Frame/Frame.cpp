@@ -1,10 +1,18 @@
 #include "Frame.h"
+Frame * Frame::instance = nullptr;
 
+Frame::Frame()
+{
+	fLastFrameTime = 0;
+	fClk.restart();
+}
 
 Frame & Frame::getInstance() 
 {
-	static Frame instance;
-	return instance;
+	if (instance == nullptr)
+		instance = new Frame();
+
+	return *instance;
 }
 
 void Frame::nextFrame() 
@@ -13,18 +21,27 @@ void Frame::nextFrame()
 	fFrameRate = int(1 / fLastFrameTime);
 }
 
-void Frame::updateCamera(const sf::View & v) 
+void Frame::updateView(const sf::View & v, const FrameLayer & layer) 
 {
-	if (fWindow == nullptr)
+	if (layer < 0 || layer >= FrameLayer::num_values)
 		return;
 
-	fWindow->setView(v);
+	fViewLayers[layer] = v;
 }
 
-void Frame::draw(const sf::Drawable & o)
+void Frame::draw(const sf::Drawable & o, const FrameLayer & layer)
 {
 	if (fWindow == nullptr)
 		return;
+
+	if (layer < 0 || layer >= FrameLayer::num_values)
+		return;
+
+	if (fActiveView != layer)
+	{
+		fActiveView = layer;
+		fWindow->setView(fViewLayers[layer]);
+	}
 
 	fWindow->draw(o);
 }

@@ -1,3 +1,4 @@
+#pragma once
 #include "KeyGroup.h"
 
 
@@ -28,6 +29,8 @@ public:
 	};
 
 private:
+	static KeyController * instance;
+
 	std::vector<KeyGroup> fKeyBindings = std::vector<KeyGroup>{
 		KeyGroup({sf::Keyboard::Key::Left}),									//CameraLeft
 		KeyGroup({sf::Keyboard::Key::Right}),									//CameraRight
@@ -57,6 +60,5 @@ private:
 
 public:
 	static KeyController & getInstance();
-	void update();
-	const KeyGroup & getKeyGroup(const KeyBinding & key) const;
+	KeyGroup & getKeyGroup(const KeyBinding & key);
 };

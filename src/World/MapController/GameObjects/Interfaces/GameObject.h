@@ -16,6 +16,7 @@ protected:
 	Map * fMap;
 	sf::Drawable * fDrawable;
 	sf::Transformable * fTransformable;
+	bool fHasCollider = true;
 
 public:
 	explicit GameObject(Map * map = nullptr);
@@ -28,6 +29,7 @@ public:
 
 	void setMap(Map * map);
 	virtual sf::FloatRect getGlobalBounds() const = 0;
+	bool hasCollider();
 	sf::Vector2f getPosition() const;
 	void setPosition(const sf::Vector2f & p, bool gridSnap = false, bool vLock = false, bool hLock = false);
 	virtual void move(const sf::Vector2f & p, bool gridSnap = false, bool vLock = false, bool hLock = false);

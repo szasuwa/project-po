@@ -28,6 +28,11 @@ void GameObject::setMap(Map * map)
 	fMap = map;
 }
 
+bool GameObject::hasCollider()
+{
+	return fHasCollider;
+}
+
 sf::Vector2f GameObject::getPosition() const
 {
 	if (fTransformable == nullptr)
@@ -76,6 +81,7 @@ void GameObject::serializeObject(std::ostream & ss) const
 
 	ss << fTransformable->getPosition().x << SERIALIZABLE_FIELD_DELIMITER;
 	ss << fTransformable->getPosition().y << SERIALIZABLE_FIELD_DELIMITER;
+	ss << fHasCollider << SERIALIZABLE_FIELD_DELIMITER;
 }
 
 void GameObject::deserializeObject(std::istream & ss) 
@@ -87,6 +93,7 @@ void GameObject::deserializeObject(std::istream & ss)
 	ss >> x;
 	ss >> y;
 	fTransformable->setPosition(x,y);
+	ss >> fHasCollider;
 }
 
 std::ostream & operator<<(std::ostream & s, const GameObject & o)

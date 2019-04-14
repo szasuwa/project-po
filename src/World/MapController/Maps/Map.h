@@ -5,7 +5,7 @@
 
 #include "MapBoundaries.h"
 #include "../GameObjects/Interfaces/GameObject.h"
-#include "../GameObjects/Interfaces/PhysicalObject.h"
+#include "../GameObjects/Interfaces/DynamicObject.h"
 #include "../GameObjects/Player.h"
 #include "../GameObjects/Platform.h"
 #include "../GameObjects/Point.h"

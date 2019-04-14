@@ -1,4 +1,4 @@
-#include "PhysicalObject.h"
+#include "DynamicObject.h"
 #include "../../Maps/Map.h"
 #include <iostream>
 
@@ -43,6 +43,9 @@ void DynamicObject::applyWorldForces()
 		fForceVector.y = std::min(fForceVector.y, (*fMap).fMaxGravityForce);
 	}
 
+	if (fCollider.getTop() && fForceVector.y < 0)
+		fForceVector.y = 0;
+
 	if (fForceVector.x > 0)
 	{
 		fForceVector.x = std::max(fForceVector.x - (*fMap).fDecelerationRate, 0.0f);
@@ -60,13 +63,50 @@ sf::Vector2f DynamicObject::checkCollisions(const sf::Vector2f& p) {
 	sf::Vector2f out = p;
 	fCollider.resetCollider();
 
+	MapBoundaries mb = fMap->getBoundaries();
+	sf::FloatRect b = getGlobalBounds();
+
+	if (fHorizontalInWindowLock) 
+	{
+		if (mb.hasLeft && p.x < 0 && b.left + p.x < mb.left)
+		{
+			std::cout << "LM" << std::endl;
+			fCollider.triggerLeft();
+			out.x = std::min(mb.left - b.left, 0.f);
+		}
+
+		if (mb.hasRight && p.x > 0 && b.left + b.width + p.x > mb.right)
+		{
+			std::cout << "RM" << std::endl;
+			fCollider.triggerRight();
+			out.x = std::max(mb.right - b.left - b.width, 0.f);
+		}
+	}
+	
+	if (fVerticalInWindowLock) 
+	{
+		if (mb.hasTop && p.y < 0 && b.top + p.y < mb.top)
+		{
+			std::cout << "TM" << std::endl;
+			fCollider.triggerTop();
+			out.y = std::min(mb.top - b.top, 0.f);
+		}
+
+		if (mb.hasBottom && p.y > 0 && b.top + b.height + p.y > mb.bottom)
+		{
+			std::cout << "BM" << std::endl;
+			fCollider.triggerBottom();
+			out.y = std::max(mb.bottom - b.top - b.height, 0.f);
+		}
+
+	}
+
 	for (GameObject* obj : fMap->getGameObjects()) 
 	{
-		if (obj == nullptr || obj == this)
+		if (obj == nullptr || obj == this || !obj->hasCollider())
 			continue;
 		
 		sf::FloatRect o = obj->getGlobalBounds();
-		sf::FloatRect b = getGlobalBounds();
 		sf::FloatRect d;
 
 		//Check left
@@ -106,6 +146,7 @@ sf::Vector2f DynamicObject::checkCollisions(const sf::Vector2f& p) {
 			}
 
 		}
+
 		if (!fCollider.getBottom() && p.y > 0)
 		{
 			d = sf::FloatRect(b.left, b.top + b.height, b.width, p.y);
@@ -169,7 +210,7 @@ void DynamicObject::applyForces()
 	//checkCollisions();
 
 	float dTime = Frame::getInstance().getFrameTime();
-	MapBoundaries mb = fMap->getBoundaries();
+	
 
 	/*
 	//Prevent escaping window boundaries

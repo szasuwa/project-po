@@ -2,7 +2,7 @@
 #include <SFML/Graphics.hpp>
 #include <algorithm>
 
-#include "Interfaces/PhysicalObject.h"
+#include "Interfaces/DynamicObject.h"
 #include "../../Frame/FrameMargin.h"
 #include "../../InterfaceController/InterfaceGroups/UserInterface.h"
 #include "../../KeyboardController/KeyController.h"

@@ -17,7 +17,8 @@ public:
 
 private:
 	static Frame * instance;
-	const float F_MAX_FRAME_TIME = 1.0/120.0;
+	const float F_MAX_FRAME_TIME = 1.0/100.0;
+	const float F_MIN_FRAME_TIME = 1.0/140.0;
 
 	sf::RenderWindow * fWindow = nullptr;
 	sf::Clock fClk;

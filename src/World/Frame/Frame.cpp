@@ -17,7 +17,7 @@ Frame & Frame::getInstance()
 
 void Frame::nextFrame() 
 {
-	fLastFrameTime = std::min(fClk.restart().asSeconds(), F_MAX_FRAME_TIME);
+	fLastFrameTime = std::max(F_MIN_FRAME_TIME, std::min(fClk.restart().asSeconds(), F_MAX_FRAME_TIME));
 	fFrameRate = int(1 / fLastFrameTime);
 }
 

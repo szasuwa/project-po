@@ -138,7 +138,7 @@ void MapController::deserializeMap(const std::string & s, Map * map)
 	}
 }
 
-void MapController::startEditing()
+void MapController::beginEdition()
 {
 	fEditedMap = fActiveMap;
 	fEditedMapName = fActiveMapName;
@@ -172,7 +172,7 @@ void MapController::resetEditedMap()
 	fActiveMap->broadcastFocus();
 }
 
-void MapController::stopEditing()
+void MapController::endEdition()
 {
 	if (fEditor == nullptr)
 		return;
@@ -188,7 +188,7 @@ void MapController::stopEditing()
 	fEditor = nullptr;
 }
 
-void MapController::cancelEditing()
+void MapController::cancelEdition()
 {
 	if (fEditor == nullptr)
 		return;

@@ -84,7 +84,7 @@ void GameEngine::handleTriggers()
 			fTimeFlowEnabled = true;
 			fInterface.setInterfaceVisibility(fIsEditingMap, InterfaceType::MapEditor);
 			fInterface.setInterfaceVisibility(true, InterfaceType::Info);
-			fMapController.stopEditing();
+			fMapController.endEdition();
 		}
 
 		if (fKeyController.getKeyGroup(KeyBinding::MapEditorCancel).wasToggled() && fKeyController.getKeyGroup(KeyBinding::MapEditorCancel).isPressed())
@@ -93,7 +93,7 @@ void GameEngine::handleTriggers()
 			fTimeFlowEnabled = true;
 			fInterface.setInterfaceVisibility(fIsEditingMap, InterfaceType::MapEditor);
 			fInterface.setInterfaceVisibility(true, InterfaceType::Info);
-			fMapController.cancelEditing();
+			fMapController.cancelEdition();
 		}
 	}
 	else 
@@ -110,7 +110,7 @@ void GameEngine::handleTriggers()
 			MapEditorInterface::reportTimeFlowStatus(fTimeFlowEnabled);
 			fInterface.setInterfaceVisibility(fIsEditingMap, InterfaceType::MapEditor);
 			fInterface.setInterfaceVisibility(false, InterfaceType::Info);
-			fMapController.startEditing();
+			fMapController.beginEdition();
 		}
 	}
 }

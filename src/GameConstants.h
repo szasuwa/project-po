@@ -1,7 +1,7 @@
 #pragma once
 #include <string>
 #include <SFML/Config.hpp>
-const std::string GAME_VERSION = "0.1"; 
+const std::string GAME_VERSION = "0.2"; 
 
 const char SERIALIZABLE_OBJECT_DELIMITER = '\n';
 const char SERIALIZABLE_FIELD_DELIMITER = ' ';

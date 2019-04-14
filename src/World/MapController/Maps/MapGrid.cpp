@@ -4,11 +4,6 @@ int MapGrid::fGridSize = 5;
 int MapGrid::fDisplayGridSize = 2*fGridSize;
 
 
-int MapGrid::roundToGrid(float pos) {
-	int mod = int(pos) % fGridSize;
-	return pos - mod + fGridSize * ((int)(2 * mod / fGridSize));
-}
-
 MapGrid::MapGrid(){
 
 }
@@ -60,23 +55,7 @@ void MapGrid::draw(sf::RenderTarget& target, sf::RenderStates states) const
 	target.draw(fVerticalLines, states);
 }
 
-void MapGrid::setOrigin(sf::Vector2f o)
-{
-	while (o.x > fDisplayGridSize) {
-		o.x -= fDisplayGridSize;
-	}
-
-	while (o.x < -fDisplayGridSize) {
-		o.x += fDisplayGridSize;
-	}
-
-	while (o.y > fDisplayGridSize) {
-		o.y -= fDisplayGridSize;
-	}
-
-	while (o.y < -fDisplayGridSize) {
-		o.y += fDisplayGridSize;
-	}
-
-	Transformable::setOrigin(o);
+float MapGrid::roundToGrid(float pos) {
+	int mod = int(pos) % fGridSize;
+	return pos - mod + fGridSize * ((int)(2 * mod / fGridSize));
 }

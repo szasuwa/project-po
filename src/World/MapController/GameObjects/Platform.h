@@ -9,6 +9,7 @@ class Platform : public GameObject
 public:
 	explicit Platform(Map * map = nullptr);
 	Platform(const sf::Vector2f & position, Map * map = nullptr);
+	Platform(const sf::Vector2f& position, const sf::Color& color, Map* map = nullptr);
 	Platform(const sf::Vector2f & position, const sf::Vector2f & size, Map * map = nullptr);
 	Platform(const sf::Vector2f & position, const sf::Vector2f & size, const sf::Color & color, Map * map = nullptr);
 	Platform(const Platform & obj);
@@ -16,7 +17,6 @@ public:
 
 	void update();
 	void onFocus();
-	void handleCollision(GameObject * collider);
 	sf::FloatRect getGlobalBounds() const;
 	void resize(const sf::Vector2f & p, bool gridSnap = false, bool vLock = false, bool hLock = false);
 	void setColor(const sf::Color & c);

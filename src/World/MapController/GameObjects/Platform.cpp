@@ -8,6 +8,10 @@ Platform::Platform(const sf::Vector2f & position, Map * map) : Platform(position
 {
 }
 
+Platform::Platform(const sf::Vector2f& position, const sf::Color& color, Map* map) : Platform(position, PLATFORM_SIZE, color, map)
+{
+}
+
 Platform::Platform(const sf::Vector2f & position, const sf::Vector2f & size, Map * map) : Platform(position, size, PLATFORM_COLOR, map)
 {
 }

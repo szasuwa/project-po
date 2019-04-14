@@ -31,6 +31,5 @@ public:
 
 		y = x - r + (r / (0.5q))
 	*/
-	static int roundToGrid(float pos);
-	virtual void setOrigin(sf::Vector2f o);
+	static float roundToGrid(float pos);
 };

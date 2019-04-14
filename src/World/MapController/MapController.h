@@ -63,11 +63,11 @@ public:
 	GameObject * deserializeGameObject(const std::string s);
 	void deserializeMap(const std::string & s, Map * map);
 
-	void startEditing();
+	void beginEdition();
 	void saveEditedMap();
 	void resetEditedMap();
-	void stopEditing();
-	void cancelEditing();
+	void endEdition();
+	void cancelEdition();
 
 	void resetMap();
 

@@ -23,6 +23,7 @@ public:
 	virtual ~GameObject();
 
 	virtual void update() = 0;
+	virtual void onFocus() = 0;
 	void draw() const;
 
 	void setMap(Map * map);

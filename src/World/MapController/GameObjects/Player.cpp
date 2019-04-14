@@ -134,6 +134,11 @@ void Player::update()
 	applyForces();
 }
 
+void Player::onFocus()
+{
+	updateGui();
+}
+
 sf::FloatRect Player::getGlobalBounds() const
 {
 	return ((sf::Shape*)fDrawable)->getGlobalBounds();

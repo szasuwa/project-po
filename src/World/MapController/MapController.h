@@ -54,6 +54,10 @@ public:
 		deceleration smooth rate
 		gravity rate
 		max gravity force
+		camera left
+		camera top
+		camera width
+		camera height
 	*/
 	std::string serializeMap(const Map & map) const;
 	GameObject * deserializeGameObject(const std::string s);

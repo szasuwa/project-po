@@ -40,8 +40,10 @@ public:
 	MapBoundaries getBoundaries() const;
 	void updateCamera();
 	sf::FloatRect getCamera() const;
+	void setCamera(const sf::FloatRect & camera);
 	void moveCamera(const sf::Vector2f & p);
 	
+	void broadcastFocus();
 	void broadcastUpdate();
 	void broadcastDraw() const;
 

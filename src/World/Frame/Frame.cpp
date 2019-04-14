@@ -3,7 +3,7 @@ Frame * Frame::instance = nullptr;
 
 Frame::Frame()
 {
-	fLastFrameTime = 0;
+	fLastFrameTime = F_MAX_FRAME_TIME;
 	fClk.restart();
 }
 

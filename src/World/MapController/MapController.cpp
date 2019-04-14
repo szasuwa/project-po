@@ -7,7 +7,7 @@ void MapController::load(const int & id) {
 	
 	fActiveMap = &fMapList[id];
 	fActiveMapIndex = id;
-	fActiveMap->updateCamera();
+	fActiveMap->broadcastFocus();
 }
 
 void MapController::load(const std::string & name)
@@ -22,7 +22,7 @@ void MapController::load(const std::string & name)
 
 	load(name, fActiveMap);
 
-	fActiveMap->updateCamera();
+	fActiveMap->broadcastFocus();
 }
 
 void MapController::load(const std::string& name, Map * map)
@@ -72,12 +72,16 @@ std::string MapController::serializeMap(const Map & map) const
 		<< map.fDecelerationRate << SERIALIZABLE_FIELD_DELIMITER
 		<< map.fDecelerationSmoothRate << SERIALIZABLE_FIELD_DELIMITER
 		<< map.fGravityRate << SERIALIZABLE_FIELD_DELIMITER
-		<< map.fMaxGravityForce;
+		<< map.fMaxGravityForce << SERIALIZABLE_FIELD_DELIMITER
+		<< map.fCamera.left << SERIALIZABLE_FIELD_DELIMITER
+		<< map.fCamera.top << SERIALIZABLE_FIELD_DELIMITER
+		<< map.fCamera.width << SERIALIZABLE_FIELD_DELIMITER
+		<< map.fCamera.height << SERIALIZABLE_FIELD_DELIMITER;
 
 	for (GameObject * obj : map.fGameObjectList)
 	{
 		if (obj != nullptr)
-			ss << SERIALIZABLE_OBJECT_DELIMITER << *obj;
+			ss << SERIALIZABLE_OBJECT_DELIMITER << *obj ;
 	}
 
 	return ss.str();
@@ -120,8 +124,9 @@ void MapController::deserializeMap(const std::string & s, Map * map)
 	ss.str(s);
 
 	ss >> (*map).fMapBoundaries.hasLeft >> (*map).fMapBoundaries.hasRight >> (*map).fMapBoundaries.hasTop >> (*map).fMapBoundaries.hasBottom >> 
-		(*map).fMapBoundaries.left >> (*map).fMapBoundaries.right >> (*map).fMapBoundaries.top >> (*map).fMapBoundaries.bottom;
-	
+		(*map).fMapBoundaries.left >> (*map).fMapBoundaries.right >> (*map).fMapBoundaries.top >> (*map).fMapBoundaries.bottom >>
+		(*map).fCamera.left >> (*map).fCamera.top >> (*map).fCamera.width >> (*map).fCamera.height;
+
 	ss.ignore(255, SERIALIZABLE_OBJECT_DELIMITER);
 
 	map->destroyAllGameObjects();
@@ -142,6 +147,7 @@ void MapController::startEditing()
 	time_t t = std::chrono::system_clock::to_time_t(std::chrono::system_clock::now());
 	fActiveMapName = fEditedMapName + "_" + std::to_string(t);
 	fActiveMap = fEditor->loadMap(*fEditedMap);
+	fActiveMap->broadcastFocus();
 }
 
 void MapController::saveEditedMap()
@@ -163,6 +169,7 @@ void MapController::resetEditedMap()
 		fActiveMap = fEditedMap;
 
 	fActiveMap = fEditor->loadMap(*fActiveMap);
+	fActiveMap->broadcastFocus();
 }
 
 void MapController::stopEditing()
@@ -172,7 +179,9 @@ void MapController::stopEditing()
 
 	fMapList[fActiveMapIndex].clone(*fActiveMap);
 	fActiveMap = &fMapList[fActiveMapIndex];
-	save(fEditedMapName, *fActiveMap);
+	fActiveMap->broadcastFocus();
+	fActiveMapName = fEditedMapName;
+	save(fActiveMapName, *fActiveMap);
 
 	fEditedMap = nullptr;
 	delete fEditor;
@@ -184,7 +193,10 @@ void MapController::cancelEditing()
 	if (fEditor == nullptr)
 		return;
 
+	fActiveMapName = fEditedMapName;
 	fActiveMap = fEditedMap;
+	fActiveMap->broadcastFocus();
+
 	fEditedMap = nullptr;
 	delete fEditor;
 	fEditor = nullptr;
@@ -196,6 +208,7 @@ void MapController::resetMap()
 		return;
 
 	load(fActiveMapName, fActiveMap);
+	fActiveMap->broadcastFocus();
 }
 
 void MapController::updateCamera()

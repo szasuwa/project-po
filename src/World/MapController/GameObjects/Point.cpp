@@ -44,6 +44,10 @@ void Point::update()
 {
 }
 
+void Point::onFocus()
+{
+}
+
 sf::FloatRect Point::getGlobalBounds() const 
 {
 	return ((sf::Shape*)fDrawable)->getGlobalBounds();

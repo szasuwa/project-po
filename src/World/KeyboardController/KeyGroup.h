@@ -9,7 +9,7 @@ class KeyGroup {
 	bool fWasPressed = false;
 	bool fIsPressed = false;
 
-	const std::string KeyGroup::getKeyName(const sf::Keyboard::Key & key) const;
+	const std::string getKeyName(const sf::Keyboard::Key & key) const;
 	void update();
 
 public:

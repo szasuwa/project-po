@@ -30,6 +30,7 @@ public:
 	~Player();
 
 	void update();
+	void onFocus();
 	sf::FloatRect getGlobalBounds() const;
 	void resize(const sf::Vector2f & p, bool gridSnap = false, bool vLock = false, bool hLock = false);
 	void setColor(const sf::Color & c);

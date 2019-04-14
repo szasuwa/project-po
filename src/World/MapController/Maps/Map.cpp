@@ -102,6 +102,16 @@ sf::FloatRect Map::getCamera() const
 	return fCamera;
 }
 
+void Map::setCamera(const sf::FloatRect & camera)
+{
+	fCamera.top = camera.top;
+	fCamera.left = camera.left;
+	fCamera.height = camera.height;
+	fCamera.width = camera.width;
+
+	updateCamera();
+}
+
 void Map::moveCamera(const sf::Vector2f & p) 
 {
 	sf::Vector2f p2 = p;
@@ -122,6 +132,18 @@ void Map::moveCamera(const sf::Vector2f & p)
 		fCamera.top = std::min(fMapBoundaries.bottom - fCamera.height, fCamera.top);
 
 	Frame::getInstance().updateView(sf::View(fCamera), Frame::FrameLayer::MapArea);
+}
+
+void Map::broadcastFocus() 
+{
+	updateCamera();
+	for (size_t i = 0; i < fGameObjectList.size(); ++i)
+	{
+		if (fGameObjectList[i] != nullptr)
+		{
+			fGameObjectList[i]->onFocus();
+		}
+	}
 }
 
 void Map::broadcastUpdate() 

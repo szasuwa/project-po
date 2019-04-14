@@ -8,6 +8,7 @@ enum class KeyBinding : unsigned int {
 	MoveRight,
 	Jump,
 	Debug,
+	ResetMap,
 	MapEditor,
 	MapEditorTime,
 	MapEditorMove,

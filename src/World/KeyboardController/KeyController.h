@@ -16,6 +16,7 @@ private:
 		KeyGroup({sf::Keyboard::Key::D}),										//MoveRight
 		KeyGroup({sf::Keyboard::Key::W, sf::Keyboard::Key::Space}),				//Jump
 		KeyGroup({sf::Keyboard::Key::F3}),										//Debug
+		KeyGroup({sf::Keyboard::Key::R}),										//ResetMap,
 		KeyGroup({sf::Keyboard::Key::F2}),										//MapEditor
 		KeyGroup({sf::Keyboard::Key::F1}),										//MapEditorTime
 		KeyGroup({sf::Keyboard::Key::LControl, sf::Keyboard::Key::RControl}),	//MapEditorMove

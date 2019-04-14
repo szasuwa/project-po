@@ -16,7 +16,7 @@ class GameEngine
 	Frame &fFrame;
 	KeyController &fKeyController;
 	InterfaceController fInterface;
-	MapController fMapManager;
+	MapController fMapController;
 
 	bool fIsEditingMap = false;
 	bool fTimeFlowEnabled = true;

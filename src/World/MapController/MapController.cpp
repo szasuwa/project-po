@@ -1,37 +1,42 @@
 #include "MapController.h"
 #include <iostream>
 
-Map* MapController::load(const int & id) {
+void MapController::load(const int & id) {
 	if (fMapList.size() >= id)
-		return nullptr;
+		return;
 	
 	fActiveMap = &fMapList[id];
 	fActiveMapIndex = id;
 	fActiveMap->updateCamera();
-
-	return fActiveMap;
 }
 
-Map * MapController::load(const std::string & name)
+void MapController::load(const std::string & name)
 {
-	std::ifstream fs(F_MAP_PATH + name);
-
-	if (fs.fail())
-		return nullptr;
+	if (!exists(name))
+		return;
 
 	fMapList.push_back(Map());
 	fActiveMap = &fMapList.back();
 	fActiveMapName = name;
 	fActiveMapIndex = fMapList.size() - 1;
 
-	std::stringstream bf;
-	bf << fs.rdbuf();
-	deserializeMap(bf.str(), fActiveMap);
-	fs.close();
+	load(name, fActiveMap);
 
 	fActiveMap->updateCamera();
+}
 
-	return fActiveMap;
+void MapController::load(const std::string& name, Map * map)
+{
+	std::ifstream fs(F_MAP_PATH + name);
+
+	if (fs.fail())
+		return;
+
+	std::stringstream bf;
+	bf << fs.rdbuf();
+	deserializeMap(bf.str(), map);
+
+	fs.close();
 }
 
 void MapController::save(const std::string & name, const Map & map) const
@@ -119,6 +124,8 @@ void MapController::deserializeMap(const std::string & s, Map * map)
 	
 	ss.ignore(255, SERIALIZABLE_OBJECT_DELIMITER);
 
+	map->destroyAllGameObjects();
+
 	while (ss.rdbuf()->in_avail() > 0) {
 		std::string temp;
 		getline(ss, temp);
@@ -151,11 +158,9 @@ void MapController::resetEditedMap()
 		return;
 
 	if (exists(fActiveMapName))
-		fActiveMap = load(fActiveMapName);
+		load(fActiveMapName, fActiveMap);
 	else
-	{
 		fActiveMap = fEditedMap;
-	}
 
 	fActiveMap = fEditor->loadMap(*fActiveMap);
 }
@@ -183,6 +188,14 @@ void MapController::cancelEditing()
 	fEditedMap = nullptr;
 	delete fEditor;
 	fEditor = nullptr;
+}
+
+void MapController::resetMap() 
+{
+	if (fActiveMap == nullptr)
+		return;
+
+	load(fActiveMapName, fActiveMap);
 }
 
 void MapController::updateCamera()

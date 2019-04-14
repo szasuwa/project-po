@@ -8,6 +8,7 @@
 class InfoInterface : public InterfaceGroup {
 	InterfaceText fDebugKey;
 	InterfaceText fMapEditorKey;
+	InterfaceText fMapResetKey;
 
 public:
 	explicit InfoInterface(const Alignment & a);

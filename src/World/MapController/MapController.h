@@ -24,8 +24,9 @@ class MapController
 	MapEditor * fEditor = nullptr;
 
 public:
-	Map * load(const int & id);
-	Map * load(const std::string & name);
+	void load(const int & id);
+	void load(const std::string & name);
+	void load(const std::string& name, Map * map);
 	void save(const std::string & name, const Map & map) const;
 	bool exists(const std::string& name) const;
 
@@ -63,6 +64,8 @@ public:
 	void resetEditedMap();
 	void stopEditing();
 	void cancelEditing();
+
+	void resetMap();
 
 	void updateCamera();
 	void updateMap();

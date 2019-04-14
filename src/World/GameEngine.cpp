@@ -8,7 +8,7 @@ GameEngine::GameEngine(sf::RenderWindow &window) : fGameWindow(window), fFrame(F
 void GameEngine::initGame()
 {
 	fGameWindow.setFramerateLimit(120);
-	fMapManager.load("map1");
+	fMapController.load("map1");
 	
 	fInterface.updateView();
 	fInterface.addInterface(InterfaceType::Debug, false);
@@ -34,12 +34,12 @@ void GameEngine::gameLoop()
 			fInterface.draw();
 
 			if(fTimeFlowEnabled)
-				fMapManager.updateMap();
+				fMapController.updateMap();
 
 			if (fIsEditingMap)
-				fMapManager.updateEditor();
+				fMapController.updateEditor();
 
-			fMapManager.drawMap();
+			fMapController.drawMap();
 			fGameWindow.display();
 		}
 		else
@@ -69,12 +69,12 @@ void GameEngine::handleTriggers()
 
 		if (fKeyController.getKeyGroup(KeyBinding::MapEditorSave).wasToggled() && fKeyController.getKeyGroup(KeyBinding::MapEditorSave).isPressed())
 		{
-			fMapManager.saveEditedMap();
+			fMapController.saveEditedMap();
 		}
 
 		if (fKeyController.getKeyGroup(KeyBinding::MapEditorReset).wasToggled() && fKeyController.getKeyGroup(KeyBinding::MapEditorReset).isPressed())
 		{
-			fMapManager.resetEditedMap();
+			fMapController.resetEditedMap();
 		}		
 
 		if (fKeyController.getKeyGroup(KeyBinding::MapEditorExit).wasToggled() && fKeyController.getKeyGroup(KeyBinding::MapEditorExit).isPressed())
@@ -83,7 +83,7 @@ void GameEngine::handleTriggers()
 			fTimeFlowEnabled = true;
 			fInterface.setInterfaceVisibility(fIsEditingMap, InterfaceType::MapEditor);
 			fInterface.setInterfaceVisibility(true, InterfaceType::Info);
-			fMapManager.stopEditing();
+			fMapController.stopEditing();
 		}
 
 		if (fKeyController.getKeyGroup(KeyBinding::MapEditorCancel).wasToggled() && fKeyController.getKeyGroup(KeyBinding::MapEditorCancel).isPressed())
@@ -92,11 +92,16 @@ void GameEngine::handleTriggers()
 			fTimeFlowEnabled = true;
 			fInterface.setInterfaceVisibility(fIsEditingMap, InterfaceType::MapEditor);
 			fInterface.setInterfaceVisibility(true, InterfaceType::Info);
-			fMapManager.cancelEditing();
+			fMapController.cancelEditing();
 		}
 	}
 	else 
 	{
+		if (fKeyController.getKeyGroup(KeyBinding::ResetMap).wasToggled() && fKeyController.getKeyGroup(KeyBinding::ResetMap).isPressed())
+		{
+			fMapController.resetMap();
+		}
+
 		if (fKeyController.getKeyGroup(KeyBinding::MapEditor).wasToggled() && fKeyController.getKeyGroup(KeyBinding::MapEditor).isPressed())
 		{
 			fIsEditingMap = !fIsEditingMap;
@@ -104,7 +109,7 @@ void GameEngine::handleTriggers()
 			MapEditorInterface::reportTimeFlowStatus(fTimeFlowEnabled);
 			fInterface.setInterfaceVisibility(fIsEditingMap, InterfaceType::MapEditor);
 			fInterface.setInterfaceVisibility(false, InterfaceType::Info);
-			fMapManager.startEditing();
+			fMapController.startEditing();
 		}
 	}
 }
@@ -122,7 +127,7 @@ void GameEngine::handleEvents() {
 		case sf::Event::Resized:
 			fInterface.updateView();
 			fFrame.nextFrame();
-			fMapManager.updateCamera();
+			fMapController.updateCamera();
 			break;
 
 		case sf::Event::Closed:

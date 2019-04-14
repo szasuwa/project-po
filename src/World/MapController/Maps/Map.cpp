@@ -76,10 +76,8 @@ void Map::updateCamera()
 	float width = f.getFrameWidth();
 	float height = f.getFrameHeight();
 
-	fCamera.top += height - fCamera.height;
+	fCamera.top += fCamera.height - height;
 	fCamera.height = height;
-
-	fCamera.left += (width - fCamera.width)/2;
 	fCamera.width = width;
 
 	if (fMapBoundaries.hasRight)
@@ -95,6 +93,7 @@ void Map::updateCamera()
 		fCamera.top = std::min(fMapBoundaries.bottom - fCamera.height, fCamera.top);
 
 	Frame::getInstance().updateView(sf::View(fCamera), Frame::FrameLayer::MapArea);
+	moveCamera(sf::Vector2f((fCamera.width - width) / 2, 0));
 }
 
 sf::FloatRect Map::getCamera() const

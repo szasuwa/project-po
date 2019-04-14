@@ -1,25 +1,26 @@
 #include "PhysicalObject.h"
 #include "../../Maps/Map.h"
+#include <iostream>
 
 
-PhysicalObject::PhysicalObject(Map * map) : PhysicalObject(sf::Vector2f(0,0), map)
+DynamicObject::DynamicObject(Map * map) : DynamicObject(sf::Vector2f(0,0), map)
 {
 }
 
-PhysicalObject::PhysicalObject(const sf::Vector2f & position, Map * map) : PhysicalObject(position, false, false, map)
+DynamicObject::DynamicObject(const sf::Vector2f & position, Map * map) : DynamicObject(position, false, false, map)
 {
 }
 
-PhysicalObject::PhysicalObject(bool vLock, bool hLock, Map * map) : PhysicalObject(sf::Vector2f(0,0), vLock, hLock, map)
+DynamicObject::DynamicObject(bool vLock, bool hLock, Map * map) : DynamicObject(sf::Vector2f(0,0), vLock, hLock, map)
 {
 }
 
-PhysicalObject::PhysicalObject(const sf::Vector2f & position, bool vLock, bool hLock, Map * map) : GameObject(map), 
+DynamicObject::DynamicObject(const sf::Vector2f & position, bool vLock, bool hLock, Map * map) : GameObject(map), 
 	fForceVector(0, 0), fVerticalInWindowLock(vLock), fHorizontalInWindowLock(hLock), fMass(1)
 {
 }
 
-PhysicalObject::PhysicalObject(const PhysicalObject &obj) : GameObject(obj)
+DynamicObject::DynamicObject(const DynamicObject &obj) : GameObject(obj)
 {
 	fForceVector = obj.fForceVector;
 	fCollider = obj.fCollider;
@@ -28,11 +29,11 @@ PhysicalObject::PhysicalObject(const PhysicalObject &obj) : GameObject(obj)
 }
 
 
-PhysicalObject::~PhysicalObject()
+DynamicObject::~DynamicObject()
 {
 }
 
-void PhysicalObject::applyWorldForces()
+void DynamicObject::applyWorldForces()
 {
 	if (fMap == nullptr)
 		return;
@@ -52,21 +53,86 @@ void PhysicalObject::applyWorldForces()
 	}
 }
 
-void PhysicalObject::checkCollisions() {
+sf::Vector2f DynamicObject::checkCollisions(const sf::Vector2f& p) {
 	if (fMap == nullptr)
-		return;
+		return sf::Vector2f(0,0);
 
+	sf::Vector2f out = p;
 	fCollider.resetCollider();
 
 	for (GameObject* obj : fMap->getGameObjects()) 
 	{
-		if (obj != nullptr) {
-			checkCollision(*obj);
+		if (obj == nullptr || obj == this)
+			continue;
+		
+		sf::FloatRect o = obj->getGlobalBounds();
+		sf::FloatRect b = getGlobalBounds();
+		sf::FloatRect d;
+
+		//Check left
+		if (!fCollider.getLeft() && p.x < 0)
+		{
+			d = sf::FloatRect(b.left, b.top, p.x, b.height);
+			
+			if (d.intersects(o))
+			{
+				std::cout << "L" << std::endl;
+				fCollider.triggerLeft();
+				out.x = std::min(o.left + o.width - d.left, 0.f);
+			}
 		}
+
+		if (!fCollider.getRight() && p.x > 0)
+		{
+			d = sf::FloatRect(b.left + b.width, b.top, p.x, b.height);
+
+			if (d.intersects(o))
+			{
+				std::cout << "R" << std::endl;
+				fCollider.triggerRight();
+				out.x = std::max(o.left - d.left, 0.f);
+			}
+		}
+
+		if (!fCollider.getTop() && p.y < 0)
+		{
+			d = sf::FloatRect(b.left, b.top, b.width, p.y);
+
+			if (d.intersects(o))
+			{
+				std::cout << "T" << std::endl;
+				fCollider.triggerTop();
+				out.y = std::min(o.top + o.height - d.top, 0.f);
+			}
+
+		}
+		if (!fCollider.getBottom() && p.y > 0)
+		{
+			d = sf::FloatRect(b.left, b.top + b.height, b.width, p.y);
+
+			if (d.intersects(o))
+			{
+				std::cout << "B" << std::endl;
+				fCollider.triggerBottom();
+				out.y = std::max(o.top - d.top, 0.f);
+			}
+		}
+		
+		/*
+		else
+			h = sf::FloatRect(b.left + b.width, b.top, p.x, b.height);
+
+		if (p.y < 0)
+			v = sf::FloatRect(b.left, b.top, b.width, p.y);
+		else
+			v = sf::FloatRect(b.left, b.top + b.height, b.width, p.y);
+			*/
 	}
+	return out;
 }
 
-void PhysicalObject::checkCollision(const GameObject & obj) {
+/*
+void DynamicObject::checkCollision(const GameObject & obj) {
 	if (&obj == this || fMap == nullptr)
 		return;
 
@@ -95,15 +161,17 @@ void PhysicalObject::checkCollision(const GameObject & obj) {
 		}
 	}
 }
+*/
 
-void PhysicalObject::applyForces() 
+void DynamicObject::applyForces() 
 {
 	applyWorldForces();
-	checkCollisions();
+	//checkCollisions();
 
 	float dTime = Frame::getInstance().getFrameTime();
 	MapBoundaries mb = fMap->getBoundaries();
 
+	/*
 	//Prevent escaping window boundaries
 	if (fVerticalInWindowLock || fHorizontalInWindowLock) 
 	{
@@ -138,12 +206,13 @@ void PhysicalObject::applyForces()
 			}
 		}
 	}
+	*/
 
 	//Set position
 	move(fForceVector * dTime);
 }
 
-void PhysicalObject::serializeObject(std::ostream & ss) const {
+void DynamicObject::serializeObject(std::ostream & ss) const {
 	GameObject::serializeObject(ss);
 	ss << fMass << SERIALIZABLE_FIELD_DELIMITER;
 	ss << fForceVector.x << SERIALIZABLE_FIELD_DELIMITER;
@@ -154,16 +223,24 @@ void PhysicalObject::serializeObject(std::ostream & ss) const {
 	ss << fCollider.getBottom() << SERIALIZABLE_FIELD_DELIMITER;
 }
 
-void PhysicalObject::deserializeObject(std::istream & ss) {
+void DynamicObject::deserializeObject(std::istream & ss) {
 	GameObject::deserializeObject(ss);
 	ss >> fMass;
 	ss >> fForceVector.x;
 	ss >> fForceVector.y;
 
-	bool l, r, t, b;
+	float l, r, t, b;
 	ss >> l;
 	ss >> r;
 	ss >> t;
 	ss >> b;
-	fCollider.triggerCollision(l, r, t, b);
+	//fCollider.triggerCollision(l, r, t, b);
+}
+
+void DynamicObject::move(const sf::Vector2f& p, bool gridSnap, bool vLock, bool hLock)
+{
+	if (fTransformable == nullptr)
+		return;
+
+	fTransformable->move(checkCollisions(p));
 }

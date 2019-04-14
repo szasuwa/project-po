@@ -6,7 +6,7 @@
 #include "Collider.h"
 
 
-class PhysicalObject : public GameObject
+class DynamicObject : public GameObject
 {
 protected:
 	float fMass;
@@ -17,20 +17,20 @@ protected:
 	bool fHorizontalInWindowLock;
 
 	void applyWorldForces();
-	void checkCollisions();
-	virtual void checkCollision(const GameObject & obj);
+	sf::Vector2f checkCollisions(const sf::Vector2f& p);
 
 public:
-	explicit PhysicalObject(Map * map = nullptr);
-	PhysicalObject(const sf::Vector2f & position, Map * map = nullptr);
-	PhysicalObject(bool vLock, bool hLock, Map * map = nullptr);
-	PhysicalObject(const sf::Vector2f & position, bool vLock, bool hLock, Map * map = nullptr);
-	PhysicalObject(const PhysicalObject & o);
-	~PhysicalObject();
+	explicit DynamicObject(Map * map = nullptr);
+	DynamicObject(const sf::Vector2f & position, Map * map = nullptr);
+	DynamicObject(bool vLock, bool hLock, Map * map = nullptr);
+	DynamicObject(const sf::Vector2f & position, bool vLock, bool hLock, Map * map = nullptr);
+	DynamicObject(const DynamicObject & o);
+	~DynamicObject();
 
-	virtual void serializeObject(std::ostream & ss) const;
-	virtual void deserializeObject(std::istream & ss);
-
+	virtual void move(const sf::Vector2f& p, bool gridSnap = false, bool vLock = false, bool hLock = false);
 	void applyForces();
+
+	virtual void serializeObject(std::ostream& ss) const;
+	virtual void deserializeObject(std::istream& ss);
 };
 

@@ -12,7 +12,10 @@ class Collider
 
 public:
 	void resetCollider();
-	void triggerCollision(bool l, bool r, bool t, bool b);
+	void triggerLeft();
+	void triggerRight();
+	void triggerTop();
+	void triggerBottom();
 	bool getLeft() const;
 	bool getRight() const;
 	bool getTop() const;

@@ -22,7 +22,7 @@ class Map {
 	float fGravityRate = 15.f;
 	float fMaxGravityForce = 500.f;
 
-	friend PhysicalObject;
+	friend DynamicObject;
 	friend MapController;
 
 public:

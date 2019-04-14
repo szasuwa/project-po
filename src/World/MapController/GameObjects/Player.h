@@ -9,7 +9,7 @@
 #include "../Maps/MapBoundaries.h"
 
 
-class Player : public PhysicalObject
+class Player : public DynamicObject
 {
 	//Movement
 	float fSpeed = 250.f;

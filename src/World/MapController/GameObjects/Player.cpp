@@ -14,7 +14,7 @@ Player::Player(const sf::Vector2f & position, const sf::Vector2f & size, Map * m
 {
 }
 
-Player::Player(const sf::Vector2f & position, const sf::Vector2f & size, const sf::Color & color, Map * map) : PhysicalObject(position, true, true, map)
+Player::Player(const sf::Vector2f & position, const sf::Vector2f & size, const sf::Color & color, Map * map) : DynamicObject(position, true, true, map)
 {
 	fDrawable = new sf::RectangleShape();
 	fTransformable = (sf::RectangleShape*)fDrawable;
@@ -23,7 +23,7 @@ Player::Player(const sf::Vector2f & position, const sf::Vector2f & size, const s
 	((sf::RectangleShape*)fDrawable)->setFillColor(color);
 }
 
-Player::Player(const Player & obj) : PhysicalObject(obj)
+Player::Player(const Player & obj) : DynamicObject(obj)
 {
 	fDrawable = new sf::RectangleShape();
 	fTransformable = (sf::RectangleShape*)fDrawable;
@@ -106,7 +106,7 @@ void Player::controlMovement()
 }
 
 void Player::checkCollision(const GameObject & obj) {
-	PhysicalObject::checkCollision(obj);
+	//DynamicObject::checkCollision(obj);
 
 	if (&obj == this)
 		return;
@@ -188,7 +188,7 @@ GameObjectClassType Player::getClassType() const
 void Player::serializeObject(std::ostream & ss) const
 {
 	ss << (int)(getClassType()) << SERIALIZABLE_FIELD_DELIMITER;
-	PhysicalObject::serializeObject(ss);
+	DynamicObject::serializeObject(ss);
 	ss << ((sf::RectangleShape *)fDrawable)->getSize().x << SERIALIZABLE_FIELD_DELIMITER;
 	ss << ((sf::RectangleShape *)fDrawable)->getSize().y << SERIALIZABLE_FIELD_DELIMITER;
 	ss << ((sf::RectangleShape *)fDrawable)->getFillColor().toInteger() << SERIALIZABLE_FIELD_DELIMITER;
@@ -203,7 +203,7 @@ void Player::serializeObject(std::ostream & ss) const
 
 void Player::deserializeObject(std::istream & ss)
 {
-	PhysicalObject::deserializeObject(ss);
+	DynamicObject::deserializeObject(ss);
 	float x, y;
 	ss >> x;
 	ss >> y;

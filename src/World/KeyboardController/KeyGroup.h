@@ -1,6 +1,7 @@
 #pragma once
 #include <SFML/Window/Keyboard.hpp>
 #include <vector>
+#include <string>
 
 
 class KeyGroup {

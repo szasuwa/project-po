@@ -45,5 +45,6 @@ public:
 	void broadcastUpdate();
 	void broadcastDraw() const;
 
+	void clone(const Map & o);
 	Map & operator=(const Map & o);
 };

@@ -2,9 +2,11 @@
 #include <iostream>
 
 Map* MapController::load(const int & id) {
-	if (fMapList.size() < id)
-		fActiveMap = &fMapList[id];
+	if (fMapList.size() >= id)
+		return nullptr;
 	
+	fActiveMap = &fMapList[id];
+	fActiveMapIndex = id;
 	fActiveMap->updateCamera();
 
 	return fActiveMap;
@@ -19,6 +21,8 @@ Map * MapController::load(const std::string & name)
 
 	fMapList.push_back(Map());
 	fActiveMap = &fMapList.back();
+	fActiveMapName = name;
+	fActiveMapIndex = fMapList.size() - 1;
 
 	std::stringstream bf;
 	bf << fs.rdbuf();
@@ -40,6 +44,12 @@ void MapController::save(const std::string & name, const Map & map) const
 	fs << serializeMap(map);
 
 	fs.close();
+}
+
+bool MapController::exists(const std::string& name) const
+{
+	std::ifstream f(F_MAP_PATH + name);
+	return f.good();
 }
 
 std::string MapController::serializeMap(const Map & map) const
@@ -77,7 +87,7 @@ GameObject * MapController::deserializeGameObject(const std::string s)
 
 	GameObject * output = nullptr;
 
-	switch (type)
+	switch ((GameObjectClassType)type)
 	{
 	case GameObjectClassType::PLAYER:
 		output = new Player();
@@ -119,8 +129,11 @@ void MapController::deserializeMap(const std::string & s, Map * map)
 void MapController::startEditing()
 {
 	fEditedMap = fActiveMap;
+	fEditedMapName = fActiveMapName;
 
 	fEditor = new MapEditor();
+	time_t t = std::chrono::system_clock::to_time_t(std::chrono::system_clock::now());
+	fActiveMapName = fEditedMapName + "_" + std::to_string(t);
 	fActiveMap = fEditor->loadMap(*fEditedMap);
 }
 
@@ -129,7 +142,7 @@ void MapController::saveEditedMap()
 	if (fEditor == nullptr)
 		return;
 
-	save("editedmap", *fActiveMap);
+	save(fActiveMapName, *fActiveMap);
 }
 
 void MapController::resetEditedMap() 
@@ -137,7 +150,14 @@ void MapController::resetEditedMap()
 	if (fEditor == nullptr)
 		return;
 
-	fEditor->loadMap(*fEditedMap);
+	if (exists(fActiveMapName))
+		fActiveMap = load(fActiveMapName);
+	else
+	{
+		fActiveMap = fEditedMap;
+	}
+
+	fActiveMap = fEditor->loadMap(*fActiveMap);
 }
 
 void MapController::stopEditing()
@@ -145,8 +165,10 @@ void MapController::stopEditing()
 	if (fEditor == nullptr)
 		return;
 
-	fMapList.push_back(Map(*fActiveMap));
-	fActiveMap = &fMapList.back();
+	fMapList[fActiveMapIndex].clone(*fActiveMap);
+	fActiveMap = &fMapList[fActiveMapIndex];
+	save(fEditedMapName, *fActiveMap);
+
 	fEditedMap = nullptr;
 	delete fEditor;
 	fEditor = nullptr;

@@ -3,6 +3,7 @@
 #include <vector>
 #include <fstream>
 #include <sstream>
+#include <chrono>
 
 #include "Maps/Map.h"
 #include "GameObjects/Player.h"
@@ -17,12 +18,16 @@ class MapController
 	std::vector<Map> fMapList;
 	Map * fActiveMap = nullptr;
 	Map * fEditedMap = nullptr;
+	std::string fActiveMapName;
+	std::string fEditedMapName;
+	int fActiveMapIndex;
 	MapEditor * fEditor = nullptr;
 
 public:
 	Map * load(const int & id);
 	Map * load(const std::string & name);
 	void save(const std::string & name, const Map & map) const;
+	bool exists(const std::string& name) const;
 
 	/*
 		<<Data format>>

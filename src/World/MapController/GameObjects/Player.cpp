@@ -159,7 +159,6 @@ void Player::setColor(const sf::Color & c)
 	((sf::RectangleShape*)fDrawable)->setFillColor(c);
 }
 
-
 void Player::addScore(int p) {
 	fScore += p;
 }

@@ -10,35 +10,7 @@ Map::Map()
 
 Map::Map(const Map & o)
 {
-	fCamera = o.fCamera;
-	fMapBoundaries = o.fMapBoundaries;
-	fDecelerationRate = o.fDecelerationRate;
-	fDecelerationSmoothRate = o.fDecelerationSmoothRate;
-	fGravityRate = o.fGravityRate;
-	fMaxGravityForce = o.fMaxGravityForce;
-
-	for (GameObject * obj : o.fGameObjectList) 
-	{
-		if (obj == nullptr)
-			continue;
-
-		switch (obj->getClassType())
-		{
-			case GameObjectClassType::PLAYER:
-				fGameObjectList.push_back(new Player(*(Player *)obj));
-				break;
-			case GameObjectClassType::PLATFORM:
-				fGameObjectList.push_back(new Platform(*(Platform *)obj));
-				break;
-			case GameObjectClassType::POINT:
-				fGameObjectList.push_back(new Point(*(Point *)obj));
-				break;
-		default:
-			break;
-		}
-
-		fGameObjectList.back()->setMap(this);
-	}
+	this->clone(o);
 }
 
 Map::~Map() 
@@ -174,10 +146,10 @@ void Map::broadcastDraw() const
 	}
 }
 
-Map & Map::operator=(const Map & o)
+void Map::clone(const Map & o) 
 {
 	if (this == &o)
-		return *this;
+		return;
 
 	fCamera = o.fCamera;
 	fMapBoundaries = o.fMapBoundaries;
@@ -186,7 +158,9 @@ Map & Map::operator=(const Map & o)
 	fGravityRate = o.fGravityRate;
 	fMaxGravityForce = o.fMaxGravityForce;
 
-	for (GameObject * obj : o.fGameObjectList)
+	destroyAllGameObjects();
+
+	for (GameObject* obj : o.fGameObjectList)
 	{
 		if (obj == nullptr)
 			continue;
@@ -194,13 +168,13 @@ Map & Map::operator=(const Map & o)
 		switch (obj->getClassType())
 		{
 		case GameObjectClassType::PLAYER:
-			fGameObjectList.push_back(new Player(*(Player *)obj));
+			fGameObjectList.push_back(new Player(*(Player*)obj));
 			break;
 		case GameObjectClassType::PLATFORM:
-			fGameObjectList.push_back(new Platform(*(Platform *)obj));
+			fGameObjectList.push_back(new Platform(*(Platform*)obj));
 			break;
 		case GameObjectClassType::POINT:
-			fGameObjectList.push_back(new Point(*(Point *)obj));
+			fGameObjectList.push_back(new Point(*(Point*)obj));
 			break;
 		default:
 			break;
@@ -208,6 +182,14 @@ Map & Map::operator=(const Map & o)
 
 		fGameObjectList.back()->setMap(this);
 	}
+}
+
+Map & Map::operator=(const Map & o)
+{
+	if (this == &o)
+		return *this;
+
+	this->clone(o);
 	
 	return *this;
 }

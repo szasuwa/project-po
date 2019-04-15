@@ -59,7 +59,10 @@ void DynamicObject::applyWorldForces()
 sf::Vector2f DynamicObject::lockInFrame(const sf::Vector2f & p)
 {
 	if (fMap == nullptr)
-		return sf::Vector2f(0,0);
+		return sf::Vector2f();
+
+	if(!fHorizontalInWindowLock && !fVerticalInWindowLock)
+		return p;
 
 	sf::Vector2f out = p;
 
@@ -113,7 +116,7 @@ sf::Vector2f DynamicObject::checkCollisions(const sf::Vector2f& p) {
 
 	for (GameObject* obj : fMap->getGameObjects()) 
 	{
-		if (obj == nullptr || obj == this || !obj->hasCollider())
+		if (obj == nullptr || obj == this || (!obj->hasCollider() && !obj->hasTrigger()))
 			continue;
 		
 		sf::FloatRect o = obj->getGlobalBounds();
@@ -126,9 +129,11 @@ sf::Vector2f DynamicObject::checkCollisions(const sf::Vector2f& p) {
 			
 			if (d.intersects(o))
 			{
-				std::cout << "L" << std::endl;
-				fCollider.triggerLeft();
-				out.x = std::min(o.left + o.width - d.left, 0.f);
+				if (obj->hasTrigger())
+					out = onTrigger(out, obj, Collision::Left, d, o);
+
+				if (obj->hasCollider())
+					out = onCollision(out, obj, Collision::Left, d, o);
 			}
 		}
 
@@ -138,9 +143,11 @@ sf::Vector2f DynamicObject::checkCollisions(const sf::Vector2f& p) {
 
 			if (d.intersects(o))
 			{
-				std::cout << "R" << std::endl;
-				fCollider.triggerRight();
-				out.x = std::max(o.left - d.left, 0.f);
+				if (obj->hasTrigger())
+					out = onTrigger(out, obj, Collision::Right, d, o);
+
+				if (obj->hasCollider())
+					out = onCollision(out, obj, Collision::Right, d, o);
 			}
 		}
 
@@ -150,9 +157,11 @@ sf::Vector2f DynamicObject::checkCollisions(const sf::Vector2f& p) {
 
 			if (d.intersects(o))
 			{
-				std::cout << "T" << std::endl;
-				fCollider.triggerTop();
-				out.y = std::min(o.top + o.height - d.top, 0.f);
+				if (obj->hasTrigger())
+					out = onTrigger(out, obj, Collision::Top, d, o);
+
+				if (obj->hasCollider())
+					out = onCollision(out, obj, Collision::Top, d, o);
 			}
 
 		}
@@ -163,22 +172,51 @@ sf::Vector2f DynamicObject::checkCollisions(const sf::Vector2f& p) {
 
 			if (d.intersects(o))
 			{
-				std::cout << "B" << std::endl;
-				fCollider.triggerBottom();
-				out.y = std::max(o.top - d.top, 0.f);
+				if (obj->hasTrigger())
+					out = onTrigger(out, obj, Collision::Bottom, d, o);
+
+				if (obj->hasCollider())
+					out = onCollision(out, obj, Collision::Bottom, d, o);
 			}
 		}
-		
-		/*
-		else
-			h = sf::FloatRect(b.left + b.width, b.top, p.x, b.height);
-
-		if (p.y < 0)
-			v = sf::FloatRect(b.left, b.top, b.width, p.y);
-		else
-			v = sf::FloatRect(b.left, b.top + b.height, b.width, p.y);
-			*/
 	}
+	return out;
+}
+
+sf::Vector2f DynamicObject::onCollision(const sf::Vector2f & p, GameObject * obj, const Collision & c, const sf::FloatRect & z, const sf::FloatRect & o)
+{
+	sf::Vector2f out = p;
+
+	switch (c)
+	{
+		case Collision::Left:
+			std::cout << "L" << std::endl;
+			fCollider.triggerLeft();
+			out.x = std::min(o.left + o.width - z.left, 0.f);
+			break;
+
+		case Collision::Right:
+			std::cout << "R" << std::endl;
+			fCollider.triggerRight();
+			out.x = std::max(o.left - z.left, 0.f);
+			break;
+
+		case Collision::Top:
+			std::cout << "T" << std::endl;
+			fCollider.triggerTop();
+			out.y = std::min(o.top + o.height - z.top, 0.f);
+			break;
+
+		case Collision::Bottom:
+			std::cout << "B" << std::endl;
+			fCollider.triggerBottom();
+			out.y = std::max(o.top - z.top, 0.f);
+			break;
+
+		default:
+			break;
+	}
+
 	return out;
 }
 

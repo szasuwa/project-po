@@ -105,23 +105,18 @@ void Player::controlMovement()
 	fMap->moveCamera(cameraMove);
 }
 
-void Player::checkCollision(const GameObject & obj) {
-	//DynamicObject::checkCollision(obj);
+sf::Vector2f Player::onTrigger(const sf::Vector2f& p, GameObject* obj, const Collision& c, const sf::FloatRect& z, const sf::FloatRect& o)
+{
+	if (obj == this || obj == nullptr)
+		return p;
 
-	if (&obj == this)
-		return;
-
-	sf::FloatRect cBounds = getGlobalBounds();
-	sf::FloatRect oBounds = obj.getGlobalBounds();
-
-	if (!cBounds.intersects(oBounds))
-		return;
-
-	if (obj.getClassType() == GameObjectClassType::POINT) {
-		fMap->destroyGameObject((GameObject*)&obj);
+	if (obj->getClassType() == GameObjectClassType::POINT) {
+		fMap->destroyGameObject(obj);
 		addScore();
 		updateGui();
 	}
+
+	return p;
 }
 
 void Player::updateGui() {

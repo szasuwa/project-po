@@ -18,7 +18,7 @@ class Player : public DynamicObject
 	int fScore = 0;
 
 	void controlMovement();
-	void checkCollision(const GameObject & obj);
+	virtual sf::Vector2f onTrigger(const sf::Vector2f& p, GameObject* obj, const Collision& c, const sf::FloatRect& z, const sf::FloatRect& o);
 	void updateGui();
 
 public:

@@ -56,12 +56,12 @@ void DynamicObject::applyWorldForces()
 	}
 }
 
-sf::Vector2f DynamicObject::checkCollisions(const sf::Vector2f& p) {
+sf::Vector2f DynamicObject::lockInFrame(const sf::Vector2f & p)
+{
 	if (fMap == nullptr)
 		return sf::Vector2f(0,0);
 
 	sf::Vector2f out = p;
-	fCollider.resetCollider();
 
 	MapBoundaries mb = fMap->getBoundaries();
 	sf::FloatRect b = getGlobalBounds();
@@ -98,8 +98,18 @@ sf::Vector2f DynamicObject::checkCollisions(const sf::Vector2f& p) {
 			fCollider.triggerBottom();
 			out.y = std::max(mb.bottom - b.top - b.height, 0.f);
 		}
-
 	}
+	return out;
+}
+
+sf::Vector2f DynamicObject::checkCollisions(const sf::Vector2f& p) {
+	if (fMap == nullptr)
+		return sf::Vector2f(0,0);
+
+	sf::Vector2f out = p;
+	fCollider.resetCollider();
+
+	sf::FloatRect b = getGlobalBounds();
 
 	for (GameObject* obj : fMap->getGameObjects()) 
 	{
@@ -283,5 +293,8 @@ void DynamicObject::move(const sf::Vector2f& p, bool gridSnap, bool vLock, bool 
 	if (fTransformable == nullptr)
 		return;
 
-	fTransformable->move(checkCollisions(p));
+	sf::Vector2f nP = p;
+	nP = checkCollisions(nP);
+	nP = lockInFrame(nP);
+	fTransformable->move(nP);
 }

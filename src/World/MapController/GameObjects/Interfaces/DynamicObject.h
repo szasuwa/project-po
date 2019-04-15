@@ -18,6 +18,7 @@ protected:
 
 	void applyWorldForces();
 	sf::Vector2f checkCollisions(const sf::Vector2f& p);
+	sf::Vector2f lockInFrame(const sf::Vector2f & p);
 
 public:
 	explicit DynamicObject(Map * map = nullptr);

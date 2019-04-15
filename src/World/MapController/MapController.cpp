@@ -1,5 +1,5 @@
 #include "MapController.h"
-#include <iostream>
+
 
 void MapController::load(const int & id) {
 	if (fMapList.size() >= id)

@@ -1,6 +1,5 @@
 #include "DynamicObject.h"
 #include "../../Maps/Map.h"
-#include <iostream>
 
 
 DynamicObject::DynamicObject(Map * map) : DynamicObject(sf::Vector2f(0,0), map)
@@ -73,14 +72,12 @@ sf::Vector2f DynamicObject::lockInFrame(const sf::Vector2f & p)
 	{
 		if (mb.hasLeft && p.x < 0 && b.left + p.x < mb.left)
 		{
-			std::cout << "LM" << std::endl;
 			fCollider.triggerLeft();
 			out.x = std::min(mb.left - b.left, 0.f);
 		}
 
 		if (mb.hasRight && p.x > 0 && b.left + b.width + p.x > mb.right)
 		{
-			std::cout << "RM" << std::endl;
 			fCollider.triggerRight();
 			out.x = std::max(mb.right - b.left - b.width, 0.f);
 		}
@@ -90,14 +87,12 @@ sf::Vector2f DynamicObject::lockInFrame(const sf::Vector2f & p)
 	{
 		if (mb.hasTop && p.y < 0 && b.top + p.y < mb.top)
 		{
-			std::cout << "TM" << std::endl;
 			fCollider.triggerTop();
 			out.y = std::min(mb.top - b.top, 0.f);
 		}
 
 		if (mb.hasBottom && p.y > 0 && b.top + b.height + p.y > mb.bottom)
 		{
-			std::cout << "BM" << std::endl;
 			fCollider.triggerBottom();
 			out.y = std::max(mb.bottom - b.top - b.height, 0.f);
 		}
@@ -190,25 +185,21 @@ sf::Vector2f DynamicObject::onCollision(const sf::Vector2f & p, GameObject * obj
 	switch (c)
 	{
 		case Collision::Left:
-			std::cout << "L" << std::endl;
 			fCollider.triggerLeft();
 			out.x = std::min(o.left + o.width - z.left, 0.f);
 			break;
 
 		case Collision::Right:
-			std::cout << "R" << std::endl;
 			fCollider.triggerRight();
 			out.x = std::max(o.left - z.left, 0.f);
 			break;
 
 		case Collision::Top:
-			std::cout << "T" << std::endl;
 			fCollider.triggerTop();
 			out.y = std::min(o.top + o.height - z.top, 0.f);
 			break;
 
 		case Collision::Bottom:
-			std::cout << "B" << std::endl;
 			fCollider.triggerBottom();
 			out.y = std::max(o.top - z.top, 0.f);
 			break;

@@ -1,6 +1,6 @@
 #include "Player.h"
 #include "../Maps/Map.h"
-#include <iostream>
+
 
 Player::Player(Map* map) : Player(sf::Vector2f(), PLAYER_SIZE, PLAYER_COLOR, map)
 {

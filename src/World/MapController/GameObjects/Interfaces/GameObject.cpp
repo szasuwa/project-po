@@ -8,6 +8,7 @@ GameObject::GameObject(const GameObject & obj)
 {
 	fMap = obj.fMap;
 	fHasCollider = obj.fHasCollider;
+	fHasTrigger = obj.fHasTrigger;
 }
 
 GameObject::~GameObject()

@@ -29,7 +29,7 @@ public:
 	Player(const Player & obj);
 	~Player();
 
-	void update();
+	void onUpdate();
 	void onFocus();
 	sf::FloatRect getGlobalBounds() const;
 	void resize(const sf::Vector2f & p, bool gridSnap = false, bool vLock = false, bool hLock = false);

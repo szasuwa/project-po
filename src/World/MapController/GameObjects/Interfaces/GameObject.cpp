@@ -64,20 +64,12 @@ void GameObject::setPosition(const sf::Vector2f & p, bool gridSnap, bool vLock, 
 	fTransformable->setPosition(pos);
 }
 
-void GameObject::move(const sf::Vector2f & p, bool gridSnap, bool vLock, bool hLock)
+void GameObject::move(const sf::Vector2f & p)
 {
 	if (fTransformable == nullptr)
 		return;
 
-	sf::Vector2f pos = fTransformable->getPosition();
-
-	if (!vLock)
-		pos.y += p.y;
-
-	if (!hLock)
-		pos.x += p.x;
-
-	setPosition(pos, gridSnap, vLock, hLock);
+	fTransformable->move(p);
 }
 
 void GameObject::serializeObject(std::ostream & ss) const 

@@ -220,85 +220,12 @@ sf::Vector2f DynamicObject::onCollision(const sf::Vector2f & p, GameObject * obj
 	return out;
 }
 
-/*
-void DynamicObject::checkCollision(const GameObject & obj) {
-	if (&obj == this || fMap == nullptr)
-		return;
-
-	sf::FloatRect cBounds = getGlobalBounds();
-	sf::FloatRect nBounds = cBounds;
-	float dTime = Frame::getInstance().getFrameTime();
-
-	nBounds.left += fForceVector.x*dTime;
-	nBounds.top += fForceVector.y*dTime;
-
-	sf::FloatRect oBounds = obj.getGlobalBounds();
-
-	if (nBounds.intersects(oBounds) && (obj.getClassType() == GameObjectClassType::PLAYER || obj.getClassType() == GameObjectClassType::PLATFORM)) {
-		fForceVector.x = fCollider.handleHorizontalCollision(fForceVector.x, (*fMap).fDecelerationSmoothRate, dTime, cBounds, oBounds);
-
-		nBounds.left = cBounds.left + fForceVector.x*dTime;
-
-		if (nBounds.intersects(oBounds)) {
-			float force = fForceVector.y;
-			fForceVector.y = fCollider.handleVerticalCollision(fForceVector.y, (*fMap).fDecelerationSmoothRate, dTime, cBounds, oBounds);
-
-			//Temporary fix for unstable bottom collision
-			if (force > fForceVector.y) {
-				fForceVector.y += (*fMap).fGravityRate;
-			}
-		}
-	}
-}
-*/
-
-void DynamicObject::applyForces() 
+void DynamicObject::onUpdate() 
 {
 	applyWorldForces();
-	//checkCollisions();
-
-	float dTime = Frame::getInstance().getFrameTime();
-	
-
-	/*
-	//Prevent escaping window boundaries
-	if (fVerticalInWindowLock || fHorizontalInWindowLock) 
-	{
-		sf::FloatRect bounds = getGlobalBounds();
-
-		if (fVerticalInWindowLock) {
-			if (mb.hasTop && bounds.top + fForceVector.y*dTime < mb.top)
-			{
-				fCollider.triggerCollision(0, 0, 1, 0);
-				fForceVector.y = mb.top - bounds.top;
-			}
-
-			if (mb.hasBottom && bounds.top + bounds.height + fForceVector.y*dTime > mb.bottom) 
-			{
-				fCollider.triggerCollision(0, 0, 0, 1);
-				fForceVector.y = mb.bottom - bounds.top - bounds.height;
-			}
-		}
-		
-		if (fHorizontalInWindowLock) 
-		{
-			if (mb.hasLeft && bounds.left + fForceVector.x*dTime < 0) 
-			{
-				fCollider.triggerCollision(1, 0, 0, 0);
-				fForceVector.x = mb.left-bounds.left;
-			}
-
-			if (mb.hasRight && bounds.left + bounds.width + fForceVector.x*dTime > mb.right) 
-			{
-				fCollider.triggerCollision(0, 1, 0, 0);
-				fForceVector.x = mb.right - bounds.left - bounds.width;
-			}
-		}
-	}
-	*/
 
 	//Set position
-	move(fForceVector * dTime);
+	move(fForceVector * Frame::getInstance().getFrameTime());
 }
 
 void DynamicObject::serializeObject(std::ostream & ss) const {
@@ -323,10 +250,22 @@ void DynamicObject::deserializeObject(std::istream & ss) {
 	ss >> r;
 	ss >> t;
 	ss >> b;
-	//fCollider.triggerCollision(l, r, t, b);
+
+	if(l)
+		fCollider.triggerLeft();
+
+	if (r)
+		fCollider.triggerRight();
+
+	if (t)
+		fCollider.triggerTop();
+
+	if (b)
+		fCollider.triggerBottom();
+
 }
 
-void DynamicObject::move(const sf::Vector2f& p, bool gridSnap, bool vLock, bool hLock)
+void DynamicObject::move(const sf::Vector2f& p)
 {
 	if (fTransformable == nullptr)
 		return;

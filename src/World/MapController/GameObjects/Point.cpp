@@ -40,7 +40,7 @@ Point::~Point()
 	fTransformable = nullptr;
 }
 
-void Point::update()
+void Point::onUpdate()
 {
 }
 

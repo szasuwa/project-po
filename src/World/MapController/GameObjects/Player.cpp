@@ -123,10 +123,10 @@ void Player::updateGui() {
 	UserInterface::setPoints(fScore);
 }
 
-void Player::update()
+void Player::onUpdate()
 {
 	controlMovement();
-	applyForces();
+	DynamicObject::onUpdate();
 }
 
 void Player::onFocus()

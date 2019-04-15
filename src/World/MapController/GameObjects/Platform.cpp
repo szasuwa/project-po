@@ -39,7 +39,7 @@ Platform::~Platform()
 	fTransformable = nullptr;
 }
 
-void Platform::update()
+void Platform::onUpdate()
 {
 }
 

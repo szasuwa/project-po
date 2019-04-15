@@ -151,7 +151,7 @@ void Map::broadcastUpdate()
 	{
 		if (fGameObjectList[i] != nullptr) 
 		{
-			fGameObjectList[i]->update();
+			fGameObjectList[i]->onUpdate();
 		}
 	}
 }
@@ -188,17 +188,17 @@ void Map::clone(const Map & o)
 
 		switch (obj->getClassType())
 		{
-		case GameObjectClassType::PLAYER:
-			fGameObjectList.push_back(new Player(*(Player*)obj));
-			break;
-		case GameObjectClassType::PLATFORM:
-			fGameObjectList.push_back(new Platform(*(Platform*)obj));
-			break;
-		case GameObjectClassType::POINT:
-			fGameObjectList.push_back(new Point(*(Point*)obj));
-			break;
-		default:
-			break;
+			case GameObjectClassType::PLAYER:
+				fGameObjectList.push_back(new Player(*(Player*)obj));
+				break;
+			case GameObjectClassType::PLATFORM:
+				fGameObjectList.push_back(new Platform(*(Platform*)obj));
+				break;
+			case GameObjectClassType::POINT:
+				fGameObjectList.push_back(new Point(*(Point*)obj));
+				break;
+			default:
+				break;
 		}
 
 		fGameObjectList.back()->setMap(this);

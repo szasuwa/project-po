@@ -37,8 +37,9 @@ public:
 	DynamicObject(const DynamicObject & o);
 	~DynamicObject();
 
-	virtual void move(const sf::Vector2f& p, bool gridSnap = false, bool vLock = false, bool hLock = false);
-	void applyForces();
+	virtual void onUpdate();
+
+	virtual void move(const sf::Vector2f& p);
 
 	virtual void serializeObject(std::ostream& ss) const;
 	virtual void deserializeObject(std::istream& ss);

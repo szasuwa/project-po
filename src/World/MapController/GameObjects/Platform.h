@@ -15,7 +15,7 @@ public:
 	Platform(const Platform & obj);
 	~Platform();
 
-	void update();
+	void onUpdate();
 	void onFocus();
 	sf::FloatRect getGlobalBounds() const;
 	void resize(const sf::Vector2f & p, bool gridSnap = false, bool vLock = false, bool hLock = false);

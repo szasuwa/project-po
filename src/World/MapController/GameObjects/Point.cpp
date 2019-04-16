@@ -104,3 +104,14 @@ void Point::deserializeObject(std::istream & ss) {
 	((sf::CircleShape*)fDrawable)->setFillColor(sf::Color(c));
 }
 
+bool Point::checkSerializableValidity(const std::string& s)
+{
+	return std::regex_match(s, std::regex(
+		REGEX_WHITESPACE
+		+ REGEX_FLOAT_PATTERN + "{2}"
+		+ REGEX_BOOL_PATTERN + "{2}"
+		+ REGEX_FLOAT_PATTERN + "{1}"
+		+ REGEX_INT_PATTERN + "{1}"
+		+ REGEX_WHITESPACE
+	));
+}

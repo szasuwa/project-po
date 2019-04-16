@@ -215,3 +215,19 @@ void Player::deserializeObject(std::istream & ss)
 	ss >> fScrollZone.bottom;
 	ss >> fScore;
 }
+
+bool Player::checkSerializableValidity(const std::string& s)
+{
+	return std::regex_match(s, std::regex(
+		REGEX_WHITESPACE 
+		+ REGEX_FLOAT_PATTERN + "{2}" 
+		+ REGEX_BOOL_PATTERN + "{2}"
+		+ REGEX_FLOAT_PATTERN + "{3}"
+		+ REGEX_BOOL_PATTERN + "{4}"
+		+ REGEX_FLOAT_PATTERN + "{2}"
+		+ REGEX_INT_PATTERN + "{1}"
+		+ REGEX_FLOAT_PATTERN + "{6}"
+		+ REGEX_INT_PATTERN + "{1}"
+		+ REGEX_WHITESPACE
+	));
+}

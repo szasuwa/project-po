@@ -1,5 +1,6 @@
 #include "Platform.h"
 
+
 Platform::Platform(Map * map): Platform(sf::Vector2f(), PLATFORM_SIZE, PLATFORM_COLOR, map)
 {
 }
@@ -96,4 +97,16 @@ void Platform::deserializeObject(std::istream & ss)
 	ss >> c;
 	((sf::RectangleShape *)fDrawable)->setSize(sf::Vector2f(x, y));
 	((sf::RectangleShape *)fDrawable)->setFillColor(sf::Color(c));
+}
+
+bool Platform::checkSerializableValidity(const std::string& s)
+{
+	return std::regex_match(s, std::regex(
+		REGEX_WHITESPACE
+		+ REGEX_FLOAT_PATTERN + "{2}"
+		+ REGEX_BOOL_PATTERN + "{2}"
+		+ REGEX_FLOAT_PATTERN + "{2}"
+		+ REGEX_INT_PATTERN + "{1}"
+		+ REGEX_WHITESPACE
+	));
 }

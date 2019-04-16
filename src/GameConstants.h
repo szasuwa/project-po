@@ -3,6 +3,11 @@
 #include <SFML/Config.hpp>
 const std::string GAME_VERSION = "0.3"; 
 
+const std::string REGEX_WHITESPACE = "\\s*";
+const std::string REGEX_FLOAT_PATTERN = "(-?\\d+(\\.\\d+)?\\s+)";
+const std::string REGEX_INT_PATTERN = "(-?\\d+\\s+)";
+const std::string REGEX_BOOL_PATTERN = "((0|1)\\s+)";
+
 const char SERIALIZABLE_OBJECT_DELIMITER = '\n';
 const char SERIALIZABLE_FIELD_DELIMITER = ' ';
 

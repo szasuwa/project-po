@@ -1,5 +1,6 @@
 #pragma once
 #include <SFML/Graphics/CircleShape.hpp>
+#include <regex>
 
 #include "Interfaces/GameObject.h"
 
@@ -28,10 +29,13 @@ public:
 		class type
 		position.x
 		position.y
+		has hollider
+		has trigger
 		radius
 		color
 	*/
 	virtual GameObjectClassType getClassType() const;
 	virtual void serializeObject(std::ostream & ss) const;
 	virtual void deserializeObject(std::istream & ss);
+	static bool checkSerializableValidity(const std::string& s);
 };

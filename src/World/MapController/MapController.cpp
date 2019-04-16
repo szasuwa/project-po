@@ -13,6 +13,12 @@ void MapController::load(const int & id) {
 void MapController::load(const std::string & name)
 {
 	if (!exists(name))
+	{
+		LogError("Cannot open file (" + F_MAP_PATH + name + ")");
+		return;
+	}
+
+	if (!checkIntegrity(name))
 		return;
 
 	fMapList.push_back(Map());
@@ -30,13 +36,15 @@ void MapController::load(const std::string& name, Map * map)
 	std::ifstream fs(F_MAP_PATH + name);
 
 	if (fs.fail())
+	{
+		LogError("Cannot open file (" + F_MAP_PATH + name + ")");
+		return;
+	}
+
+	if (!checkIntegrity(name))
 		return;
 
-	std::stringstream bf;
-	bf << fs.rdbuf();
-	deserializeMap(bf.str(), map);
-
-	fs.close();
+	fs >> *map;
 }
 
 void MapController::save(const std::string & name, const Map & map) const
@@ -44,11 +52,12 @@ void MapController::save(const std::string & name, const Map & map) const
 	std::ofstream fs(F_MAP_PATH + name);
 
 	if (fs.fail())
+	{
+		LogError("Cannot open file (" + F_MAP_PATH + name + ")");
 		return;
+	}
 
-	fs << serializeMap(map);
-
-	fs.close();
+	fs << map;
 }
 
 bool MapController::exists(const std::string& name) const
@@ -57,85 +66,61 @@ bool MapController::exists(const std::string& name) const
 	return f.good();
 }
 
-std::string MapController::serializeMap(const Map & map) const
+bool MapController::checkIntegrity(const std::string& name) const
 {
-	std::stringstream ss;
+	std::ifstream fs(F_MAP_PATH + name);
 
-	ss << map.fMapBoundaries.hasLeft << SERIALIZABLE_FIELD_DELIMITER
-		<< map.fMapBoundaries.hasRight << SERIALIZABLE_FIELD_DELIMITER
-		<< map.fMapBoundaries.hasTop << SERIALIZABLE_FIELD_DELIMITER
-		<< map.fMapBoundaries.hasBottom << SERIALIZABLE_FIELD_DELIMITER
-		<< map.fMapBoundaries.left << SERIALIZABLE_FIELD_DELIMITER
-		<< map.fMapBoundaries.right << SERIALIZABLE_FIELD_DELIMITER
-		<< map.fMapBoundaries.top << SERIALIZABLE_FIELD_DELIMITER
-		<< map.fMapBoundaries.bottom << SERIALIZABLE_FIELD_DELIMITER
-		<< map.fDecelerationRate << SERIALIZABLE_FIELD_DELIMITER
-		<< map.fDecelerationSmoothRate << SERIALIZABLE_FIELD_DELIMITER
-		<< map.fGravityRate << SERIALIZABLE_FIELD_DELIMITER
-		<< map.fMaxGravityForce << SERIALIZABLE_FIELD_DELIMITER
-		<< map.fCamera.left << SERIALIZABLE_FIELD_DELIMITER
-		<< map.fCamera.top << SERIALIZABLE_FIELD_DELIMITER
-		<< map.fCamera.width << SERIALIZABLE_FIELD_DELIMITER
-		<< map.fCamera.height << SERIALIZABLE_FIELD_DELIMITER;
-
-	for (GameObject * obj : map.fGameObjectList)
+	if (fs.fail())
 	{
-		if (obj != nullptr)
-			ss << SERIALIZABLE_OBJECT_DELIMITER << *obj ;
+		LogError("Cannot open file (" + F_MAP_PATH + name + ")");
+		return false;
 	}
 
-	return ss.str();
-}
+	std::string temp;
+	int lines = 1;
 
-GameObject * MapController::deserializeGameObject(const std::string s) 
-{
-	std::stringstream ss;
-	ss.str(s);
-	int type;
-	ss >> type;
-
-	GameObject * output = nullptr;
-
-	switch ((GameObjectClassType)type)
+	getline(fs, temp);
+	if (!Map::checkSerializableValidity(temp))
 	{
-	case GameObjectClassType::PLAYER:
-		output = new Player();
-		break;
-
-	case GameObjectClassType::PLATFORM:
-		output = new Platform();
-		break;
-
-	case GameObjectClassType::POINT:
-		output = new Point();
-		break;
-
-	default:
-		return nullptr;
+		LogError("Corrupted map (" + F_MAP_PATH + name + ") : " + std::to_string(lines));
+		return false;
 	}
 
-	ss >> *output;
-	return output;
-}
+	
+	while (fs.rdbuf()->in_avail() > 0) {
+		++lines;
+		bool valid;
+		int type;
+		fs >> type;
 
-void MapController::deserializeMap(const std::string & s, Map * map)
-{
-	std::stringstream ss;
-	ss.str(s);
+		getline(fs, temp);
 
-	ss >> (*map).fMapBoundaries.hasLeft >> (*map).fMapBoundaries.hasRight >> (*map).fMapBoundaries.hasTop >> (*map).fMapBoundaries.hasBottom >> 
-		(*map).fMapBoundaries.left >> (*map).fMapBoundaries.right >> (*map).fMapBoundaries.top >> (*map).fMapBoundaries.bottom >>
-		(*map).fCamera.left >> (*map).fCamera.top >> (*map).fCamera.width >> (*map).fCamera.height;
+		switch ((GameObjectClassType)type)
+		{
+		case GameObjectClassType::PLAYER:
+			valid = Player::checkSerializableValidity(temp);
+			break;
 
-	ss.ignore(255, SERIALIZABLE_OBJECT_DELIMITER);
+		case GameObjectClassType::PLATFORM:
+			valid = Platform::checkSerializableValidity(temp);
+			break;
 
-	map->destroyAllGameObjects();
+		case GameObjectClassType::POINT:
+			valid = Point::checkSerializableValidity(temp);
+			break;
 
-	while (ss.rdbuf()->in_avail() > 0) {
-		std::string temp;
-		getline(ss, temp);
-		map->addGameObject(deserializeGameObject(temp));
+		default:
+			valid = false;
+		}
+
+		if (!valid)
+		{
+			LogError("Corrupted object (" + F_MAP_PATH + name + ") : " + std::to_string(lines));
+			return false;
+		}
 	}
+
+	return true;
 }
 
 void MapController::beginEdition()

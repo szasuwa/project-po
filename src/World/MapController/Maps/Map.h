@@ -2,6 +2,7 @@
 #include <SFML/System/Vector2.hpp>
 #include <SFML/Graphics/View.hpp>
 #include <vector>
+#include <regex>
 
 #include "MapBoundaries.h"
 #include "../GameObjects/Interfaces/GameObject.h"
@@ -49,4 +50,41 @@ public:
 
 	void clone(const Map & o);
 	Map & operator=(const Map & o);
+
+	/*
+		<<Data format>>
+		Properties separated using SERIALIZABLE_FIELD_DELIMITER.
+		Objects separated using SERIALIZABLE_OBJECT_DELIMITER.
+
+		<<Data order>>
+		map
+		object[1]
+		...
+		object[n]
+
+		<<Map properties order>>
+		has left bound
+		has right bound
+		has top bound
+		has bottom bound
+		left bound
+		right bound
+		top bound
+		bottom bound
+		deceleration rate
+		deceleration smooth rate
+		gravity rate
+		max gravity force
+		camera left
+		camera top
+		camera width
+		camera height
+	*/
+
+	void serializeObject(std::ostream& ss) const;
+	void deserializeObject(std::istream& ss);
+	static bool checkSerializableValidity(const std::string & s);
 };
+
+std::ostream& operator<<(std::ostream& s, const Map& o);
+std::istream& operator>>(std::istream& s, Map& o);

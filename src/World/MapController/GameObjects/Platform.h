@@ -1,5 +1,6 @@
 #pragma once
 #include <SFML/Graphics/RectangleShape.hpp>
+#include <regex>
 
 #include "Interfaces/GameObject.h"
 
@@ -29,6 +30,8 @@ public:
 		class type
 		position.x
 		position.y
+		has hollider
+		has trigger
 		size.x
 		size.y
 		color
@@ -36,5 +39,6 @@ public:
 	virtual GameObjectClassType getClassType() const;
 	virtual void serializeObject(std::ostream & ss) const;
 	virtual void deserializeObject(std::istream & ss);
+	static bool checkSerializableValidity(const std::string& s);
 };
 

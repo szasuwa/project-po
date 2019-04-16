@@ -1,6 +1,7 @@
 #pragma once
 #include <SFML/Graphics.hpp>
 #include <algorithm>
+#include <regex>
 
 #include "Interfaces/DynamicObject.h"
 #include "../../Frame/FrameMargin.h"
@@ -48,6 +49,8 @@ public:
 		class type
 		position.x
 		position.y
+		has hollider
+		has trigger
 		mass
 		force.x
 		force.y
@@ -69,5 +72,6 @@ public:
 	virtual GameObjectClassType getClassType() const;
 	virtual void serializeObject(std::ostream & ss) const;
 	virtual void deserializeObject(std::istream & ss);	
+	static bool checkSerializableValidity(const std::string& s);
 };
 

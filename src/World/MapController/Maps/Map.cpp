@@ -214,3 +214,97 @@ Map & Map::operator=(const Map & o)
 	
 	return *this;
 }
+
+void Map::serializeObject(std::ostream& ss) const {
+	ss << fMapBoundaries.hasLeft << SERIALIZABLE_FIELD_DELIMITER
+		<< fMapBoundaries.hasRight << SERIALIZABLE_FIELD_DELIMITER
+		<< fMapBoundaries.hasTop << SERIALIZABLE_FIELD_DELIMITER
+		<< fMapBoundaries.hasBottom << SERIALIZABLE_FIELD_DELIMITER
+		<< fMapBoundaries.left << SERIALIZABLE_FIELD_DELIMITER
+		<< fMapBoundaries.right << SERIALIZABLE_FIELD_DELIMITER
+		<< fMapBoundaries.top << SERIALIZABLE_FIELD_DELIMITER
+		<< fMapBoundaries.bottom << SERIALIZABLE_FIELD_DELIMITER
+		<< fDecelerationRate << SERIALIZABLE_FIELD_DELIMITER
+		<< fDecelerationSmoothRate << SERIALIZABLE_FIELD_DELIMITER
+		<< fGravityRate << SERIALIZABLE_FIELD_DELIMITER
+		<< fMaxGravityForce << SERIALIZABLE_FIELD_DELIMITER
+		<< fCamera.left << SERIALIZABLE_FIELD_DELIMITER
+		<< fCamera.top << SERIALIZABLE_FIELD_DELIMITER
+		<< fCamera.width << SERIALIZABLE_FIELD_DELIMITER
+		<< fCamera.height << SERIALIZABLE_FIELD_DELIMITER;
+
+	for (GameObject* obj : fGameObjectList)
+	{
+		if (obj != nullptr)
+			ss << SERIALIZABLE_OBJECT_DELIMITER << *obj;
+	}
+}
+
+void Map::deserializeObject(std::istream& ss) {
+	ss >> fMapBoundaries.hasLeft >> 
+		fMapBoundaries.hasRight >> 
+		fMapBoundaries.hasTop >> 
+		fMapBoundaries.hasBottom >>
+		fMapBoundaries.left >>
+		fMapBoundaries.right >> 
+		fMapBoundaries.top >> 
+		fMapBoundaries.bottom >>
+		fCamera.left >> 
+		fCamera.top >> 
+		fCamera.width >> 
+		fCamera.height;
+
+	destroyAllGameObjects();
+
+	while (ss.rdbuf()->in_avail() > 0) {
+		ss.ignore(255, SERIALIZABLE_OBJECT_DELIMITER);
+
+		int type;
+		ss >> type;
+
+		GameObject* obj = nullptr;		
+
+		switch ((GameObjectClassType)type)
+		{
+		case GameObjectClassType::PLAYER:
+			obj = new Player();
+			break;
+
+		case GameObjectClassType::PLATFORM:
+			obj = new Platform();
+			break;
+
+		case GameObjectClassType::POINT:
+			obj = new Point();
+			break;
+
+		default:
+			continue;
+		}
+
+		ss >> *obj;
+		addGameObject(obj);
+	}
+}
+
+bool Map::checkSerializableValidity(const std::string& s)
+{
+	return std::regex_match(s, std::regex(
+		REGEX_WHITESPACE 
+		+ REGEX_BOOL_PATTERN + "{4}" 
+		+ REGEX_FLOAT_PATTERN + "{12}"
+		+ REGEX_WHITESPACE
+	));
+}
+
+std::ostream& operator<<(std::ostream& s, const Map& o)
+{
+	o.serializeObject(s);
+	return s;
+}
+
+std::istream& operator>>(std::istream& s, Map& o)
+{
+	o.deserializeObject(s);
+	return s;
+}

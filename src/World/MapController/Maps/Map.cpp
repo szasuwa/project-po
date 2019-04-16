@@ -156,15 +156,19 @@ void Map::broadcastUpdate()
 	}
 }
 
+#include "../../../Logger.h"
 void Map::broadcastDraw() const 
 {
+	int t = 0;
 	for (size_t i = 0; i < fGameObjectList.size(); ++i) 
 	{
-		if (fGameObjectList[i] != nullptr) 
+		if (fGameObjectList[i] != nullptr && fCamera.intersects(fGameObjectList[i]->getGlobalBounds()))
 		{
+			++t;
 			fGameObjectList[i]->draw();
 		}
 	}
+	LogInfo(std::to_string(t));
 }
 
 void Map::clone(const Map & o) 
@@ -249,10 +253,17 @@ void Map::deserializeObject(std::istream& ss) {
 		fMapBoundaries.right >> 
 		fMapBoundaries.top >> 
 		fMapBoundaries.bottom >>
+		fDecelerationRate >> 
+		fDecelerationSmoothRate >> 
+		fGravityRate >> 
+		fMaxGravityForce >>
 		fCamera.left >> 
 		fCamera.top >> 
 		fCamera.width >> 
 		fCamera.height;
+
+	if (!ss)
+		return
 
 	destroyAllGameObjects();
 
@@ -283,7 +294,11 @@ void Map::deserializeObject(std::istream& ss) {
 		}
 
 		ss >> *obj;
-		addGameObject(obj);
+
+		if (ss)
+			addGameObject(obj);
+		else
+			return;
 	}
 }
 

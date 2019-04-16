@@ -11,8 +11,6 @@
 #include "../GameObjects/Platform.h"
 #include "../GameObjects/Point.h"
 
-class MapController;
-
 class Map {
 	MapBoundaries fMapBoundaries;
 	std::vector<GameObject *> fGameObjectList;
@@ -24,7 +22,6 @@ class Map {
 	float fMaxGravityForce = 500.f;
 
 	friend DynamicObject;
-	friend MapController;
 
 public:
 	Map();

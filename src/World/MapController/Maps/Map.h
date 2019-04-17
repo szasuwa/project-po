@@ -10,6 +10,7 @@
 #include "../GameObjects/Player.h"
 #include "../GameObjects/Platform.h"
 #include "../GameObjects/Point.h"
+#include "../GameObjects/Portal.h"
 
 class Map {
 	MapBoundaries fMapBoundaries;

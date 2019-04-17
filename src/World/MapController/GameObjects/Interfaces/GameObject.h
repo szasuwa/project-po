@@ -28,6 +28,9 @@ public:
 
 	virtual void onUpdate() = 0;
 	virtual void onFocus() = 0;
+	virtual bool onCollision(GameObject* obj);
+	virtual bool onTrigger(GameObject* obj);
+
 	void draw() const;
 
 	int getId() const;

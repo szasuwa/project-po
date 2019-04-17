@@ -1,4 +1,5 @@
 #include "Point.h"
+#include "../Maps/Map.h"
 
 
 Point::Point(Map* map) : Point(sf::Vector2f(), POINT_RADIUS, POINT_COLOR, map)
@@ -46,6 +47,17 @@ void Point::onUpdate()
 
 void Point::onFocus()
 {
+}
+
+bool Point::onTrigger(GameObject * o)
+{
+	if (o == nullptr)
+		return true;
+
+	if (o->getClassType() == GameObjectClassType::PLAYER) {
+		fMap->destroyGameObject(this);
+		return false;
+	}
 }
 
 sf::FloatRect Point::getGlobalBounds() const 

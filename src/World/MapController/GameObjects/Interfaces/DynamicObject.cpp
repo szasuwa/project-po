@@ -117,6 +117,7 @@ sf::Vector2f DynamicObject::checkCollisions(const sf::Vector2f& p) {
 		
 		sf::FloatRect o = obj->getGlobalBounds();
 		sf::FloatRect d;
+		bool collision = false, trigger = false;
 
 		//Check left
 		if (!fCollider.getLeft() && p.x < 0)
@@ -126,10 +127,16 @@ sf::Vector2f DynamicObject::checkCollisions(const sf::Vector2f& p) {
 			if (d.intersects(o))
 			{
 				if (obj->hasTrigger())
+				{
+					trigger = true;
 					out = onTrigger(out, obj, Collision::Left, d, o);
+				}
 
 				if (obj->hasCollider())
+				{
+					collision = true;
 					out = onCollision(out, obj, Collision::Left, d, o);
+				}
 			}
 		}
 
@@ -140,10 +147,16 @@ sf::Vector2f DynamicObject::checkCollisions(const sf::Vector2f& p) {
 			if (d.intersects(o))
 			{
 				if (obj->hasTrigger())
+				{
+					trigger = true;
 					out = onTrigger(out, obj, Collision::Right, d, o);
+				}
 
 				if (obj->hasCollider())
+				{
+					collision = true;
 					out = onCollision(out, obj, Collision::Right, d, o);
+				}
 			}
 		}
 
@@ -154,10 +167,17 @@ sf::Vector2f DynamicObject::checkCollisions(const sf::Vector2f& p) {
 			if (d.intersects(o))
 			{
 				if (obj->hasTrigger())
+				{
+					trigger = true;
 					out = onTrigger(out, obj, Collision::Top, d, o);
+				}
 
 				if (obj->hasCollider())
+				{
+					collision = true;
 					out = onCollision(out, obj, Collision::Top, d, o);
+
+				}
 			}
 
 		}
@@ -169,13 +189,27 @@ sf::Vector2f DynamicObject::checkCollisions(const sf::Vector2f& p) {
 			if (d.intersects(o))
 			{
 				if (obj->hasTrigger())
+				{
+					trigger = true;
 					out = onTrigger(out, obj, Collision::Bottom, d, o);
+				}
 
 				if (obj->hasCollider())
+				{
+					collision = true;
 					out = onCollision(out, obj, Collision::Bottom, d, o);
+				}
 			}
 		}
+
+		if (trigger && !obj->onTrigger(this))
+			continue;
+
+		if (collision && !obj->onCollision(this))
+			continue;
 	}
+
+	
 	return out;
 }
 

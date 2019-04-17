@@ -20,6 +20,16 @@ GameObject::~GameObject()
 	delete fTransformable;
 }
 
+bool GameObject::onCollision(GameObject* obj)
+{
+	return true;
+}
+
+bool GameObject::onTrigger(GameObject* obj)
+{
+	return true;
+}
+
 void GameObject::draw() const 
 {
 	if (fDrawable == nullptr)

@@ -3,5 +3,6 @@ enum class GameObjectClassType : unsigned int {
 	NONE,
 	PLAYER,
 	PLATFORM,
-	POINT
+	POINT,
+	PORTAL
 };

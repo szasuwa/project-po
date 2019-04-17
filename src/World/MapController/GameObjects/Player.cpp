@@ -111,7 +111,6 @@ sf::Vector2f Player::onTrigger(const sf::Vector2f& p, GameObject* obj, const Col
 		return p;
 
 	if (obj->getClassType() == GameObjectClassType::POINT) {
-		fMap->destroyGameObject(obj);
 		addScore();
 		updateGui();
 	}

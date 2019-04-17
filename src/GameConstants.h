@@ -19,3 +19,6 @@ const sf::Color PLATFORM_COLOR(2105376255);
 
 const float POINT_RADIUS = 5;
 const  sf::Color POINT_COLOR(4291366655);
+
+const sf::Vector2f PORTAL_SIZE(10, 10);
+const sf::Color PORTAL_COLOR(16777215);

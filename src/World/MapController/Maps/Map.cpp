@@ -18,20 +18,27 @@ Map::~Map()
 	destroyAllGameObjects();
 }
 
-void Map::addGameObject(GameObject* obj) 
+void Map::addGameObject(GameObject* obj, const bool & keepId)
 {
 	if (obj != nullptr)
 	{
 		obj->setMap(this);
 		fGameObjectList.push_back(obj);
+		if(!keepId)
+			fGameObjectList.back()->setId(calculateGameObjectId());
 	}
 }
 
-void Map::addGameObjects(const std::vector<GameObject *> & list) 
+void Map::addGameObject(GameObject* obj)
+{
+	addGameObject(obj, false);
+}
+
+void Map::addGameObjects(const std::vector<GameObject *> & list)
 {
 	for (GameObject* ptr : list) 
 	{
-		addGameObject(ptr);
+		addGameObject(ptr, false);
 	}
 }
 
@@ -59,10 +66,35 @@ void Map::destroyAllGameObjects()
 	fGameObjectList.clear();
 }
 
+const GameObject* Map::getGameObject(const int& id) const {
+	for (GameObject* ptr : fGameObjectList)
+	{
+		if (ptr != nullptr && ptr->getId() == id)
+			return ptr;
+	}
+
+	return nullptr;
+}
+
 const std::vector<GameObject *>& Map::getGameObjects() const 
 {
 	return fGameObjectList;
 }
+
+void Map::updateLastId()
+{
+	for (GameObject* ptr : fGameObjectList)
+	{
+		if (ptr != nullptr && ptr->getId() > fLastId)
+			fLastId = ptr->getId();
+	}
+}
+
+int Map::calculateGameObjectId()
+{
+	return ++fLastId;
+}
+
 
 MapBoundaries Map::getBoundaries() const
 {
@@ -156,19 +188,15 @@ void Map::broadcastUpdate()
 	}
 }
 
-#include "../../../Logger.h"
 void Map::broadcastDraw() const 
 {
-	int t = 0;
 	for (size_t i = 0; i < fGameObjectList.size(); ++i) 
 	{
 		if (fGameObjectList[i] != nullptr && fCamera.intersects(fGameObjectList[i]->getGlobalBounds()))
 		{
-			++t;
 			fGameObjectList[i]->draw();
 		}
 	}
-	LogInfo(std::to_string(t));
 }
 
 void Map::clone(const Map & o) 
@@ -176,6 +204,7 @@ void Map::clone(const Map & o)
 	if (this == &o)
 		return;
 
+	fLastId = o.fLastId;
 	fCamera = o.fCamera;
 	fMapBoundaries = o.fMapBoundaries;
 	fDecelerationRate = o.fDecelerationRate;
@@ -263,7 +292,7 @@ void Map::deserializeObject(std::istream& ss) {
 		fCamera.height;
 
 	if (!ss)
-		return
+		return;
 
 	destroyAllGameObjects();
 
@@ -296,7 +325,7 @@ void Map::deserializeObject(std::istream& ss) {
 		ss >> *obj;
 
 		if (ss)
-			addGameObject(obj);
+			addGameObject(obj, true);
 		else
 			return;
 	}

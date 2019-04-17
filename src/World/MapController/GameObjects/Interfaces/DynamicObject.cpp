@@ -1,5 +1,6 @@
 #include "DynamicObject.h"
 #include "../../Maps/Map.h"
+const std::string DynamicObject::F_REGEX_DYNAMIC_OBJECT_PATTERN = REGEX_FLOAT_PATTERN + "{3}" + REGEX_BOOL_PATTERN + "{4}";
 
 
 DynamicObject::DynamicObject(Map * map) : DynamicObject(sf::Vector2f(0,0), map)

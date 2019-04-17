@@ -1,4 +1,6 @@
 #include "GameObject.h"
+const std::string GameObject::F_REGEX_GAME_OBJECT_PATTERN = REGEX_INT_PATTERN + "{1}" + REGEX_FLOAT_PATTERN + "{2}" + REGEX_BOOL_PATTERN + "{2}";
+
 
 GameObject::GameObject(Map * map) : fMap(map)
 {
@@ -6,6 +8,7 @@ GameObject::GameObject(Map * map) : fMap(map)
 
 GameObject::GameObject(const GameObject & obj) 
 {
+	fId = obj.fId;
 	fMap = obj.fMap;
 	fHasCollider = obj.fHasCollider;
 	fHasTrigger = obj.fHasTrigger;
@@ -23,6 +26,16 @@ void GameObject::draw() const
 		return;
 
 	Frame::getInstance().draw(*fDrawable, Frame::FrameLayer::MapArea);
+}
+
+int GameObject::getId() const 
+{
+	return fId;
+}
+
+void GameObject::setId(const int& id)
+{
+	fId = id;
 }
 
 void GameObject::setMap(Map * map) 
@@ -78,6 +91,7 @@ void GameObject::serializeObject(std::ostream & ss) const
 	if (fTransformable == nullptr)
 		return;
 
+	ss << fId << SERIALIZABLE_FIELD_DELIMITER;
 	ss << fTransformable->getPosition().x << SERIALIZABLE_FIELD_DELIMITER;
 	ss << fTransformable->getPosition().y << SERIALIZABLE_FIELD_DELIMITER;
 	ss << fHasCollider << SERIALIZABLE_FIELD_DELIMITER;
@@ -89,6 +103,7 @@ void GameObject::deserializeObject(std::istream & ss)
 	if (fTransformable == nullptr)
 		return;
 
+	ss >> fId;
 	float x, y;
 	ss >> x;
 	ss >> y;

@@ -47,6 +47,7 @@ public:
 
 		<<Data order>>
 		class type
+		id
 		position.x
 		position.y
 		has hollider

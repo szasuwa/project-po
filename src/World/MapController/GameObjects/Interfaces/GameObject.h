@@ -13,11 +13,13 @@ class Map;
 class GameObject
 {
 protected:
+	static const std::string F_REGEX_GAME_OBJECT_PATTERN;
 	Map * fMap = nullptr;
 	sf::Drawable * fDrawable = nullptr;
 	sf::Transformable * fTransformable = nullptr;
 	bool fHasCollider = true;
 	bool fHasTrigger = false;
+	int fId = -1;
 
 public:
 	explicit GameObject(Map * map = nullptr);
@@ -28,6 +30,8 @@ public:
 	virtual void onFocus() = 0;
 	void draw() const;
 
+	int getId() const;
+	void setId(const int & id);
 	void setMap(Map * map);
 	virtual sf::FloatRect getGlobalBounds() const = 0;
 	bool hasCollider() const;

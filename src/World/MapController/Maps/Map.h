@@ -16,12 +16,17 @@ class Map {
 	std::vector<GameObject *> fGameObjectList;
 	sf::FloatRect fCamera;
 
+	int fLastId = -1;
+
 	float fDecelerationRate = 15.f;
 	float fDecelerationSmoothRate = 0.1f;
 	float fGravityRate = 15.f;
 	float fMaxGravityForce = 500.f;
 
 	friend DynamicObject;
+
+	void addGameObject(GameObject* obj, const bool& keepId);
+	void updateLastId();
 
 public:
 	Map();
@@ -33,7 +38,10 @@ public:
 	void destroyGameObject(GameObject* obj);
 	void destroyAllGameObjects();
 	
+	const GameObject * getGameObject(const int& id) const;
 	const std::vector<GameObject *>& getGameObjects() const;
+
+	int calculateGameObjectId();
 
 	MapBoundaries getBoundaries() const;
 	void updateCamera();

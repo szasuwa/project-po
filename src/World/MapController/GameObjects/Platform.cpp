@@ -103,8 +103,7 @@ bool Platform::checkSerializableValidity(const std::string& s)
 {
 	return std::regex_match(s, std::regex(
 		REGEX_WHITESPACE
-		+ REGEX_FLOAT_PATTERN + "{2}"
-		+ REGEX_BOOL_PATTERN + "{2}"
+		+ F_REGEX_GAME_OBJECT_PATTERN
 		+ REGEX_FLOAT_PATTERN + "{2}"
 		+ REGEX_INT_PATTERN + "{1}"
 		+ REGEX_WHITESPACE

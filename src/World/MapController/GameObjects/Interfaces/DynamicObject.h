@@ -9,6 +9,7 @@
 class DynamicObject : public GameObject
 {
 protected:
+	static const std::string F_REGEX_DYNAMIC_OBJECT_PATTERN;
 	enum class Collision {
 		Left,
 		Right,

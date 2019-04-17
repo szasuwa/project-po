@@ -21,8 +21,8 @@ class Map {
 
 	float fDecelerationRate = 15.f;
 	float fDecelerationSmoothRate = 0.1f;
-	float fGravityRate = 15.f;
-	float fMaxGravityForce = 500.f;
+	float fGravityRate = 1600.f;
+	float fMaxGravityForce = 400.f;
 
 	friend DynamicObject;
 

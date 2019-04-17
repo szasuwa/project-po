@@ -8,7 +8,6 @@ GameEngine::GameEngine(sf::RenderWindow &window) : fGameWindow(window), fFrame(F
 
 void GameEngine::initGame()
 {
-	fGameWindow.setFramerateLimit(120);
 	fMapController.load("map1");
 	
 	fInterface.updateView();
@@ -127,6 +126,7 @@ void GameEngine::handleEvents() {
 
 		case sf::Event::Resized:
 			fInterface.updateView();
+			fFrame.nextFrame();
 			fFrame.nextFrame();
 			fMapController.updateCamera();
 			break;

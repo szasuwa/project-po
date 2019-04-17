@@ -39,8 +39,11 @@ void DynamicObject::applyWorldForces()
 		return;
 
 	if (!fCollider.getBottom()) {
-		fForceVector.y += (*fMap).fGravityRate;
+		fForceVector.y += (*fMap).fGravityRate * Frame::getInstance().getFrameTime();
 		fForceVector.y = std::min(fForceVector.y, (*fMap).fMaxGravityForce);
+	}
+	else {
+		fForceVector.y = std::min(fForceVector.y, 0.f);
 	}
 
 	if (fCollider.getTop() && fForceVector.y < 0)

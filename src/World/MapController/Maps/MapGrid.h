@@ -6,6 +6,7 @@
 
 #include "../../Frame/Frame.h"
 #include "MapBoundaries.h"
+#include "../../../GameConstants.h"
 
 
 class MapGrid : public sf::Drawable, public sf::Transformable {
@@ -18,8 +19,6 @@ class MapGrid : public sf::Drawable, public sf::Transformable {
 	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 
 public:
-	MapGrid();
-
 	void update(const MapBoundaries & map);
 
 	/*
@@ -32,4 +31,7 @@ public:
 		y = x - r + (r / (0.5q))
 	*/
 	static float roundToGrid(float pos);
+
+	static int getGridSize();
+	static int getGridDisplaySize();
 };

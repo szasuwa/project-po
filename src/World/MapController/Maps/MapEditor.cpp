@@ -13,7 +13,8 @@ Map * MapEditor::loadMap(const Map & map)
 	return &fMap;
 }
 
-void MapEditor::update() {
+void MapEditor::update()
+{
 	handleGrid();
 	handleModeSelection();
 	handleDeletion();
@@ -24,23 +25,34 @@ void MapEditor::update() {
 	handleActions();
 }
 
-void MapEditor::handleGrid() 
+void MapEditor::draw()
 {
 	fFrame.draw(fGrid, Frame::FrameLayer::MapArea);
+
+	handlePortalLinks();
+
+	if(fGhost != nullptr)
+		fGhost->draw();
+}
+
+void MapEditor::handleGrid() 
+{	
+	float dTime = fFrame.getFrameTime();
+	float gridSize = MapGrid::getGridDisplaySize();
 
 	sf::Vector2f cam;
 
 	if (fKey.getKeyGroup(KeyBinding::CameraLeft).isPressed())
-		cam.x -= 10;
+		cam.x -= gridSize * 120 * dTime;
 
 	if (fKey.getKeyGroup(KeyBinding::CameraRight).isPressed())
-		cam.x += 10;
+		cam.x += gridSize * 120 * dTime;
 
 	if (fKey.getKeyGroup(KeyBinding::CameraUp).isPressed())
-		cam.y -= 10;
+		cam.y -= gridSize * 120 * dTime;
 
 	if (fKey.getKeyGroup(KeyBinding::CameraDown).isPressed())
-		cam.y += 10;
+		cam.y += gridSize * 120 * dTime;
 
 	fMap.moveCamera(cam);
 }
@@ -51,6 +63,8 @@ void MapEditor::handleModeSelection()
 		fMode = EditorMode::Move;
 	else if (fKey.getKeyGroup(KeyBinding::MapEditorResize).isPressed() || fResizeObject)
 		fMode = EditorMode::Resize;
+	else if (fKey.getKeyGroup(KeyBinding::MapEditorLinkPortal).isPressed() || fLinkObject)
+		fMode = EditorMode::Link;
 	else if (fGhost != nullptr)
 		fMode = EditorMode::Ghost;
 	else
@@ -72,6 +86,12 @@ void MapEditor::handleDeletion()
 			delete fGhost;
 			fGhost = nullptr;
 		}
+
+		if (fLink != nullptr)
+		{
+			delete fLink;
+			fLink = nullptr;
+		}
 	}
 }
 
@@ -89,8 +109,11 @@ void MapEditor::handleClone()
 			case GameObjectClassType::PLATFORM:
 				temp = new Platform(*(Platform*)fSelectedObject);
 				break;
-				case GameObjectClassType::POINT:
+			case GameObjectClassType::POINT:
 				temp = new Point(*(Point*)fSelectedObject);
+				break;
+			case GameObjectClassType::PORTAL:
+				temp = new Portal(*(Portal*)fSelectedObject);
 				break;
 			default:
 				return;
@@ -136,6 +159,10 @@ void MapEditor::handleGhost()
 
 	if (fKey.getKeyGroup(KeyBinding::MapEditorGhostPoint).wasToggled() && fKey.getKeyGroup(KeyBinding::MapEditorGhostPoint).isPressed())
 		loadGhost(GameObjectClassType::POINT);
+
+	if (fKey.getKeyGroup(KeyBinding::MapEditorGhostPortal).wasToggled() && fKey.getKeyGroup(KeyBinding::MapEditorGhostPortal).isPressed())
+		loadGhost(GameObjectClassType::PORTAL);
+
 }
 
 void MapEditor::handleMouse()
@@ -147,11 +174,11 @@ void MapEditor::handleMouse()
 
 		switch (fMode) {
 			case EditorMode::None:
-				selectObject();
+				fSelectedObject = selectObject();
 				break;
 			case EditorMode::Resize:
 				if (fSelectedObject == nullptr) 
-					selectObject();
+					fSelectedObject = selectObject();
 
 				if (fSelectedObject != nullptr && fSelectedObject->getGlobalBounds().contains(fFrame.getMousePosition(Frame::FrameLayer::MapArea)))
 				{
@@ -161,13 +188,22 @@ void MapEditor::handleMouse()
 				break;
 			case EditorMode::Move:
 				if (fSelectedObject == nullptr)
-					selectObject();
+					fSelectedObject = selectObject();
 			
 
 				if (fSelectedObject != nullptr && fSelectedObject->getGlobalBounds().contains(fFrame.getMousePosition(Frame::FrameLayer::MapArea))) 
 				{
 					fLastMouseOffset = fSelectedObject->getPosition() - fFrame.getMousePosition(Frame::FrameLayer::MapArea);
 					fMoveObject = true;
+				}
+				break;
+			case EditorMode::Link:
+				if (fSelectedObject == nullptr)
+					fSelectedObject = selectObject();
+
+				if (fSelectedObject != nullptr && fSelectedObject->getGlobalBounds().contains(fFrame.getMousePosition(Frame::FrameLayer::MapArea)))
+				{
+					fLinkObject = true;
 				}
 				break;
 			case EditorMode::Ghost:
@@ -184,6 +220,9 @@ void MapEditor::handleMouse()
 
 	if (fIsLmbPressed && !sf::Mouse::isButtonPressed(sf::Mouse::Button::Left)) 
 	{
+		handleLinking();
+		fLinkObject = false;
+
 		fIsLmbPressed = false;
 		fCloned = false;
 		fResizeObject = false;
@@ -204,6 +243,25 @@ void MapEditor::handleActions()
 			case EditorMode::Move:
 				fSelectedObject->setPosition(fFrame.getMousePosition(Frame::FrameLayer::MapArea) + fLastMouseOffset, fSnapToGrid, fVerticalLock, fHorizontalLock);
 				break;
+			case EditorMode::Link:
+				if (fSelectedObject == nullptr || fSelectedObject->getClassType() != GameObjectClassType::PORTAL)
+				{
+					if (fLink != nullptr)
+					{
+						delete fLink;
+						fLink = nullptr;
+					}
+					fLinkObject = false;
+					break;
+				}
+
+				if (((Portal*)fSelectedObject)->getLink() != nullptr)
+					((Portal*)fSelectedObject)->setLink(nullptr);
+
+				if (fLink == nullptr)
+					fLink = new  PortalLink();
+
+				fLink->update(fSelectedObject->getCenter(), Frame::getInstance().getMousePosition(Frame::FrameLayer::MapArea));
 			default:
 				break;
 		}
@@ -213,19 +271,52 @@ void MapEditor::handleActions()
 	if (fGhost != nullptr) 
 	{
 		fGhost->setPosition(fFrame.getMousePosition(Frame::FrameLayer::MapArea));
-		fGhost->draw();
 	}
 }
 
-void MapEditor::selectObject() 
+void MapEditor::handleLinking()
+{
+	if (!fLinkObject)
+		return;
+
+	if (fLink != nullptr)
+	{
+		delete fLink;
+		fLink = nullptr;
+	}
+
+	if(fSelectedObject != nullptr && fSelectedObject->getClassType() == GameObjectClassType::PORTAL)
+		((Portal*)fSelectedObject)->setLink(selectObject());
+}
+
+void MapEditor::handlePortalLinks()
+{
+	for (GameObject* obj : fMap.getGameObjects())
+	{
+		if (obj != nullptr && obj->getClassType() == GameObjectClassType::PORTAL)
+		{
+			GameObject* linkDest = ((Portal*)obj)->getLink();
+			if (linkDest != nullptr)
+			{
+				fFrame.draw(PortalLink(obj->getCenter(), linkDest->getCenter()), Frame::FrameLayer::MapArea);
+			}
+		}
+	}
+
+	if (fLink != nullptr)
+		fFrame.draw(*fLink, Frame::FrameLayer::MapArea);
+}
+
+GameObject * MapEditor::selectObject()
 {
 	for (GameObject * obj : fMap.getGameObjects()) 
 	{
-		if (obj->getGlobalBounds().contains(Frame::getInstance().getMousePosition(Frame::FrameLayer::MapArea))) 
+		if (obj != nullptr && obj->getGlobalBounds().contains(Frame::getInstance().getMousePosition(Frame::FrameLayer::MapArea))) 
 		{
-			fSelectedObject = obj;
+			return obj;
 		}
 	}
+	return nullptr;
 }
 
 void MapEditor::loadGhost(const GameObjectClassType & type)
@@ -246,6 +337,9 @@ void MapEditor::loadGhost(const GameObjectClassType & type)
 			break;
 		case GameObjectClassType::POINT:
 			fGhost = new Point(&fMap);
+			break;
+		case GameObjectClassType::PORTAL:
+			fGhost = new Portal(&fMap);
 			break;
 		default:
 			break;

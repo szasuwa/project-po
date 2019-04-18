@@ -88,6 +88,15 @@ void GameObject::setPosition(const sf::Vector2f & p, bool gridSnap, bool vLock, 
 	fTransformable->setPosition(pos);
 }
 
+sf::Vector2f GameObject::getCenter() const
+{
+	if (fTransformable == nullptr)
+		return sf::Vector2f();
+
+	sf::FloatRect b = getGlobalBounds();
+	return sf::Vector2f(b.left + b.width / 2, b.top + b.height / 2);
+}
+
 void GameObject::move(const sf::Vector2f & p)
 {
 	if (fTransformable == nullptr)

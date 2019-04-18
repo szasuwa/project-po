@@ -18,10 +18,11 @@ MapEditorInterface::MapEditorInterface(const Alignment & a) : InterfaceGroup(a)
 	fExitKey.setText(KeyController::getInstance().getKeyGroup(KeyBinding::MapEditorExit).toString() + " Quit Editor (Save)");
 	fCancelKey.setText(KeyController::getInstance().getKeyGroup(KeyBinding::MapEditorCancel).toString() + " Quit Editor (Cancel)");
 
-	fDeleteKey.setText(KeyController::getInstance().getKeyGroup(KeyBinding::MapEditorDelete).toString() + " Delete Item / Ghost");
+	fDeleteKey.setText(KeyController::getInstance().getKeyGroup(KeyBinding::MapEditorDelete).toString() + " Delete Item / Ghost / Link");
 	fCloneKey.setText(KeyController::getInstance().getKeyGroup(KeyBinding::MapEditorClone).toString() + " Clone");
 	fMoveKey.setText(KeyController::getInstance().getKeyGroup(KeyBinding::MapEditorMove).toString() + "Move");
 	fResizeKey.setText(KeyController::getInstance().getKeyGroup(KeyBinding::MapEditorResize).toString() + " Resize");
+	fLinkKey.setText(KeyController::getInstance().getKeyGroup(KeyBinding::MapEditorLinkPortal).toString() + " Portal Link Edition");
 
 	fGridSnapKey.setText(KeyController::getInstance().getKeyGroup(KeyBinding::MapEditorGridLock).toString() + " Snap To Grid");
 	fVerticalLockKey.setText(KeyController::getInstance().getKeyGroup(KeyBinding::MapEditorVLock).toString() + " Vertical Lock");
@@ -30,6 +31,7 @@ MapEditorInterface::MapEditorInterface(const Alignment & a) : InterfaceGroup(a)
 	fGhostPlayerKey.setText(KeyController::getInstance().getKeyGroup(KeyBinding::MapEditorGhostPlayer).toString() + " Player Ghost");
 	fGhostPlatformKey.setText(KeyController::getInstance().getKeyGroup(KeyBinding::MapEditorGhostPlatform).toString() + " Platform Ghost");
 	fGhostPointKey.setText(KeyController::getInstance().getKeyGroup(KeyBinding::MapEditorGhostPoint).toString() + " Point Ghost");
+	fGhostPortalKey.setText(KeyController::getInstance().getKeyGroup(KeyBinding::MapEditorGhostPortal).toString() + " Point Ghost");
 
 
 	fItemList.push_back(&fSelectionKey);
@@ -47,6 +49,7 @@ MapEditorInterface::MapEditorInterface(const Alignment & a) : InterfaceGroup(a)
 	fItemList.push_back(&fCloneKey);
 	fItemList.push_back(&fMoveKey);
 	fItemList.push_back(&fResizeKey);
+	fItemList.push_back(&fLinkKey);
 	fItemList.push_back(&fSeparator);
 
 	fItemList.push_back(&fGridSnapKey);
@@ -57,6 +60,7 @@ MapEditorInterface::MapEditorInterface(const Alignment & a) : InterfaceGroup(a)
 	fItemList.push_back(&fGhostPlayerKey);
 	fItemList.push_back(&fGhostPlatformKey);
 	fItemList.push_back(&fGhostPointKey);
+	fItemList.push_back(&fGhostPortalKey);
 }
 
 void MapEditorInterface::update()

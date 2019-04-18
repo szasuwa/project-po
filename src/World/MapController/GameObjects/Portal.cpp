@@ -36,7 +36,6 @@ Portal::Portal(const Portal& obj) : GameObject(obj)
 	fTransformable->setPosition(obj.fTransformable->getPosition());
 	((sf::RectangleShape*)fDrawable)->setSize(((sf::RectangleShape*)obj.fDrawable)->getSize());
 	((sf::RectangleShape*)fDrawable)->setFillColor(((sf::RectangleShape*)obj.fDrawable)->getFillColor());
-	fLink = obj.fLink;
 	fLinkId = obj.fLinkId;
 }
 
@@ -60,7 +59,7 @@ void Portal::onUpdate()
 
 void Portal::onFocus()
 {
-	if (fMap != nullptr && fLink == nullptr && fLinkId >= 0)
+	if (fMap != nullptr && ((fLink == nullptr && fLinkId >= 0) || (fLink != nullptr && fLinkId != fLink->fId)))
 		setLink(fMap->getGameObject(fLinkId));
 }
 
@@ -101,6 +100,11 @@ void Portal::resize(const sf::Vector2f& p, bool gridSnap, bool vLock, bool hLock
 void Portal::setColor(const sf::Color & c)
 {
 	((sf::RectangleShape*)fDrawable)->setFillColor(c);
+}
+
+GameObject* Portal::getLink()
+{
+	return fLink;
 }
 
 void Portal::setLink(const GameObject* o)

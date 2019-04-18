@@ -27,6 +27,7 @@ public:
 	void resize(const sf::Vector2f& p, bool gridSnap = false, bool vLock = false, bool hLock = false);
 	void setColor(const sf::Color& c);
 
+	GameObject * getLink();
 	void setLink(const GameObject * o);
 
 	/*

@@ -30,6 +30,7 @@ class MapEditorInterface : public InterfaceGroup {
 	InterfaceText fCloneKey;
 	InterfaceText fMoveKey;
 	InterfaceText fResizeKey;
+	InterfaceText fLinkKey;
 
 	InterfaceText fVerticalLockKey;
 	InterfaceText fHorizontalLockKey;
@@ -38,6 +39,7 @@ class MapEditorInterface : public InterfaceGroup {
 	InterfaceText fGhostPlayerKey;
 	InterfaceText fGhostPlatformKey;
 	InterfaceText fGhostPointKey;
+	InterfaceText fGhostPortalKey;
 
 public:
 	explicit MapEditorInterface(const Alignment & a);

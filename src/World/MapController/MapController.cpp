@@ -230,4 +230,7 @@ void MapController::drawMap()
 		return;
 	
 	fActiveMap->broadcastDraw();
+
+	if (fEditor != nullptr)
+		fEditor->draw();
 }

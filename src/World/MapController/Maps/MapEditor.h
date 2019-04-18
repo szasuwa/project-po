@@ -5,6 +5,7 @@
 
 #include "Map.h"
 #include "../../InterfaceController/InterfaceGroups/MapEditorInterface.h"
+#include "PortalLink.h"
 
 class MapController;
 
@@ -13,7 +14,8 @@ class MapEditor {
 		None = 0,
 		Resize = 1,
 		Move = 2,
-		Ghost = 3
+		Ghost = 3,
+		Link = 4
 	};
 
 	//Map and windows
@@ -34,12 +36,16 @@ class MapEditor {
 	bool fCloned = false;
 	bool fMoveObject = false;
 	bool fResizeObject = false;
+	bool fLinkObject = false;
 	bool fVerticalLock = false;
 	bool fHorizontalLock = false;
 	
 	//Grid
 	MapGrid fGrid;
 	bool fSnapToGrid = true;
+
+	//Link
+	PortalLink *fLink = nullptr;
 
 	//Handlers
 	void handleGrid();
@@ -50,10 +56,12 @@ class MapEditor {
 	void handleGhost();
 	void handleMouse();
 	void handleActions();
+	void handleLinking();
+	void handlePortalLinks();
 
 	//Edition actions
 	void loadGhost(const GameObjectClassType & type);
-	void selectObject();
+	GameObject * selectObject();
 
 public:
 	explicit MapEditor();
@@ -61,4 +69,5 @@ public:
 	Map * loadMap(const Map & map);
 	
 	void update();
+	void draw();
 };

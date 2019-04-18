@@ -4,12 +4,7 @@ int MapGrid::fGridSize = 5;
 int MapGrid::fDisplayGridSize = 2*fGridSize;
 
 
-MapGrid::MapGrid(){
-
-}
-
 void MapGrid::update(const MapBoundaries & map) {
-	sf::Color gridColor = sf::Color(200, 200, 200, 100);
 	float w = map.right - map.left, h = map.bottom - map.top;
 
 	fHorizontalLines = sf::VertexArray(sf::Lines, (h / fDisplayGridSize) * 2);
@@ -19,11 +14,11 @@ void MapGrid::update(const MapBoundaries & map) {
 
 	for (int i = 0; i < fHorizontalLines.getVertexCount(); i += 2) {
 		fHorizontalLines[i].position = sf::Vector2f(x, y);
-		fHorizontalLines[i].color = gridColor;
+		fHorizontalLines[i].color = GRID_COLOR;
 
 
 		fHorizontalLines[i + 1].position = sf::Vector2f(width, y);
-		fHorizontalLines[i + 1].color = gridColor;
+		fHorizontalLines[i + 1].color = GRID_COLOR;
 
 		y += fDisplayGridSize;
 	}
@@ -35,10 +30,10 @@ void MapGrid::update(const MapBoundaries & map) {
 
 	for (int i = 0; i < fVerticalLines.getVertexCount(); i += 2) {
 		fVerticalLines[i].position = sf::Vector2f(x, y);
-		fVerticalLines[i].color = gridColor;
+		fVerticalLines[i].color = GRID_COLOR;
 
 		fVerticalLines[i+1].position = sf::Vector2f(x, height);
-		fVerticalLines[i+1].color = gridColor;
+		fVerticalLines[i+1].color = GRID_COLOR;
 		x += fDisplayGridSize;
 	}
 }
@@ -58,4 +53,14 @@ void MapGrid::draw(sf::RenderTarget& target, sf::RenderStates states) const
 float MapGrid::roundToGrid(float pos) {
 	int mod = int(pos) % fGridSize;
 	return pos - mod + fGridSize * ((int)(2 * mod / fGridSize));
+}
+
+int MapGrid::getGridSize()
+{
+	return fGridSize;
+}
+
+int MapGrid::getGridDisplaySize()
+{
+	return fDisplayGridSize;
 }

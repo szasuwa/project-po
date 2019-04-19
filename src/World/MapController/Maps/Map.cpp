@@ -334,7 +334,10 @@ void Map::deserializeObject(std::istream& ss) {
 		if (ss)
 			addGameObject(obj, true);
 		else
+		{
+			delete obj;
 			return;
+		}
 	}
 }
 

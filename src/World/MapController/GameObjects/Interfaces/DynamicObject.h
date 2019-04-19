@@ -42,7 +42,7 @@ public:
 
 	virtual void move(const sf::Vector2f& p);
 
-	virtual const std::type_info& getParrentType() const;
+	virtual GameObjectInterfaceType getInterfaceType() const;
 	virtual void serializeObject(std::ostream& ss) const;
 	virtual void deserializeObject(std::istream& ss);
 };

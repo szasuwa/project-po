@@ -104,9 +104,9 @@ void GameObject::move(const sf::Vector2f & p)
 	fTransformable->move(p);
 }
 
-const std::type_info & GameObject::getParrentType() const
+GameObjectInterfaceType GameObject::getInterfaceType()  const
 {
-	return typeid(GameObject);
+	return GameObjectInterfaceType::GAME_OBJECT;
 }
 
 void GameObject::serializeObject(std::ostream & ss) const 

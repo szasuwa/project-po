@@ -217,7 +217,7 @@ sf::Vector2f DynamicObject::onCollision(const sf::Vector2f & p, GameObject * obj
 {
 	sf::Vector2f out = p;
 
-	if (obj->getParrentType() == typeid(DynamicObject))
+	if (obj->getInterfaceType() == GameObjectInterfaceType::DYNAMIC_OBJECT)
 	{
 		sf::Vector2f tP;
 		switch (c)
@@ -236,9 +236,7 @@ sf::Vector2f DynamicObject::onCollision(const sf::Vector2f & p, GameObject * obj
 			break;
 		}
 
-
-		tP /= ((DynamicObject*)obj)->fMass;
-		obj->move(tP);
+		obj->move(tP / ((DynamicObject*)obj)->fMass);
 
 	}
 
@@ -293,9 +291,9 @@ void DynamicObject::move(const sf::Vector2f& p)
 	fTransformable->move(nP);
 }
 
-const std::type_info& DynamicObject::getParrentType() const
+GameObjectInterfaceType DynamicObject::getInterfaceType() const
 {
-	return typeid(DynamicObject);
+	return GameObjectInterfaceType::DYNAMIC_OBJECT;
 }
 
 void DynamicObject::serializeObject(std::ostream & ss) const {

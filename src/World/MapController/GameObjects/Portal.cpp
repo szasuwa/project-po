@@ -32,8 +32,8 @@ Portal::Portal(const sf::Vector2f& position, const float& radius, const sf::Colo
 
 Portal::Portal(const Portal& obj) : GameObject(obj)
 {
-	fDrawable = new sf::RectangleShape();
-	fTransformable = (sf::RectangleShape*)fDrawable;
+	fDrawable = new sf::CircleShape();
+	fTransformable = (sf::CircleShape*)fDrawable;
 	fTransformable->setPosition(obj.fTransformable->getPosition());
 	((sf::CircleShape*)fDrawable)->setRadius(((sf::CircleShape*)obj.fDrawable)->getRadius());
 	((sf::CircleShape*)fDrawable)->setPointCount(((sf::CircleShape*)obj.fDrawable)->getPointCount());

@@ -2,6 +2,7 @@
 #include <SFML/Graphics/Drawable.hpp>
 #include <SFML/Graphics/Transformable.hpp>
 #include <SFML/Graphics/RenderWindow.hpp>
+#include <typeinfo>
 
 #include "GameObjectClassType.h"
 #include "../../../Frame/Frame.h"
@@ -46,6 +47,7 @@ public:
 	virtual void resize(const sf::Vector2f & p, bool gridSnap = false, bool vLock = false, bool hLock = false) = 0;
 	virtual void setColor(const sf::Color & c) = 0;
 
+	virtual const std::type_info & getParrentType() const;
 	virtual GameObjectClassType getClassType() const = 0;
 	virtual void serializeObject(std::ostream & ss) const;
 	virtual void deserializeObject(std::istream & ss);	

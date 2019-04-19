@@ -23,6 +23,9 @@ const  sf::Color POINT_COLOR(4291366655);
 const float PORTAL_RADIUS = 5;
 const sf::Color PORTAL_COLOR(2566927359);
 
+const sf::Vector2f BOX_SIZE(10, 10);
+const sf::Color BOX_COLOR(127847628);
+
 const sf::Color GRID_COLOR(3368601700);
 
 const sf::Color PORTAL_LINK_LINE_COLOR_1(3368601855);

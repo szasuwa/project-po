@@ -31,6 +31,7 @@ private:
 		KeyGroup({sf::Keyboard::Key::Num2, sf::Keyboard::Key::Numpad2}),		//MapEditorGhostPlatform
 		KeyGroup({sf::Keyboard::Key::Num3, sf::Keyboard::Key::Numpad3}),		//MapEditorGhostPoint
 		KeyGroup({sf::Keyboard::Key::Num4, sf::Keyboard::Key::Numpad4}),		//MapEditorGhostPortal
+		KeyGroup({sf::Keyboard::Key::Num5, sf::Keyboard::Key::Numpad5}),		//MapEditorGhostBox
 		KeyGroup({sf::Keyboard::Key::F5}),										//MapEditorReset
 		KeyGroup({sf::Keyboard::Key::F6}),										//MapEditorSave
 		KeyGroup({sf::Keyboard::Key::F8}),										//MapEditorExit

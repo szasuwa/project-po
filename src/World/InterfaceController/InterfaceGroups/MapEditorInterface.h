@@ -40,6 +40,7 @@ class MapEditorInterface : public InterfaceGroup {
 	InterfaceText fGhostPlatformKey;
 	InterfaceText fGhostPointKey;
 	InterfaceText fGhostPortalKey;
+	InterfaceText fGhostBoxKey;
 
 public:
 	explicit MapEditorInterface(const Alignment & a);

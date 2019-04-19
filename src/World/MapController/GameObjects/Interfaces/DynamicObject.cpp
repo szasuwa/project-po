@@ -1,6 +1,6 @@
 #include "DynamicObject.h"
 #include "../../Maps/Map.h"
-const std::string DynamicObject::F_REGEX_DYNAMIC_OBJECT_PATTERN = REGEX_FLOAT_PATTERN + "{3}" + REGEX_BOOL_PATTERN + "{4}";
+const std::string DynamicObject::F_REGEX_DYNAMIC_OBJECT_PATTERN = REGEX_BOOL_PATTERN + "{1}" + REGEX_FLOAT_PATTERN + "{3}" + REGEX_BOOL_PATTERN + "{4}";
 
 
 DynamicObject::DynamicObject(Map * map) : DynamicObject(sf::Vector2f(0,0), map)
@@ -22,6 +22,8 @@ DynamicObject::DynamicObject(const sf::Vector2f & position, bool vLock, bool hLo
 
 DynamicObject::DynamicObject(const DynamicObject &obj) : GameObject(obj)
 {
+	fIsStatic = obj.fIsStatic;
+	fMass = obj.fMass;
 	fForceVector = obj.fForceVector;
 	fCollider = obj.fCollider;
 	fVerticalInWindowLock = obj.fVerticalInWindowLock;
@@ -215,6 +217,31 @@ sf::Vector2f DynamicObject::onCollision(const sf::Vector2f & p, GameObject * obj
 {
 	sf::Vector2f out = p;
 
+	if (obj->getParrentType() == typeid(DynamicObject))
+	{
+		sf::Vector2f tP;
+		switch (c)
+		{
+		case Collision::Left:
+		case Collision::Right:
+			tP.x = p.x;
+			break;
+
+		case Collision::Bottom:
+		case Collision::Top:
+			tP.y = p.y;
+			break;
+
+		default:
+			break;
+		}
+
+
+		tP /= ((DynamicObject*)obj)->fMass;
+		obj->move(tP);
+
+	}
+
 	switch (c)
 	{
 		case Collision::Left:
@@ -252,8 +279,28 @@ void DynamicObject::onUpdate()
 	move(fForceVector * Frame::getInstance().getFrameTime());
 }
 
+void DynamicObject::move(const sf::Vector2f& p)
+{
+	if (fTransformable == nullptr)
+		return;
+
+	if (fIsStatic)
+		return;
+
+	sf::Vector2f nP = p;
+	nP = checkCollisions(nP);
+	nP = lockInFrame(nP);
+	fTransformable->move(nP);
+}
+
+const std::type_info& DynamicObject::getParrentType() const
+{
+	return typeid(DynamicObject);
+}
+
 void DynamicObject::serializeObject(std::ostream & ss) const {
 	GameObject::serializeObject(ss);
+	ss << fIsStatic << SERIALIZABLE_FIELD_DELIMITER;
 	ss << fMass << SERIALIZABLE_FIELD_DELIMITER;
 	ss << fForceVector.x << SERIALIZABLE_FIELD_DELIMITER;
 	ss << fForceVector.y << SERIALIZABLE_FIELD_DELIMITER;
@@ -266,12 +313,14 @@ void DynamicObject::serializeObject(std::ostream & ss) const {
 void DynamicObject::deserializeObject(std::istream & ss) {
 	GameObject::deserializeObject(ss);
 
+	bool s;
 	float m, x, y;
 	bool l, r, t, b;
 
-	if (!(ss >> m >> x >> y >> l >> r >> t >> b))
+	if (!(ss >> s >> m >> x >> y >> l >> r >> t >> b))
 		return;
 
+	fIsStatic = s;
 	fMass = m;
 	fForceVector.x = x;
 	fForceVector.y = y;
@@ -288,15 +337,4 @@ void DynamicObject::deserializeObject(std::istream & ss) {
 	if (b)
 		fCollider.triggerBottom();
 
-}
-
-void DynamicObject::move(const sf::Vector2f& p)
-{
-	if (fTransformable == nullptr)
-		return;
-
-	sf::Vector2f nP = p;
-	nP = checkCollisions(nP);
-	nP = lockInFrame(nP);
-	fTransformable->move(nP);
 }

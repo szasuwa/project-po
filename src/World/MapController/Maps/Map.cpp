@@ -233,6 +233,9 @@ void Map::clone(const Map & o)
 			case GameObjectClassType::PORTAL:
 				fGameObjectList.push_back(new Portal(*(Portal*)obj));
 				break;
+			case GameObjectClassType::BOX:
+				fGameObjectList.push_back(new Box(*(Box*)obj));
+				break;
 			default:
 				break;
 		}
@@ -323,6 +326,10 @@ void Map::deserializeObject(std::istream& ss) {
 
 		case GameObjectClassType::PORTAL:
 			obj = new Portal();
+			break;
+
+		case GameObjectClassType::BOX:
+			obj = new Box();
 			break;
 
 		default:

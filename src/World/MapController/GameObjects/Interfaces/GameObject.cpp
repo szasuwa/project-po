@@ -104,6 +104,11 @@ void GameObject::move(const sf::Vector2f & p)
 	fTransformable->move(p);
 }
 
+const std::type_info & GameObject::getParrentType() const
+{
+	return typeid(GameObject);
+}
+
 void GameObject::serializeObject(std::ostream & ss) const 
 {
 	if (fTransformable == nullptr)

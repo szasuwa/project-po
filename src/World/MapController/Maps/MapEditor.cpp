@@ -115,6 +115,9 @@ void MapEditor::handleClone()
 			case GameObjectClassType::PORTAL:
 				temp = new Portal(*(Portal*)fSelectedObject);
 				break;
+			case GameObjectClassType::BOX:
+				temp = new Box(*(Box*)fSelectedObject);
+				break;
 			default:
 				return;
 		}
@@ -162,6 +165,9 @@ void MapEditor::handleGhost()
 
 	if (fKey.getKeyGroup(KeyBinding::MapEditorGhostPortal).wasToggled() && fKey.getKeyGroup(KeyBinding::MapEditorGhostPortal).isPressed())
 		loadGhost(GameObjectClassType::PORTAL);
+
+	if (fKey.getKeyGroup(KeyBinding::MapEditorGhostBox).wasToggled() && fKey.getKeyGroup(KeyBinding::MapEditorGhostBox).isPressed())
+		loadGhost(GameObjectClassType::BOX);
 
 }
 
@@ -340,6 +346,9 @@ void MapEditor::loadGhost(const GameObjectClassType & type)
 			break;
 		case GameObjectClassType::PORTAL:
 			fGhost = new Portal(&fMap);
+			break;
+		case GameObjectClassType::BOX:
+			fGhost = new Box(&fMap);
 			break;
 		default:
 			break;

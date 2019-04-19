@@ -11,6 +11,8 @@
 #include "../GameObjects/Platform.h"
 #include "../GameObjects/Point.h"
 #include "../GameObjects/Portal.h"
+#include "../GameObjects/Box.h"
+
 
 class Map {
 	MapBoundaries fMapBoundaries;

@@ -23,6 +23,7 @@ enum class KeyBinding : unsigned int {
 	MapEditorGhostPlatform,
 	MapEditorGhostPoint,
 	MapEditorGhostPortal,
+	MapEditorGhostBox,
 	MapEditorReset,
 	MapEditorSave,
 	MapEditorExit,

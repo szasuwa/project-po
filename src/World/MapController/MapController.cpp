@@ -113,6 +113,10 @@ bool MapController::checkIntegrity(const std::string& name) const
 			valid = Portal::checkSerializableValidity(temp);
 			break;
 
+		case GameObjectClassType::BOX:
+			valid = Box::checkSerializableValidity(temp);
+			break;
+
 		default:
 			valid = false;
 		}

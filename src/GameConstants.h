@@ -20,7 +20,7 @@ const sf::Color PLATFORM_COLOR(2105376255);
 const float POINT_RADIUS = 5;
 const  sf::Color POINT_COLOR(4291366655);
 
-const sf::Vector2f PORTAL_SIZE(10, 10);
+const float PORTAL_RADIUS = 5;
 const sf::Color PORTAL_COLOR(2566927359);
 
 const sf::Color GRID_COLOR(3368601700);

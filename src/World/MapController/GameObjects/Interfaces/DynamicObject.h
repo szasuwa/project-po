@@ -36,7 +36,6 @@ public:
 	DynamicObject(bool vLock, bool hLock, Map * map = nullptr);
 	DynamicObject(const sf::Vector2f & position, bool vLock, bool hLock, Map * map = nullptr);
 	DynamicObject(const DynamicObject & o);
-	~DynamicObject();
 
 	virtual void onUpdate();
 

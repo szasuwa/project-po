@@ -28,7 +28,6 @@ public:
 	Player(const sf::Vector2f & position, const sf::Vector2f & size, Map * map = nullptr);
 	Player(const sf::Vector2f & position, const sf::Vector2f & size, const sf::Color & color, Map * map = nullptr);
 	Player(const Player & obj);
-	~Player();
 
 	void onUpdate();
 	void onFocus();

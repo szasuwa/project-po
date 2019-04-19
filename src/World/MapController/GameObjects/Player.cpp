@@ -36,11 +36,6 @@ Player::Player(const Player & obj) : DynamicObject(obj)
 	fScore = obj.fScore;
 }
 
-Player::~Player() 
-{
-	fTransformable = nullptr;
-}
-
 void Player::controlMovement()
 {
 	KeyController & key = KeyController::getInstance();
@@ -155,7 +150,7 @@ void Player::resize(const sf::Vector2f & p, bool gridSnap, bool vLock, bool hLoc
 
 void Player::setColor(const sf::Color & c)
 {
-	((sf::RectangleShape*)fDrawable)->setFillColor(c);
+	((sf::Shape*)fDrawable)->setFillColor(c);
 }
 
 void Player::addScore(int p) {
@@ -198,21 +193,22 @@ void Player::serializeObject(std::ostream & ss) const
 void Player::deserializeObject(std::istream & ss)
 {
 	DynamicObject::deserializeObject(ss);
-	float x, y;
-	ss >> x;
-	ss >> y;
+	float x, y, s, j, sl, sr, st, sb;
 	sf::Uint32 c;
-	ss >> c;
+	int sc;
+
+	if (!(ss >> x >> y >> c >> s >> j >> sl >> sr >> st >> sb >> sc))
+		return;
+
 	((sf::RectangleShape *)fDrawable)->setSize(sf::Vector2f(x, y));
 	((sf::RectangleShape *)fDrawable)->setFillColor(sf::Color(c));
-
-	ss >> fSpeed;
-	ss >> fJumpForce;
-	ss >> fScrollZone.left;
-	ss >> fScrollZone.right;
-	ss >> fScrollZone.top;
-	ss >> fScrollZone.bottom;
-	ss >> fScore;
+	fSpeed = s;
+	fJumpForce = j;
+	fScrollZone.left = sl;
+	fScrollZone.right = sr;
+	fScrollZone.top = st;
+	fScrollZone.bottom = sb;
+	fScore = sc;
 }
 
 bool Player::checkSerializableValidity(const std::string& s)

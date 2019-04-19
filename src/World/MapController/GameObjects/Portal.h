@@ -13,12 +13,11 @@ class Portal : public GameObject
 
 public:
 	explicit Portal(Map* map = nullptr);
-	Portal(const sf::Vector2f & position, Map * map = nullptr);
-	Portal(const sf::Vector2f & position, const sf::Color & color, Map * map = nullptr);
-	Portal(const sf::Vector2f & position, const sf::Vector2f & size, Map * map = nullptr);
-	Portal(const sf::Vector2f & position, const sf::Vector2f & size, const sf::Color & color, Map * map = nullptr);
-	Portal(const Portal & obj);
-	~Portal();
+	Portal(const sf::Vector2f& position, Map* map = nullptr);
+	Portal(const sf::Vector2f& position, const float& radius, Map* map = nullptr);
+	Portal(const sf::Vector2f& position, const sf::Color& color, Map* map = nullptr);
+	Portal(const sf::Vector2f& position, const float& radius, const sf::Color& color, Map* map = nullptr);
+	Portal(const Portal& obj);
 
 	void onUpdate();
 	void onFocus();

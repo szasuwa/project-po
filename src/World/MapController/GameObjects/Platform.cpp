@@ -35,11 +35,6 @@ Platform::Platform(const Platform & obj) : GameObject(obj)
 	((sf::RectangleShape*)fDrawable)->setFillColor(((sf::RectangleShape*)obj.fDrawable)->getFillColor());
 }
 
-Platform::~Platform()
-{
-	fTransformable = nullptr;
-}
-
 void Platform::onUpdate()
 {
 }
@@ -70,7 +65,7 @@ void Platform::resize(const sf::Vector2f & p, bool gridSnap, bool vLock, bool hL
 
 void Platform::setColor(const sf::Color & c)
 {
-	((sf::RectangleShape*)fDrawable)->setFillColor(c);
+	((sf::Shape*)fDrawable)->setFillColor(c);
 }
 
 GameObjectClassType Platform::getClassType() const
@@ -90,11 +85,13 @@ void Platform::serializeObject(std::ostream & ss) const
 void Platform::deserializeObject(std::istream & ss)
 {
 	GameObject::deserializeObject(ss);
+	
 	float x, y;
-	ss >> x;
-	ss >> y;
 	sf::Uint32 c;
-	ss >> c;
+
+	if (!(ss >> x >> y >> c))
+		return;
+
 	((sf::RectangleShape *)fDrawable)->setSize(sf::Vector2f(x, y));
 	((sf::RectangleShape *)fDrawable)->setFillColor(sf::Color(c));
 }

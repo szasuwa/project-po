@@ -14,7 +14,6 @@ public:
 	Platform(const sf::Vector2f & position, const sf::Vector2f & size, Map * map = nullptr);
 	Platform(const sf::Vector2f & position, const sf::Vector2f & size, const sf::Color & color, Map * map = nullptr);
 	Platform(const Platform & obj);
-	~Platform();
 
 	void onUpdate();
 	void onFocus();

@@ -13,7 +13,6 @@ public:
     Point(const sf::Vector2f & position, const sf::Color & color, Map * map = nullptr);
 	Point(const sf::Vector2f & position, const float & radius, const sf::Color & color, Map * map = nullptr);
 	Point(const Point & obj);
-    ~Point();
 
 	void onUpdate();
 	void onFocus();

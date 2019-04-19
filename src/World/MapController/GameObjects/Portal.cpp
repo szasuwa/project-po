@@ -2,31 +2,32 @@
 #include "../Maps/Map.h"
 
 
-Portal::Portal(Map* map) : Portal(sf::Vector2f(), PORTAL_SIZE, PORTAL_COLOR, map)
+Portal::Portal(Map* map) : Portal(sf::Vector2f(), PORTAL_RADIUS, PORTAL_COLOR, map)
 {
 }
 
-Portal::Portal(const sf::Vector2f& position, Map* map) : Portal(position, PORTAL_SIZE, PORTAL_COLOR, map)
+Portal::Portal(const sf::Vector2f& position, Map* map) : Portal(sf::Vector2f(), PORTAL_RADIUS, PORTAL_COLOR, map)
 {
 }
 
-Portal::Portal(const sf::Vector2f& position, const sf::Color& color, Map* map) : Portal(position, PORTAL_SIZE, color, map)
+Portal::Portal(const sf::Vector2f& position, const float& radius, Map* map) : Portal(position, radius, PORTAL_COLOR, map)
 {
 }
 
-Portal::Portal(const sf::Vector2f& position, const sf::Vector2f& size, Map* map) : Portal(position, size, PORTAL_COLOR, map)
+Portal::Portal(const sf::Vector2f& position, const sf::Color& color, Map* map) : Portal(position, 5, PORTAL_COLOR, map)
 {
 }
 
-Portal::Portal(const sf::Vector2f& position, const sf::Vector2f& size, const sf::Color& color, Map* map) : GameObject(map)
+Portal::Portal(const sf::Vector2f& position, const float& radius, const sf::Color& color, Map* map) : GameObject(map)
 {
 	fHasCollider = false;
 	fHasTrigger = true;
-	fDrawable = new sf::RectangleShape();
-	fTransformable = (sf::RectangleShape*)fDrawable;
+	fDrawable = new sf::CircleShape();
+	fTransformable = (sf::CircleShape*)fDrawable;
 	fTransformable->setPosition(position);
-	((sf::RectangleShape*)fDrawable)->setSize(size);
-	((sf::RectangleShape*)fDrawable)->setFillColor(color);
+	((sf::CircleShape*)fDrawable)->setRadius(radius);
+	((sf::CircleShape*)fDrawable)->setPointCount(5);
+	((sf::CircleShape*)fDrawable)->setFillColor(color);
 }
 
 Portal::Portal(const Portal& obj) : GameObject(obj)
@@ -34,14 +35,10 @@ Portal::Portal(const Portal& obj) : GameObject(obj)
 	fDrawable = new sf::RectangleShape();
 	fTransformable = (sf::RectangleShape*)fDrawable;
 	fTransformable->setPosition(obj.fTransformable->getPosition());
-	((sf::RectangleShape*)fDrawable)->setSize(((sf::RectangleShape*)obj.fDrawable)->getSize());
-	((sf::RectangleShape*)fDrawable)->setFillColor(((sf::RectangleShape*)obj.fDrawable)->getFillColor());
+	((sf::CircleShape*)fDrawable)->setRadius(((sf::CircleShape*)obj.fDrawable)->getRadius());
+	((sf::CircleShape*)fDrawable)->setPointCount(((sf::CircleShape*)obj.fDrawable)->getPointCount());
+	((sf::CircleShape*)fDrawable)->setFillColor(((sf::CircleShape*)obj.fDrawable)->getFillColor());
 	fLinkId = obj.fLinkId;
-}
-
-Portal::~Portal()
-{
-	fTransformable = nullptr;
 }
 
 void Portal::onUpdate()
@@ -84,22 +81,33 @@ sf::FloatRect Portal::getGlobalBounds() const
 
 void Portal::resize(const sf::Vector2f& p, bool gridSnap, bool vLock, bool hLock)
 {
-	sf::RectangleShape* shape = ((sf::RectangleShape*)fDrawable);
-	sf::Vector2f position = fTransformable->getPosition();
-	sf::Vector2f size = shape->getSize();
+	sf::CircleShape* shape = (sf::CircleShape*)fDrawable;
+	sf::Vector2f pos = fTransformable->getPosition();
+	float radius = shape->getRadius();
+	pos.x -= radius / 2;
+	pos.y += radius / 2;
 
-	if (!hLock)
-		size.x = (gridSnap ? MapGrid::roundToGrid(p.x - position.x) : (p.x - position.x));
+	if (hLock)
+	{
+		radius = p.y - pos.y;
+		radius = (gridSnap ? std::abs(MapGrid::roundToGrid(p.y) - MapGrid::roundToGrid(pos.y)) : std::abs(p.y - pos.y));
+	}
+	else if (vLock)
+	{
+		radius = (gridSnap ? std::abs(MapGrid::roundToGrid(p.x) - MapGrid::roundToGrid(pos.x)) : std::abs(p.x - pos.x));
+	}
+	else
+	{
+		radius = std::max((gridSnap ? MapGrid::roundToGrid(p.y) - MapGrid::roundToGrid(pos.y) : p.y - pos.y),
+			(gridSnap ? MapGrid::roundToGrid(p.x) - MapGrid::roundToGrid(pos.x) : p.x - pos.x));
+	}
 
-	if (!vLock)
-		size.y = (gridSnap ? MapGrid::roundToGrid(p.y - position.y) : (p.y - position.y));
-
-	shape->setSize(size);
+	shape->setRadius(radius);
 }
 
 void Portal::setColor(const sf::Color & c)
 {
-	((sf::RectangleShape*)fDrawable)->setFillColor(c);
+	((sf::Shape*)fDrawable)->setFillColor(c);
 }
 
 GameObject* Portal::getLink()
@@ -132,23 +140,25 @@ void Portal::serializeObject(std::ostream & ss) const
 {
 	ss << (int)(getClassType()) << SERIALIZABLE_FIELD_DELIMITER;
 	GameObject::serializeObject(ss);
-	ss << ((sf::RectangleShape*)fDrawable)->getSize().x << SERIALIZABLE_FIELD_DELIMITER;
-	ss << ((sf::RectangleShape*)fDrawable)->getSize().y << SERIALIZABLE_FIELD_DELIMITER;
-	ss << ((sf::RectangleShape*)fDrawable)->getFillColor().toInteger() << SERIALIZABLE_FIELD_DELIMITER;
+	ss << ((sf::CircleShape*)fDrawable)->getRadius() << SERIALIZABLE_FIELD_DELIMITER;
+	ss << ((sf::CircleShape*)fDrawable)->getPointCount() << SERIALIZABLE_FIELD_DELIMITER;
+	ss << ((sf::CircleShape*)fDrawable)->getFillColor().toInteger() << SERIALIZABLE_FIELD_DELIMITER;
 	ss << fLinkId << SERIALIZABLE_FIELD_DELIMITER;
 }
 
 void Portal::deserializeObject(std::istream & ss)
 {
 	GameObject::deserializeObject(ss);
-	float x, y;
-	ss >> x;
-	ss >> y;
+	float r;
 	sf::Uint32 c;
-	ss >> c;
-	((sf::RectangleShape*)fDrawable)->setSize(sf::Vector2f(x, y));
-	((sf::RectangleShape*)fDrawable)->setFillColor(sf::Color(c));
-	ss >> fLinkId;
+	int p, l;
+	if(!(ss >> r >> p >> c >> l))
+		return;
+
+	((sf::CircleShape*)fDrawable)->setRadius(r);
+	((sf::CircleShape*)fDrawable)->setPointCount(p);
+	((sf::CircleShape*)fDrawable)->setFillColor(sf::Color(c));
+	fLinkId = l;
 }
 
 bool Portal::checkSerializableValidity(const std::string & s)
@@ -156,8 +166,8 @@ bool Portal::checkSerializableValidity(const std::string & s)
 	return std::regex_match(s, std::regex(
 		REGEX_WHITESPACE
 		+ F_REGEX_GAME_OBJECT_PATTERN
-		+ REGEX_FLOAT_PATTERN + "{2}"
-		+ REGEX_INT_PATTERN + "{2}"
+		+ REGEX_FLOAT_PATTERN + "{1}"
+		+ REGEX_INT_PATTERN + "{3}"
 		+ REGEX_WHITESPACE
 	));
 }

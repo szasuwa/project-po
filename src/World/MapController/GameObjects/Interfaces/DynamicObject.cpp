@@ -28,11 +28,6 @@ DynamicObject::DynamicObject(const DynamicObject &obj) : GameObject(obj)
 	fHorizontalInWindowLock = obj.fHorizontalInWindowLock;
 }
 
-
-DynamicObject::~DynamicObject()
-{
-}
-
 void DynamicObject::applyWorldForces()
 {
 	if (fMap == nullptr)
@@ -270,15 +265,16 @@ void DynamicObject::serializeObject(std::ostream & ss) const {
 
 void DynamicObject::deserializeObject(std::istream & ss) {
 	GameObject::deserializeObject(ss);
-	ss >> fMass;
-	ss >> fForceVector.x;
-	ss >> fForceVector.y;
 
-	float l, r, t, b;
-	ss >> l;
-	ss >> r;
-	ss >> t;
-	ss >> b;
+	float m, x, y;
+	bool l, r, t, b;
+
+	if (!(ss >> m >> x >> y >> l >> r >> t >> b))
+		return;
+
+	fMass = m;
+	fForceVector.x = x;
+	fForceVector.y = y;
 
 	if(l)
 		fCollider.triggerLeft();

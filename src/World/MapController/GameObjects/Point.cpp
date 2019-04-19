@@ -36,11 +36,6 @@ Point::Point(const Point & obj) : GameObject(obj)
 	((sf::CircleShape*)fDrawable)->setFillColor(((sf::CircleShape*)obj.fDrawable)->getFillColor());
 }
 
-Point::~Point()
-{
-	fTransformable = nullptr;
-}
-
 void Point::onUpdate()
 {
 }
@@ -91,7 +86,7 @@ void Point::resize(const sf::Vector2f & p, bool gridSnap, bool vLock, bool hLock
 }
 
 void Point::setColor(const sf::Color & c) {
-	((sf::CircleShape*)fDrawable)->setFillColor(sf::Color(c));
+	((sf::Shape*)fDrawable)->setFillColor(sf::Color(c));
 }
 
 GameObjectClassType Point::getClassType() const

@@ -17,7 +17,6 @@ GameObject::GameObject(const GameObject & obj)
 GameObject::~GameObject()
 {
 	delete fDrawable;
-	delete fTransformable;
 }
 
 bool GameObject::onCollision(GameObject* obj)
@@ -122,13 +121,16 @@ void GameObject::deserializeObject(std::istream & ss)
 	if (fTransformable == nullptr)
 		return;
 
-	ss >> fId;
-	float x, y;
-	ss >> x;
-	ss >> y;
+	int i;
+	float x, y, c, t;
+
+	if (!(ss >> i >> x >> y >> c >> t))
+		return;
+
+	fId = i;
 	fTransformable->setPosition(x,y);
-	ss >> fHasCollider;
-	ss >> fHasTrigger;
+	fHasCollider = c;
+	fHasTrigger = t;
 }
 
 std::ostream & operator<<(std::ostream & s, const GameObject & o)

@@ -96,6 +96,19 @@ sf::Vector2f GameObject::getCenter() const
 	return sf::Vector2f(b.left + b.width / 2, b.top + b.height / 2);
 }
 
+void GameObject::setCenter(const sf::Vector2f& p)
+{
+	if (fTransformable == nullptr)
+		return;
+
+	sf::Vector2f p2 = p;
+	sf::FloatRect b = getGlobalBounds();
+	p2.x -= b.width / 2;
+	p2.y -= b.height / 2;
+
+	fTransformable->setPosition(p2);
+}
+
 void GameObject::move(const sf::Vector2f & p)
 {
 	if (fTransformable == nullptr)

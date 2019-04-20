@@ -43,6 +43,7 @@ public:
 	sf::Vector2f getPosition() const;
 	void setPosition(const sf::Vector2f & p, bool gridSnap = false, bool vLock = false, bool hLock = false);
 	sf::Vector2f getCenter() const;
+	void setCenter(const sf::Vector2f & p);
 	virtual void move(const sf::Vector2f & p);
 	virtual void resize(const sf::Vector2f & p, bool gridSnap = false, bool vLock = false, bool hLock = false) = 0;
 	virtual void setColor(const sf::Color & c) = 0;

@@ -69,7 +69,7 @@ bool Portal::onTrigger(GameObject * o)
 		return false;
 
 	(*fLink).fExitingObjects.push_back(o);
-	o->setPosition(fLink->getPosition());
+	o->setCenter(fLink->getCenter());
 
 	return true;
 }

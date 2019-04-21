@@ -40,7 +40,7 @@ void DynamicObject::applyWorldForces()
 		fForceVector.y = std::min(fForceVector.y, (*fMap).fMaxGravityForce);
 	}
 	else {
-		fForceVector.y = std::min(fForceVector.y, 0.f);
+		fForceVector.y = std::min(fForceVector.y, (*fMap).fGravityRate * Frame::getInstance().getFrameTime());
 	}
 
 	if (fCollider.getTop() && fForceVector.y < 0)
@@ -101,7 +101,7 @@ sf::Vector2f DynamicObject::lockInFrame(const sf::Vector2f & p)
 	return out;
 }
 
-sf::Vector2f DynamicObject::checkCollisions(const sf::Vector2f& p) {
+sf::Vector2f DynamicObject::checkCollisions(const sf::Vector2f& p, const Collision & c) {
 	if (fMap == nullptr)
 		return sf::Vector2f(0,0);
 
@@ -120,12 +120,18 @@ sf::Vector2f DynamicObject::checkCollisions(const sf::Vector2f& p) {
 		bool collision = false, trigger = false;
 
 		//Check left
-		if (!fCollider.getLeft() && p.x < 0)
+		if (p.x < 0 && c != Collision::Left)
 		{
 			d = sf::FloatRect(b.left, b.top, p.x, b.height);
 			
 			if (d.intersects(o))
 			{
+				if (obj->getInterfaceType() == GameObjectInterfaceType::DYNAMIC_OBJECT)
+				{
+					((DynamicObject*)obj)->onCollision(out, this, Collision::Right);
+					o = obj->getGlobalBounds();
+				}
+
 				if (obj->hasTrigger())
 				{
 					trigger = true;
@@ -140,12 +146,18 @@ sf::Vector2f DynamicObject::checkCollisions(const sf::Vector2f& p) {
 			}
 		}
 
-		if (!fCollider.getRight() && p.x > 0)
+		if (p.x > 0 && c != Collision::Right)
 		{
 			d = sf::FloatRect(b.left + b.width, b.top, p.x, b.height);
 
 			if (d.intersects(o))
 			{
+				if (obj->getInterfaceType() == GameObjectInterfaceType::DYNAMIC_OBJECT)
+				{
+					((DynamicObject*)obj)->onCollision(out, this, Collision::Left);
+					o = obj->getGlobalBounds();
+				}
+
 				if (obj->hasTrigger())
 				{
 					trigger = true;
@@ -160,12 +172,18 @@ sf::Vector2f DynamicObject::checkCollisions(const sf::Vector2f& p) {
 			}
 		}
 
-		if (!fCollider.getTop() && p.y < 0)
+		if (p.y < 0 && c != Collision::Top)
 		{
 			d = sf::FloatRect(b.left, b.top, b.width, p.y);
 
 			if (d.intersects(o))
 			{
+				if (obj->getInterfaceType() == GameObjectInterfaceType::DYNAMIC_OBJECT)
+				{
+					((DynamicObject*)obj)->onCollision(out, this, Collision::Bottom);
+					o = obj->getGlobalBounds();
+				}
+
 				if (obj->hasTrigger())
 				{
 					trigger = true;
@@ -182,12 +200,18 @@ sf::Vector2f DynamicObject::checkCollisions(const sf::Vector2f& p) {
 
 		}
 
-		if (!fCollider.getBottom() && p.y > 0)
+		if (p.y > 0 && c != Collision::Bottom)
 		{
 			d = sf::FloatRect(b.left, b.top + b.height, b.width, p.y);
 
 			if (d.intersects(o))
 			{
+				if (obj->getInterfaceType() == GameObjectInterfaceType::DYNAMIC_OBJECT)
+				{
+					((DynamicObject*)obj)->onCollision(out, this, Collision::Top);
+					o = obj->getGlobalBounds();
+				}
+
 				if (obj->hasTrigger())
 				{
 					trigger = true;
@@ -209,36 +233,43 @@ sf::Vector2f DynamicObject::checkCollisions(const sf::Vector2f& p) {
 			continue;
 	}
 
-	
 	return out;
+}
+
+#include "../../../../Logger.h"
+sf::Vector2f DynamicObject::onCollision(const sf::Vector2f& p, DynamicObject * o, const Collision& c)
+{
+	
+	if (c == Collision::Top)
+	{
+		sf::Vector2f tP;
+		tP = fMovement;
+		o->move(tP, Collision::Bottom);
+	}
+
+	if (c == Collision::Left || c == Collision::Right)
+	{
+		if (p.x > 0)
+			move(sf::Vector2f(std::min(p.x, p.x / fMass), 0), c);
+		else
+			move(sf::Vector2f(std::max(p.x, p.x / fMass), 0), c);
+	}
+		
+
+	if (c == Collision::Bottom)
+	{
+		if (p.y > 0)
+			move(sf::Vector2f(0, std::min(p.y, p.y)), c);
+		else
+			move(sf::Vector2f(0, std::max(p.y, p.y)), c);
+	}
+
+	return p;
 }
 
 sf::Vector2f DynamicObject::onCollision(const sf::Vector2f & p, GameObject * obj, const Collision & c, const sf::FloatRect & z, const sf::FloatRect & o)
 {
 	sf::Vector2f out = p;
-
-	if (obj->getInterfaceType() == GameObjectInterfaceType::DYNAMIC_OBJECT)
-	{
-		sf::Vector2f tP;
-		switch (c)
-		{
-		case Collision::Left:
-		case Collision::Right:
-			tP.x = p.x;
-			break;
-
-		case Collision::Bottom:
-		case Collision::Top:
-			tP.y = p.y;
-			break;
-
-		default:
-			break;
-		}
-
-		obj->move(tP / ((DynamicObject*)obj)->fMass);
-
-	}
 
 	switch (c)
 	{
@@ -269,8 +300,10 @@ sf::Vector2f DynamicObject::onCollision(const sf::Vector2f & p, GameObject * obj
 	return out;
 }
 
+
 void DynamicObject::onUpdate() 
 {
+	fMovement.x = fMovement.y = 0;
 	applyWorldForces();
 
 	//Set position
@@ -289,6 +322,22 @@ void DynamicObject::move(const sf::Vector2f& p)
 	nP = checkCollisions(nP);
 	nP = lockInFrame(nP);
 	fTransformable->move(nP);
+	fMovement += nP;
+}
+
+void DynamicObject::move(const sf::Vector2f& p, const Collision & c)
+{
+	if (fTransformable == nullptr)
+		return;
+
+	if (fIsStatic)
+		return;
+
+	sf::Vector2f nP = p;
+	nP = checkCollisions(nP, c);
+	nP = lockInFrame(nP);
+	fTransformable->move(nP);
+	fMovement += nP;
 }
 
 GameObjectInterfaceType DynamicObject::getInterfaceType() const

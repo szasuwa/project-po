@@ -47,8 +47,8 @@ void Map::destroyGameObject(GameObject* obj) {
 	{
 		if (fGameObjectList[i] == obj) 
 		{
-			fGameObjectList.erase(fGameObjectList.begin() + i);
 			delete obj;
+			fGameObjectList.erase(fGameObjectList.begin() + i);
 			return;
 		}
 	}
@@ -61,6 +61,7 @@ void Map::destroyAllGameObjects()
 		if (fGameObjectList[i] != nullptr) 
 		{
 			delete fGameObjectList[i];
+			fGameObjectList[i] = nullptr;
 		}
 	}
 	fGameObjectList.clear();

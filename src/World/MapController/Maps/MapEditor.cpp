@@ -114,6 +114,7 @@ void MapEditor::handleClone()
 				break;
 			case GameObjectClassType::PORTAL:
 				temp = new Portal(*(Portal*)fSelectedObject);
+				((Portal*)temp)->onFocus();
 				break;
 			case GameObjectClassType::BOX:
 				temp = new Box(*(Box*)fSelectedObject);

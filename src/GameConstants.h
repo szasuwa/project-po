@@ -21,6 +21,7 @@ const float POINT_RADIUS = 5;
 const  sf::Color POINT_COLOR(4291366655);
 
 const float PORTAL_RADIUS = 5;
+const int PORTAL_POINT_COUNT = 4;
 const sf::Color PORTAL_COLOR(2566927359);
 
 const sf::Vector2f BOX_SIZE(10, 10);

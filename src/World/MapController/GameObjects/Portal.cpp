@@ -14,7 +14,7 @@ Portal::Portal(const sf::Vector2f& position, const float& radius, Map* map) : Po
 {
 }
 
-Portal::Portal(const sf::Vector2f& position, const sf::Color& color, Map* map) : Portal(position, 5, PORTAL_COLOR, map)
+Portal::Portal(const sf::Vector2f& position, const sf::Color& color, Map* map) : Portal(position, PORTAL_RADIUS, PORTAL_COLOR, map)
 {
 }
 
@@ -26,7 +26,7 @@ Portal::Portal(const sf::Vector2f& position, const float& radius, const sf::Colo
 	fTransformable = (sf::CircleShape*)fDrawable;
 	fTransformable->setPosition(position);
 	((sf::CircleShape*)fDrawable)->setRadius(radius);
-	((sf::CircleShape*)fDrawable)->setPointCount(5);
+	((sf::CircleShape*)fDrawable)->setPointCount(PORTAL_POINT_COUNT);
 	((sf::CircleShape*)fDrawable)->setFillColor(color);
 }
 
@@ -41,6 +41,15 @@ Portal::Portal(const Portal& obj) : GameObject(obj)
 	fLinkId = obj.fLinkId;
 }
 
+Portal::~Portal()
+{
+	for (GameObject* o : fMap->getGameObjects())
+	{
+		if (o != this && o != nullptr && o->getClassType() == GameObjectClassType::PORTAL && ((Portal*)o)->fLink == this)
+			((Portal*)o)->setLink(nullptr);
+	}
+}
+
 void Portal::onUpdate()
 {
 	for (int i = 0; i < fExitingObjects.size(); ++i) 
@@ -51,7 +60,6 @@ void Portal::onUpdate()
 			--i;
 		}
 	}
-	
 }
 
 void Portal::onFocus()

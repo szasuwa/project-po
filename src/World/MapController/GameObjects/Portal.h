@@ -18,9 +18,11 @@ public:
 	Portal(const sf::Vector2f& position, const sf::Color& color, Map* map = nullptr);
 	Portal(const sf::Vector2f& position, const float& radius, const sf::Color& color, Map* map = nullptr);
 	Portal(const Portal& obj);
+	~Portal();
 
 	void onUpdate();
 	void onFocus();
+	void onDelete();
 	bool onTrigger(GameObject * o);
 	sf::FloatRect getGlobalBounds() const;
 	void resize(const sf::Vector2f& p, bool gridSnap = false, bool vLock = false, bool hLock = false);

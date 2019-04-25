@@ -20,6 +20,8 @@ Point::Point(const sf::Vector2f & position, const sf::Color & color, Map * map) 
 
 Point::Point(const sf::Vector2f & position, const float & radius, const sf::Color & color, Map * map) : GameObject(map)
 {
+	fHasTrigger = true;
+	fHasCollider = false;
 	fDrawable = new sf::CircleShape();
 	fTransformable = (sf::CircleShape*)fDrawable;
 	fTransformable->setPosition(position);

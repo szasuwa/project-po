@@ -18,10 +18,10 @@ MapEditorInterface::MapEditorInterface(const Alignment & a) : InterfaceGroup(a)
 	fExitKey.setText(KeyController::getInstance().getKeyGroup(KeyBinding::MapEditorExit).toString() + " Quit Editor (Save)");
 	fCancelKey.setText(KeyController::getInstance().getKeyGroup(KeyBinding::MapEditorCancel).toString() + " Quit Editor (Cancel)");
 
-	fDeleteKey.setText(KeyController::getInstance().getKeyGroup(KeyBinding::MapEditorDelete).toString() + " Delete Item / Ghost / Link");
-	fCloneKey.setText(KeyController::getInstance().getKeyGroup(KeyBinding::MapEditorClone).toString() + " Clone");
+	fDeleteKey.setText(KeyController::getInstance().getKeyGroup(KeyBinding::MapEditorDelete).toString() + " Delete Item / Ghost");
 	fMoveKey.setText(KeyController::getInstance().getKeyGroup(KeyBinding::MapEditorMove).toString() + "Move");
 	fResizeKey.setText(KeyController::getInstance().getKeyGroup(KeyBinding::MapEditorResize).toString() + " Resize");
+	fCloneKey.setText(KeyController::getInstance().getKeyGroup(KeyBinding::MapEditorClone).toString() + " Clone");
 	fLinkKey.setText(KeyController::getInstance().getKeyGroup(KeyBinding::MapEditorLinkPortal).toString() + " Edit Portal Link");
 
 	fGridSnapKey.setText(KeyController::getInstance().getKeyGroup(KeyBinding::MapEditorGridLock).toString() + " Snap To Grid");
@@ -48,9 +48,9 @@ MapEditorInterface::MapEditorInterface(const Alignment & a) : InterfaceGroup(a)
 	fItemList.push_back(&fSeparator);
 
 	fItemList.push_back(&fDeleteKey);
-	fItemList.push_back(&fCloneKey);
 	fItemList.push_back(&fMoveKey);
 	fItemList.push_back(&fResizeKey);
+	fItemList.push_back(&fCloneKey);
 	fItemList.push_back(&fLinkKey);
 	fItemList.push_back(&fSeparator);
 

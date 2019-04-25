@@ -25,7 +25,7 @@ private:
 		KeyGroup({sf::Keyboard::Key::E}),										//MapEditorHLock
 		KeyGroup({sf::Keyboard::Key::Tab}),										//MapEditorGridLock
 		KeyGroup({sf::Keyboard::Key::Delete}),									//MapEditorDelete
-		KeyGroup({sf::Keyboard::Key::LAlt, sf::Keyboard::Key::RAlt}),			//MapEditorClone
+		KeyGroup({sf::Keyboard::Key::C}),										//MapEditorClone
 		KeyGroup({sf::Keyboard::Key::L}),										//MapEditorLinkPortal
 		KeyGroup({sf::Keyboard::Key::Num1, sf::Keyboard::Key::Numpad1}),		//MapEditorGhostPlayer
 		KeyGroup({sf::Keyboard::Key::Num2, sf::Keyboard::Key::Numpad2}),		//MapEditorGhostPlatform

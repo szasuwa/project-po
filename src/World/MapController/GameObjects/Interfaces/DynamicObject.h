@@ -8,8 +8,7 @@
 
 class DynamicObject : public GameObject
 {
-protected:
-	static const std::string F_REGEX_DYNAMIC_OBJECT_PATTERN;
+public:
 	enum class Collision {
 		None,
 		Left,
@@ -17,6 +16,9 @@ protected:
 		Top,
 		Bottom
 	};
+
+protected:
+	static const std::string F_REGEX_DYNAMIC_OBJECT_PATTERN;
 
 	float fMass = 1.0f;
 	bool fIsStatic = false;
@@ -33,7 +35,6 @@ protected:
 	virtual sf::Vector2f onCollision(const sf::Vector2f& p, DynamicObject * o, const Collision& c);
 	virtual sf::Vector2f onCollision(const sf::Vector2f & p, GameObject * obj, const Collision & c, const sf::FloatRect & z, const sf::FloatRect & o);
 	virtual sf::Vector2f onTrigger(const sf::Vector2f& p, GameObject * obj, const Collision& c, const sf::FloatRect& z, const sf::FloatRect& o) = 0;
-
 public:
 	explicit DynamicObject(Map * map = nullptr);
 	DynamicObject(const sf::Vector2f & position, Map * map = nullptr);
@@ -51,3 +52,4 @@ public:
 	virtual void deserializeObject(std::istream& ss);
 };
 
+Collider& operator+=(Collider & o, const DynamicObject::Collision & c);

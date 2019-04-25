@@ -194,7 +194,6 @@ sf::Vector2f DynamicObject::checkCollisions(const sf::Vector2f& p, const Collisi
 				{
 					collision = true;
 					out = onCollision(out, obj, Collision::Top, d, o);
-
 				}
 			}
 
@@ -271,25 +270,22 @@ sf::Vector2f DynamicObject::onCollision(const sf::Vector2f & p, GameObject * obj
 {
 	sf::Vector2f out = p;
 
+	fCollider += c;
 	switch (c)
 	{
 		case Collision::Left:
-			fCollider.triggerLeft();
 			out.x = std::min(o.left + o.width - z.left, 0.f);
 			break;
 
 		case Collision::Right:
-			fCollider.triggerRight();
 			out.x = std::max(o.left - z.left, 0.f);
 			break;
 
 		case Collision::Top:
-			fCollider.triggerTop();
 			out.y = std::min(o.top + o.height - z.top, 0.f);
 			break;
 
 		case Collision::Bottom:
-			fCollider.triggerBottom();
 			out.y = std::max(o.top - z.top, 0.f);
 			break;
 
@@ -384,4 +380,30 @@ void DynamicObject::deserializeObject(std::istream & ss) {
 	if (b)
 		fCollider.triggerBottom();
 
+}
+
+Collider& operator+=(Collider & o, const DynamicObject::Collision & c)
+{
+	switch(c)
+	{
+		case DynamicObject::Collision::Left:
+			o.triggerLeft();
+			break;
+
+		case DynamicObject::Collision::Right:
+			o.triggerRight();
+			break;
+
+		case DynamicObject::Collision::Top:
+			o.triggerTop();
+			break;
+
+		case DynamicObject::Collision::Bottom:
+			o.triggerBottom();
+			break;
+
+		default:
+			break;
+	}
+	return o;
 }

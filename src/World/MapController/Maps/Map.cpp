@@ -344,9 +344,10 @@ void Map::deserializeObject(std::istream& ss) {
 		else
 		{
 			delete obj;
-			return;
+			break;
 		}
 	}
+	updateLastId();
 }
 
 bool Map::checkSerializableValidity(const std::string& s)

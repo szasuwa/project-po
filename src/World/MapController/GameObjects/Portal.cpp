@@ -43,6 +43,9 @@ Portal::Portal(const Portal& obj) : GameObject(obj)
 
 Portal::~Portal()
 {
+	if(fMap == nullptr)
+		return;
+	
 	for (GameObject* o : fMap->getGameObjects())
 	{
 		if (o != this && o != nullptr && o->getClassType() == GameObjectClassType::PORTAL && ((Portal*)o)->fLink == this)

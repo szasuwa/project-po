@@ -264,7 +264,7 @@ __pycache__/
 /CMakeLists.txt
 /CMakeSettings.json
 CMakeFiles/
-.vscode/c_cpp_properties.json
+.vscode/
 CMakeCache.txt
 CMakeLists.txt
 Makefile

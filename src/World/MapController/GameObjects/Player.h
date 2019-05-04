@@ -5,7 +5,7 @@
 
 #include "Interfaces/DynamicObject.h"
 #include "../../Frame/FrameMargin.h"
-#include "../../InterfaceController/InterfaceGroups/UserInterface.h"
+#include "../../InterfaceController/ViewGroups/UserViewGroup.h"
 #include "../../KeyboardController/KeyController.h"
 #include "../Maps/MapBoundaries.h"
 

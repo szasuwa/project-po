@@ -114,7 +114,7 @@ sf::Vector2f Player::onTrigger(const sf::Vector2f& p, GameObject* obj, const Col
 }
 
 void Player::updateGui() {
-	UserInterface::setPoints(fScore);
+	UserViewGroup::setPoints(fScore);
 }
 
 void Player::onUpdate()

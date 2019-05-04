@@ -1,7 +1,10 @@
-#include "DebugInterface.h"
+#include "DebugViewGroup.h"
 
+DebugViewGroup::DebugViewGroup() : DebugViewGroup(ViewAlignment::Left)
+{
+}
 
-DebugInterface::DebugInterface(const Alignment & a) : InterfaceGroup(a)
+DebugViewGroup::DebugViewGroup(const ViewAlignment& a) : ViewGroup(a)
 {
 	fVersion.setText("Version: " + GAME_VERSION);
 
@@ -10,7 +13,7 @@ DebugInterface::DebugInterface(const Alignment & a) : InterfaceGroup(a)
 	fItemList.push_back(&fSeparator);
 }
 
-void DebugInterface::update() 
+void DebugViewGroup::update()
 {
 	fFpsMeter.setText(std::to_string((Frame::getInstance()).getFrameRate()) + " FPS");
 }

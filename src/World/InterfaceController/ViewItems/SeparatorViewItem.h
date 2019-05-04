@@ -2,17 +2,15 @@
 #include <SFML/Graphics/Text.hpp>
 #include <string>
 
-#include "InterfaceItem.h"
-#include "../../Frame/Frame.h"
+#include "../Interfaces/ViewItem.h"
 
 
-class InterfaceText : public InterfaceItem {
-	static float F_TEXT_HEIGHT_OFFSET;
-	sf::Text fText;
+class SeparatorViewItem : public ViewItem {
+protected:
+	float fHeight;
 
 public:
-	InterfaceText();
-	void setText(const std::string &txt);
+	explicit SeparatorViewItem(float h = 50);
 	virtual void draw() const;
 	virtual void setPosition(const sf::Vector2f & p);
 	virtual float getWidth() const;

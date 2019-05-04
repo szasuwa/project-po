@@ -55,6 +55,7 @@ bool Point::onTrigger(GameObject * o)
 		fMap->destroyGameObject(this);
 		return false;
 	}
+	return false;
 }
 
 sf::FloatRect Point::getGlobalBounds() const 

@@ -3,8 +3,9 @@
 #include <SFML/Window/Mouse.hpp>
 #include <SFML/Graphics/Drawable.hpp>
 
+#include "../../KeyboardController/MouseController.h"
 #include "Map.h"
-#include "../../InterfaceController/InterfaceGroups/MapEditorInterface.h"
+#include "../../InterfaceController/ViewGroups/MapEditorControlsViewGroup.h"
 #include "PortalLink.h"
 
 class MapController;
@@ -32,7 +33,6 @@ class MapEditor {
 	GameObject * fSelectedObject = nullptr;
 	EditorMode fMode;
 
-	bool fIsLmbPressed = false;
 	bool fCloned = false;
 	bool fMoveObject = false;
 	bool fResizeObject = false;

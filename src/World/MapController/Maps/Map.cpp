@@ -202,7 +202,7 @@ void Map::broadcastDraw() const
 
 void Map::clone(const Map & o) 
 {
-	if (this == &o)
+	if (this == &o || &o == nullptr)
 		return;
 
 	fLastId = o.fLastId;

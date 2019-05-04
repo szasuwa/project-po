@@ -2,8 +2,8 @@
 
 MapEditor::MapEditor() : fKey(KeyController::getInstance()), fFrame(Frame::getInstance())
 {
-	MapEditorInterface::reportAxisLockStatus(fVerticalLock, fHorizontalLock);
-	MapEditorInterface::reportGridSnapStatus(fSnapToGrid);
+	MapEditorControlsViewGroup::reportAxisLockStatus(fVerticalLock, fHorizontalLock);
+	MapEditorControlsViewGroup::reportGridSnapStatus(fSnapToGrid);
 }
 
 Map * MapEditor::loadMap(const Map & map)
@@ -137,19 +137,19 @@ void MapEditor::handleAxes()
 	if (fKey.getKeyGroup(KeyBinding::MapEditorVLock).wasToggled() && fKey.getKeyGroup(KeyBinding::MapEditorVLock).isPressed())
 	{
 		fVerticalLock = !fVerticalLock;
-		MapEditorInterface::reportAxisLockStatus(fVerticalLock, fHorizontalLock);
+		MapEditorControlsViewGroup::reportAxisLockStatus(fVerticalLock, fHorizontalLock);
 	}
 
 	if (fKey.getKeyGroup(KeyBinding::MapEditorHLock).wasToggled() && fKey.getKeyGroup(KeyBinding::MapEditorHLock).isPressed())
 	{
 		fHorizontalLock = !fHorizontalLock;
-		MapEditorInterface::reportAxisLockStatus(fVerticalLock, fHorizontalLock);
+		MapEditorControlsViewGroup::reportAxisLockStatus(fVerticalLock, fHorizontalLock);
 	}
 
 	if (fKey.getKeyGroup(KeyBinding::MapEditorGridLock).wasToggled() && fKey.getKeyGroup(KeyBinding::MapEditorGridLock).isPressed())
 	{
 		fSnapToGrid = !fSnapToGrid;
-		MapEditorInterface::reportGridSnapStatus(fSnapToGrid);
+		MapEditorControlsViewGroup::reportGridSnapStatus(fSnapToGrid);
 	}
 }
 
@@ -174,11 +174,10 @@ void MapEditor::handleGhost()
 
 void MapEditor::handleMouse()
 {
+	MouseController& mouse = MouseController::getInstance();
 	//Mouse
-	if (!fIsLmbPressed && sf::Mouse::isButtonPressed(sf::Mouse::Button::Left)) 
+	if (mouse.wasLmbToggledDown()) 
 	{
-		fIsLmbPressed = true;
-
 		switch (fMode) {
 			case EditorMode::None:
 				fSelectedObject = selectObject();
@@ -225,12 +224,11 @@ void MapEditor::handleMouse()
 		}
 	}
 
-	if (fIsLmbPressed && !sf::Mouse::isButtonPressed(sf::Mouse::Button::Left)) 
+	if (mouse.wasLmbToggledUp())
 	{
 		handleLinking();
 		fLinkObject = false;
 
-		fIsLmbPressed = false;
 		fCloned = false;
 		fResizeObject = false;
 		fMoveObject = false;

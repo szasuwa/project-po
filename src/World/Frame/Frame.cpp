@@ -27,6 +27,7 @@ void Frame::updateView(const sf::View & v, const FrameLayer & layer)
 		return;
 
 	fViewLayers[(int)layer] = v;
+	fActiveView = FrameLayer::num_values;
 }
 
 void Frame::draw(const sf::Drawable & o, const FrameLayer & layer)

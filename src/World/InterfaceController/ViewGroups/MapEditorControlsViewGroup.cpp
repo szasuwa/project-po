@@ -1,14 +1,18 @@
-#include "MapEditorInterface.h"
-bool MapEditorInterface::fVerticalLockStatus = false;
-bool MapEditorInterface::fHorizontalLockStatus = false;
-bool MapEditorInterface::fAxisLockUpdated = true;
-bool MapEditorInterface::fGridSnapStatus = false;
-bool MapEditorInterface::fGridSnapUpdated = true;
-bool MapEditorInterface::fTimeFlowStatus = false;
-bool MapEditorInterface::fTimeFlowUpdated = true;
+#include "MapEditorControlsViewGroup.h"
+bool MapEditorControlsViewGroup::fVerticalLockStatus = false;
+bool MapEditorControlsViewGroup::fHorizontalLockStatus = false;
+bool MapEditorControlsViewGroup::fAxisLockUpdated = true;
+bool MapEditorControlsViewGroup::fGridSnapStatus = false;
+bool MapEditorControlsViewGroup::fGridSnapUpdated = true;
+bool MapEditorControlsViewGroup::fTimeFlowStatus = false;
+bool MapEditorControlsViewGroup::fTimeFlowUpdated = true;
 
 
-MapEditorInterface::MapEditorInterface(const Alignment & a) : InterfaceGroup(a)
+MapEditorControlsViewGroup::MapEditorControlsViewGroup() : MapEditorControlsViewGroup(ViewAlignment::Left)
+{
+}
+
+MapEditorControlsViewGroup::MapEditorControlsViewGroup(const ViewAlignment& a) : ViewGroup(a)
 {
 	fSelectionKey.setText("[LPM] Select Item / Place Ghost");
 
@@ -33,12 +37,12 @@ MapEditorInterface::MapEditorInterface(const Alignment & a) : InterfaceGroup(a)
 	fGhostPointKey.setText(KeyController::getInstance().getKeyGroup(KeyBinding::MapEditorGhostPoint).toString() + " Point Ghost");
 	fGhostPortalKey.setText(KeyController::getInstance().getKeyGroup(KeyBinding::MapEditorGhostPortal).toString() + " Portal Ghost");
 	fGhostBoxKey.setText(KeyController::getInstance().getKeyGroup(KeyBinding::MapEditorGhostBox).toString() + " Box Ghost");
-	
+
 
 
 	fItemList.push_back(&fSelectionKey);
 	fItemList.push_back(&fSeparator);
-	
+
 
 	fItemList.push_back(&fTimeKey);
 	fItemList.push_back(&fResetKey);
@@ -66,7 +70,7 @@ MapEditorInterface::MapEditorInterface(const Alignment & a) : InterfaceGroup(a)
 	fItemList.push_back(&fGhostBoxKey);
 }
 
-void MapEditorInterface::update()
+void MapEditorControlsViewGroup::update()
 {
 	if (fAxisLockUpdated) 
 	{
@@ -89,20 +93,20 @@ void MapEditorInterface::update()
 	
 }
 
-void MapEditorInterface::reportAxisLockStatus(bool v, bool h)
+void MapEditorControlsViewGroup::reportAxisLockStatus(bool v, bool h)
 {
 	fVerticalLockStatus = v;
 	fHorizontalLockStatus = h;
 	fAxisLockUpdated = true;
 }
 
-void MapEditorInterface::reportGridSnapStatus(bool s)
+void MapEditorControlsViewGroup::reportGridSnapStatus(bool s)
 {
 	fGridSnapStatus = s;
 	fGridSnapUpdated = true;
 }
 
-void MapEditorInterface::reportTimeFlowStatus(bool s)
+void MapEditorControlsViewGroup::reportTimeFlowStatus(bool s)
 {
 	fTimeFlowStatus = s;
 	fTimeFlowUpdated = true;

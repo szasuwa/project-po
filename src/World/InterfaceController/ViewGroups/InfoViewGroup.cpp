@@ -1,6 +1,10 @@
-#include "InfoInterface.h"
+#include "InfoViewGroup.h"
 
-InfoInterface::InfoInterface(const Alignment & a) : InterfaceGroup(a) 
+InfoViewGroup::InfoViewGroup() : InfoViewGroup(ViewAlignment::Left)
+{
+}
+
+InfoViewGroup::InfoViewGroup(const ViewAlignment& a) : ViewGroup(a)
 {
 	fMapEditorKey.setText(KeyController::getInstance().getKeyGroup(KeyBinding::MapEditor).toString() + " Map Editor");
 	fDebugKey.setText(KeyController::getInstance().getKeyGroup(KeyBinding::Debug).toString() + " Debug");
@@ -11,6 +15,6 @@ InfoInterface::InfoInterface(const Alignment & a) : InterfaceGroup(a)
 	fItemList.push_back(&fMapResetKey);
 }
 
-void InfoInterface::update() 
+void InfoViewGroup::update()
 {
 }

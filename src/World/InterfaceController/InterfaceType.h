@@ -1,9 +1,7 @@
 #pragma once
 enum class InterfaceType : unsigned int {
-		User,
-		Info,
-		Debug,
+		MainMenu,
+		Gui,
 		MapEditor,
-		Controls,
 		num_values
 };

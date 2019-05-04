@@ -3,7 +3,7 @@
 
 InterfaceController::~InterfaceController() 
 {
-	for (InterfaceGroup * item : fInterfaceGroups)
+	for (InterfaceView* item : fInterfaces)
 	{
 		delete item;
 	}
@@ -18,82 +18,90 @@ void InterfaceController::updateView()
 
 void InterfaceController::update() 
 {
-	float fLeftHeight, fCenterHeight, fRightHeight;
-	fLeftHeight = fCenterHeight = fRightHeight = 1;
-
-	for (InterfaceGroup * item : fInterfaceGroups) 
-	{
-		if (item != nullptr && item->getVisibility()) 
-		{
-			item->update();
-
-			switch (item->getAlignment())
-			{
-				case InterfaceGroup::Alignment::Left:
-					item->calculatePositions(fLeftHeight);
-					fLeftHeight += item->calculateHeight();
-					break;
-				case InterfaceGroup::Alignment::Right:
-					item->calculatePositions(fRightHeight);
-					fRightHeight += item->calculateHeight();
-					break;
-				case InterfaceGroup::Alignment::Center:
-					item->calculatePositions(fCenterHeight);
-					fCenterHeight += item->calculateHeight();
-					break;
-				default:
-					break;
-			}			
-		}
-	}
-}
-void InterfaceController::draw() const {
-	for (InterfaceGroup * item : fInterfaceGroups) 
+	for (InterfaceView* item : fInterfaces)
 	{
 		if (item != nullptr) 
 		{
-			item->drawGroup();
+			item->update();	
+		}
+	}
+
+	for (OverlayView* item : fOverlays)
+	{
+		if (item != nullptr)
+		{
+			item->update();
 		}
 	}
 }
 
-void InterfaceController::addInterface(const InterfaceType & i, const bool & v)
+void InterfaceController::draw() const {
+	if (fActiveView != nullptr) 
+	{
+		fActiveView->draw();
+	}
+
+	for (OverlayView* item : fOverlays)
+	{
+		if (item != nullptr)
+		{
+			item->draw();
+		}
+	}
+}
+
+void InterfaceController::selectInterface(const InterfaceType & i)
 {
 	switch (i)
 	{
-		case InterfaceType::User:
-			fInterfaceGroups[(int)i] = new UserInterface(InterfaceGroup::Alignment::Center);
+		case InterfaceType::MainMenu:
+			if(fInterfaces[(int)i] == nullptr)
+				fInterfaces[(int)i] = new MainMenu();
 			break;
-		case InterfaceType::Info:
-			fInterfaceGroups[(int)i] = new InfoInterface(InterfaceGroup::Alignment::Left);
+		
+		case InterfaceType::Gui:
+			if (fInterfaces[(int)i] == nullptr)
+				fInterfaces[(int)i] = new GraphicalUserInterface();
 			break;
-		case InterfaceType::Debug:
-			fInterfaceGroups[(int)i] = new DebugInterface(InterfaceGroup::Alignment::Right);
-			break;
+
 		case InterfaceType::MapEditor:
-			fInterfaceGroups[(int)i] = new MapEditorInterface(InterfaceGroup::Alignment::Left);
+			if (fInterfaces[(int)i] == nullptr)
+				fInterfaces[(int)i] = new MapEditorInterface();
 			break;
-		case InterfaceType::Controls:
-			fInterfaceGroups[(int)i] = new ControlsInterface(InterfaceGroup::Alignment::Right);
-			break;
+
 		default:
+			fActiveView = nullptr;
 			return;
 	}
-	fInterfaceGroups[(int)i]->setVisibility(v);
+	fActiveView = fInterfaces[(int)i];
 }
 
-void InterfaceController::setInterfaceVisibility(const bool & v, const InterfaceType & i)
+void InterfaceController::toggleOverlayVisibility(const OverlayType& i)
 {
-	if (i == InterfaceType::num_values || fInterfaceGroups[(int)i] == nullptr)
-		return;
+	switch (i)
+	{
+		case OverlayType::Debug:
+			if (fOverlays[(int)i] == nullptr)
+				fOverlays[(int)i] = new DebugOverlay();
 
-	fInterfaceGroups[(int)i]->setVisibility(v);
+			fOverlays[(int)i]->toggleVisibility();
+			break;
+	default:
+		return;
+	}
 }
 
-void InterfaceController::toggleInterfaceVisibility(const InterfaceType & i)
+void InterfaceController::setOverlayVisibility(const OverlayType& i, const bool & v)
 {
-	if (i == InterfaceType::num_values || fInterfaceGroups[(int)i] == nullptr)
-		return;
+	switch (i)
+	{
+	case OverlayType::Debug:
+		if (fOverlays[(int)i] == nullptr)
+			fOverlays[(int)i] = new DebugOverlay();
 
-	fInterfaceGroups[(int)i]->toggleVisibility();
+		fOverlays[(int)i]->setVisibility(v);
+		break;
+	default:
+		return;
+	}
 }

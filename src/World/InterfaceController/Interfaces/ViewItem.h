@@ -3,7 +3,7 @@
 #include <SFML/System/Vector2.hpp>
 
 
-class InterfaceItem {
+class ViewItem {
 protected:
 	bool fVisible = true;
 

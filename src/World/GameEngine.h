@@ -7,14 +7,16 @@
 
 #include "Frame/Frame.h"
 #include "KeyboardController/KeyController.h"
+#include "KeyboardController/MouseController.h"
 #include "InterfaceController/InterfaceController.h"
 #include "MapController/MapController.h"
 
 class GameEngine
 {
 	sf::RenderWindow &fGameWindow;
-	Frame &fFrame;
-	KeyController &fKeyController;
+	Frame & fFrame;
+	KeyController & fKeyController;
+	MouseController & fMouseController;
 	InterfaceController fInterface;
 	MapController fMapController;
 

@@ -15,7 +15,3 @@ ControlsViewGroup::ControlsViewGroup(const ViewAlignment& a) : ViewGroup(a)
 	fItemList.push_back(&fMoveRightKey);
 	fItemList.push_back(&fMoveJumpKey);
 }
-
-void ControlsViewGroup::update()
-{
-}

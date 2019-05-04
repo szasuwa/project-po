@@ -2,7 +2,11 @@
 
 SeparatorViewItem::SeparatorViewItem(float h)
 {
-	fHeight = 5;
+	fHeight = h;
+}
+
+void SeparatorViewItem::update()
+{
 }
 
 void SeparatorViewItem::draw() const

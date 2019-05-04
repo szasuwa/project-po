@@ -1,5 +1,17 @@
 #include "InterfaceController.h"
+InterfaceController* InterfaceController::instance = nullptr;
 
+InterfaceController::InterfaceController()
+{
+}
+
+InterfaceController& InterfaceController::getInstance()
+{
+	if (instance == nullptr)
+		instance = new InterfaceController();
+
+	return *instance;
+}
 
 InterfaceController::~InterfaceController() 
 {
@@ -71,9 +83,16 @@ void InterfaceController::selectInterface(const InterfaceType & i)
 
 		default:
 			fActiveView = nullptr;
+			fActiveViewType = InterfaceType::num_values;
 			return;
 	}
 	fActiveView = fInterfaces[(int)i];
+	fActiveViewType = i;
+}
+
+InterfaceType InterfaceController::getSelectedInterfaceType() const
+{
+	return fActiveViewType;
 }
 
 void InterfaceController::toggleOverlayVisibility(const OverlayType& i)

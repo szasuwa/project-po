@@ -3,7 +3,7 @@
 #include <SFML/Window/Mouse.hpp>
 #include <SFML/Graphics/Drawable.hpp>
 
-#include "../../KeyboardController/MouseController.h"
+#include "../../InputController/MouseController.h"
 #include "Map.h"
 #include "../../InterfaceController/ViewGroups/MapEditorControlsViewGroup.h"
 #include "PortalLink.h"

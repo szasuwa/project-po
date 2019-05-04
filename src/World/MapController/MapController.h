@@ -15,8 +15,10 @@
 
 class MapController
 {
+private:
+	static MapController * instance;
 	const std::string F_MAP_PATH = "res/";
-	std::vector<Map> fMapList;
+	std::vector<Map> fMapList = std::vector<Map>();
 	Map * fActiveMap = nullptr;
 	Map * fEditedMap = nullptr;
 	std::string fActiveMapName;
@@ -24,10 +26,17 @@ class MapController
 	int fActiveMapIndex;
 	MapEditor * fEditor = nullptr;
 
+	MapController();
+	MapController(const MapController& o);
+
 public:
-	void load(const int & id);
-	void load(const std::string & name);
-	void load(const std::string& name, Map * map);
+	static MapController& getInstance();
+
+	~MapController();
+
+	bool load(const int & id);
+	bool load(const std::string & name);
+	bool load(const std::string& name, Map * map);
 	void save(const std::string & name, const Map & map) const;
 	bool exists(const std::string& name) const;
 	bool checkIntegrity(const std::string& name) const;

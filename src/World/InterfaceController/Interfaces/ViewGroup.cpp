@@ -9,6 +9,17 @@ ViewGroup::ViewGroup(const ViewAlignment& a) : fPosition(sf::Vector2f()), fVisib
 {
 }
 
+void ViewGroup::update()
+{
+	for (ViewItem* item : fItemList)
+	{
+		if (item != nullptr)
+		{
+			item->update();
+		}
+	}
+}
+
 void ViewGroup::draw() const
 {
 	if (!fVisible)

@@ -1,25 +1,44 @@
 #include "MapController.h"
+MapController* MapController::instance = nullptr;
 
+MapController::MapController()
+{
+}
 
-void MapController::load(const int & id) {
+MapController& MapController::getInstance()
+{
+	if (instance == nullptr)
+		instance = new MapController();
+
+	return *instance;
+}
+
+MapController::~MapController() 
+{
+	delete fEditor;
+}
+
+bool MapController::load(const int & id) {
 	if (fMapList.size() >= id)
-		return;
+		return false;
 	
 	fActiveMap = &fMapList[id];
 	fActiveMapIndex = id;
 	fActiveMap->broadcastFocus();
+
+	return true;
 }
 
-void MapController::load(const std::string & name)
+bool MapController::load(const std::string & name)
 {
 	if (!exists(name))
 	{
 		LogError("Cannot open file (" + F_MAP_PATH + name + ")");
-		return;
+		return false;
 	}
 
 	if (!checkIntegrity(name))
-		return;
+		return false;
 
 	fMapList.push_back(Map());
 	fActiveMap = &fMapList.back();
@@ -29,22 +48,26 @@ void MapController::load(const std::string & name)
 	load(name, fActiveMap);
 
 	fActiveMap->broadcastFocus();
+
+	return true;
 }
 
-void MapController::load(const std::string& name, Map * map)
+bool MapController::load(const std::string& name, Map * map)
 {
 	std::ifstream fs(F_MAP_PATH + name);
 
 	if (fs.fail())
 	{
 		LogError("Cannot open file (" + F_MAP_PATH + name + ")");
-		return;
+		return false;
 	}
 
 	if (!checkIntegrity(name))
-		return;
+		return false;
 
 	fs >> *map;
+
+	return true;
 }
 
 void MapController::save(const std::string & name, const Map & map) const

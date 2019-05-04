@@ -3,7 +3,7 @@
 #include "../ViewItems/TextViewItem.h"
 #include "../ViewItems/SeparatorViewItem.h"
 #include "../../Frame/Frame.h"
-#include "../../KeyboardController/KeyController.h"
+#include "../../InputController/KeyController.h"
 
 
 class MapEditorControlsViewGroup : public ViewGroup {

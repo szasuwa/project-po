@@ -9,4 +9,6 @@ class MainMenu : public InterfaceView
 
 public:
 	MainMenu();
+
+	virtual void update();
 };

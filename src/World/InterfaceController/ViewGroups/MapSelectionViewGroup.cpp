@@ -7,9 +7,3 @@ MapSelectionViewGroup::MapSelectionViewGroup() : MapSelectionViewGroup(ViewAlign
 MapSelectionViewGroup::MapSelectionViewGroup(const ViewAlignment& a) : ViewGroup(a)
 {
 }
-
-
-void MapSelectionViewGroup::update()
-{
-}
-

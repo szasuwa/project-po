@@ -2,7 +2,7 @@
 #include "../Interfaces/ViewGroup.h"
 #include "../ViewItems/TextViewItem.h"
 #include "../../Frame/Frame.h"
-#include "../../KeyboardController/KeyController.h"
+#include "../../InputController/KeyController.h"
 
 
 class ControlsViewGroup : public ViewGroup {
@@ -13,6 +13,4 @@ class ControlsViewGroup : public ViewGroup {
 public:
 	ControlsViewGroup();
 	explicit ControlsViewGroup(const ViewAlignment& a);
-
-	void update();
 };

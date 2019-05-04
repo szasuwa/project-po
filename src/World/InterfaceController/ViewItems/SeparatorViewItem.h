@@ -10,8 +10,11 @@ protected:
 	float fHeight;
 
 public:
-	explicit SeparatorViewItem(float h = 50);
+	explicit SeparatorViewItem(float h = 10);
+
+	virtual void update();
 	virtual void draw() const;
+
 	virtual void setPosition(const sf::Vector2f & p);
 	virtual float getWidth() const;
 	virtual float getHeight() const;

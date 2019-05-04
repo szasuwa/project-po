@@ -6,8 +6,8 @@
 #include <chrono>
 
 #include "Frame/Frame.h"
-#include "KeyboardController/KeyController.h"
-#include "KeyboardController/MouseController.h"
+#include "InputController/KeyController.h"
+#include "InputController/MouseController.h"
 #include "InterfaceController/InterfaceController.h"
 #include "MapController/MapController.h"
 
@@ -17,10 +17,9 @@ class GameEngine
 	Frame & fFrame;
 	KeyController & fKeyController;
 	MouseController & fMouseController;
-	InterfaceController fInterface;
-	MapController fMapController;
+	InterfaceController & fInterfaceController;
+	MapController & fMapController;
 
-	bool fIsEditingMap = false;
 	bool fTimeFlowEnabled = true;
 
 	void initGame();

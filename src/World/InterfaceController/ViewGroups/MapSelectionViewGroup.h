@@ -11,6 +11,4 @@ class MapSelectionViewGroup : public ViewGroup {
 public:
 	MapSelectionViewGroup();
 	explicit MapSelectionViewGroup(const ViewAlignment& a);
-
-	void update();
 };

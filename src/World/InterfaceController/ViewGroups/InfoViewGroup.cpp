@@ -14,7 +14,3 @@ InfoViewGroup::InfoViewGroup(const ViewAlignment& a) : ViewGroup(a)
 	fItemList.push_back(&fDebugKey);
 	fItemList.push_back(&fMapResetKey);
 }
-
-void InfoViewGroup::update()
-{
-}

@@ -4,6 +4,7 @@
 
 #include "../Interfaces/ViewItem.h"
 #include "../../Frame/Frame.h"
+#include "../../../GameConstants.h"
 
 
 class TextViewItem : public ViewItem {
@@ -13,8 +14,12 @@ protected:
 
 public:
 	TextViewItem();
-	void setText(const std::string &txt);
+
+	virtual void update();
 	virtual void draw() const;
+
+	void setText(const std::string& txt);
+	void setColor(const sf::Color& c);
 	virtual void setPosition(const sf::Vector2f & p);
 	virtual float getWidth() const;
 	virtual float getHeight() const;

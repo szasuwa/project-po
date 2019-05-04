@@ -16,4 +16,5 @@ DebugViewGroup::DebugViewGroup(const ViewAlignment& a) : ViewGroup(a)
 void DebugViewGroup::update()
 {
 	fFpsMeter.setText(std::to_string((Frame::getInstance()).getFrameRate()) + " FPS");
+	ViewGroup::update();
 }

@@ -19,8 +19,8 @@ public:
 	ViewGroup();
 	explicit ViewGroup(const ViewAlignment & a);
 
-	virtual void update() = 0;
-	void draw() const;
+	virtual void update();
+	virtual void draw() const;
 
 	sf::Vector2f getPosition() const;
 	void setPosition(const sf::Vector2f& p);

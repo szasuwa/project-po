@@ -90,7 +90,8 @@ void MapEditorControlsViewGroup::update()
 		fTimeFlowUpdated = false;
 		fTimeKey.setText(KeyController::getInstance().getKeyGroup(KeyBinding::MapEditorTime).toString() + " Time Flow" + (fTimeFlowStatus ? " : On" : " : Off"));
 	}
-	
+
+	ViewGroup::update();
 }
 
 void MapEditorControlsViewGroup::reportAxisLockStatus(bool v, bool h)

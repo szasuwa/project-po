@@ -3,7 +3,7 @@
 #include "../ViewItems/TextViewItem.h"
 #include "../ViewItems/SeparatorViewItem.h"
 #include "../../Frame/Frame.h"
-#include "../../KeyboardController/KeyController.h"
+#include "../../InputController/KeyController.h"
 
 
 class InfoViewGroup : public ViewGroup {
@@ -14,6 +14,4 @@ class InfoViewGroup : public ViewGroup {
 public:
 	InfoViewGroup();
 	explicit InfoViewGroup(const ViewAlignment& a);
-
-	void update();
 };

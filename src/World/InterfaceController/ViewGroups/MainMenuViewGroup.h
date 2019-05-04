@@ -9,6 +9,4 @@ class MainMenuViewGroup : public ViewGroup {
 public:
 	MainMenuViewGroup();
 	explicit MainMenuViewGroup(const ViewAlignment& a);
-
-	void update();
 };

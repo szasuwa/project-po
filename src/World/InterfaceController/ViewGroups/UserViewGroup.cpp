@@ -13,6 +13,7 @@ UserViewGroup::UserViewGroup(const ViewAlignment& a) : ViewGroup(a)
 void UserViewGroup::update()
 {
 	fPointsBox.setText(std::string("Points: " + std::to_string(fPoints)));
+	ViewGroup::update();
 }
 
 void UserViewGroup::setPoints(int p)

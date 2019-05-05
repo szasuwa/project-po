@@ -1,26 +1,22 @@
 #include "ViewGroup.h"
 
 
-ViewGroup::ViewGroup(UIInterface& f) : ViewGroup(f, ViewAlignment::Left)
+ViewGroup::ViewGroup(const ViewAlignment& a) : fPosition(sf::Vector2f()), fVisible(true), fAlignment(a)
 {
 }
 
-ViewGroup::ViewGroup(UIInterface& f, const ViewAlignment& a) : fUIInterface(f), fPosition(sf::Vector2f()), fVisible(true), fAlignment(a)
-{
-}
-
-void ViewGroup::update()
+void ViewGroup::update(UIInterface& f)
 {
 	for (ViewItem* item : fItemList)
 	{
 		if (item != nullptr)
 		{
-			item->update();
+			item->update(f);
 		}
 	}
 }
 
-void ViewGroup::draw() const
+void ViewGroup::draw(UIInterface& f) const
 {
 	if (!fVisible)
 		return;
@@ -29,7 +25,7 @@ void ViewGroup::draw() const
 	{
 		if (item != nullptr) 
 		{
-			item->draw();
+			item->draw(f);
 		}
 	}
 }

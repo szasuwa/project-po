@@ -1,23 +1,23 @@
 #include "Box.h"
 
 
-Box::Box(MapInterface& f, Map* map) : Box(f, sf::Vector2f(), BOX_SIZE, BOX_COLOR, map)
+Box::Box(Map* map) : Box(sf::Vector2f(), BOX_SIZE, BOX_COLOR, map)
 {
 }
 
-Box::Box(MapInterface& f, const sf::Vector2f& position, Map* map) : Box(f, position, BOX_SIZE, BOX_COLOR, map)
+Box::Box(const sf::Vector2f& position, Map* map) : Box(position, BOX_SIZE, BOX_COLOR, map)
 {
 }
 
-Box::Box(MapInterface& f, const sf::Vector2f& position, const sf::Color& color, Map* map) : Box(f, position, BOX_SIZE, color, map)
+Box::Box(const sf::Vector2f& position, const sf::Color& color, Map* map) : Box(position, BOX_SIZE, color, map)
 {
 }
 
-Box::Box(MapInterface& f, const sf::Vector2f& position, const sf::Vector2f& size, Map* map) : Box(f, position, size, BOX_COLOR, map)
+Box::Box(const sf::Vector2f& position, const sf::Vector2f& size, Map* map) : Box(position, size, BOX_COLOR, map)
 {
 }
 
-Box::Box(MapInterface& f, const sf::Vector2f& position, const sf::Vector2f& size, const sf::Color& color, Map* map) : DynamicObject(f, map)
+Box::Box(const sf::Vector2f& position, const sf::Vector2f& size, const sf::Color& color, Map* map) : DynamicObject(map)
 {
 	fDrawable = new sf::RectangleShape();
 	fTransformable = (sf::RectangleShape*)fDrawable;
@@ -40,12 +40,12 @@ sf::Vector2f Box::onTrigger(const sf::Vector2f& p, GameObject* obj, const Collis
 	return p;
 }
 
-void Box::onUpdate()
+void Box::onUpdate(MapInterface& f)
 {
-	DynamicObject::onUpdate();
+	DynamicObject::onUpdate(f);
 }
 
-void Box::onFocus()
+void Box::onFocus(MapInterface& f)
 {
 }
 

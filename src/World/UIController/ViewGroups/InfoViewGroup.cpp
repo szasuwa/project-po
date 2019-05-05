@@ -1,10 +1,7 @@
 #include "InfoViewGroup.h"
 
-InfoViewGroup::InfoViewGroup(UIInterface& f) : InfoViewGroup(f, ViewAlignment::Left)
-{
-}
 
-InfoViewGroup::InfoViewGroup(UIInterface& f, const ViewAlignment& a) : ViewGroup(f, a), fMapEditorKey(f), fDebugKey(f), fMapResetKey(f)
+InfoViewGroup::InfoViewGroup(const ViewAlignment& a) : ViewGroup(a)
 {
 	fMapEditorKey.setText(Key::toString((InputKey)KeyBinding::MapEditor) + " - Map Editor");
 	fDebugKey.setText(Key::toString((InputKey)KeyBinding::Debug) + " - Debug");

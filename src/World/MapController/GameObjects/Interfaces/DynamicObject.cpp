@@ -3,19 +3,19 @@
 const std::string DynamicObject::F_REGEX_DYNAMIC_OBJECT_PATTERN = REGEX_BOOL_PATTERN + "{1}" + REGEX_FLOAT_PATTERN + "{3}" + REGEX_BOOL_PATTERN + "{4}";
 
 
-DynamicObject::DynamicObject(MapInterface& f, Map * m) : DynamicObject(f, sf::Vector2f(0,0), m)
+DynamicObject::DynamicObject(Map * m) : DynamicObject(sf::Vector2f(0,0), m)
 {
 }
 
-DynamicObject::DynamicObject(MapInterface& f, const sf::Vector2f & position, Map * m) : DynamicObject(f, position, false, false, m)
+DynamicObject::DynamicObject(const sf::Vector2f & position, Map * m) : DynamicObject(position, false, false, m)
 {
 }
 
-DynamicObject::DynamicObject(MapInterface& f, bool vLock, bool hLock, Map * m) : DynamicObject(f, sf::Vector2f(0,0), vLock, hLock, m)
+DynamicObject::DynamicObject(bool vLock, bool hLock, Map * m) : DynamicObject(sf::Vector2f(0,0), vLock, hLock, m)
 {
 }
 
-DynamicObject::DynamicObject(MapInterface& f, const sf::Vector2f & position, bool vLock, bool hLock, Map * m) : GameObject(f, m),
+DynamicObject::DynamicObject(const sf::Vector2f & position, bool vLock, bool hLock, Map * m) : GameObject(m),
 	fForceVector(0, 0), fVerticalInWindowLock(vLock), fHorizontalInWindowLock(hLock), fMass(1)
 {
 }
@@ -30,17 +30,17 @@ DynamicObject::DynamicObject(const DynamicObject &obj) : GameObject(obj)
 	fHorizontalInWindowLock = obj.fHorizontalInWindowLock;
 }
 
-void DynamicObject::applyWorldForces()
+void DynamicObject::applyWorldForces(FrameInterface & f)
 {
 	if (fMap == nullptr)
 		return;
 
 	if (!fCollider.getBottom()) {
-		fForceVector.y += (*fMap).fGravityRate * fFrame.getFrameTime();
+		fForceVector.y += (*fMap).fGravityRate * f.getFrameTime();
 		fForceVector.y = std::min(fForceVector.y, (*fMap).fMaxGravityForce);
 	}
 	else {
-		fForceVector.y = std::min(fForceVector.y, (*fMap).fGravityRate * fFrame.getFrameTime());
+		fForceVector.y = std::min(fForceVector.y, (*fMap).fGravityRate * f.getFrameTime());
 	}
 
 	if (fCollider.getTop() && fForceVector.y < 0)
@@ -296,13 +296,13 @@ sf::Vector2f DynamicObject::onCollision(const sf::Vector2f & p, GameObject * obj
 }
 
 
-void DynamicObject::onUpdate() 
+void DynamicObject::onUpdate(MapInterface& f)
 {
 	fMovement.x = fMovement.y = 0;
-	applyWorldForces();
+	applyWorldForces(f.getFrame());
 
 	//Set position
-	move(fForceVector * fFrame.getFrameTime());
+	move(fForceVector * f.getFrame().getFrameTime());
 }
 
 void DynamicObject::move(const sf::Vector2f& p)

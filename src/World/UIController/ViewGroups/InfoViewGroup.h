@@ -11,6 +11,5 @@ class InfoViewGroup : public ViewGroup {
 	TextViewItem fMapResetKey;
 
 public:
-	explicit InfoViewGroup(UIInterface& f);
-	InfoViewGroup(UIInterface& f, const ViewAlignment& a);
+	explicit InfoViewGroup(const ViewAlignment& a);
 };

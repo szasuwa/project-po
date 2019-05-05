@@ -1,13 +1,13 @@
 #include "MainMenu.h"
 
-MainMenu::MainMenu(UIInterface& f) : InterfaceView(f), fFrame(f.getFrame()), fMainMenuViewGroup(f)
+MainMenu::MainMenu(UIInterface& f) : fMainMenuViewGroup(f)
 {
 	fGroupList.push_back(&fMainMenuViewGroup);
 }
 
-void MainMenu::update()
+void MainMenu::update(UIInterface& f)
 {
-	InterfaceView::update();
+	InterfaceView::update(f);
 
-	fMainMenuViewGroup.setPosition(sf::Vector2f((fFrame.getFrameWidth() - fMainMenuViewGroup.calculateWidth()), fFrame.getFrameHeight() - fMainMenuViewGroup.calculateHeight())/2.f);
+	fMainMenuViewGroup.setPosition(sf::Vector2f((f.getFrame().getFrameWidth() - fMainMenuViewGroup.calculateWidth()), f.getFrame().getFrameHeight() - fMainMenuViewGroup.calculateHeight())/2.f);
 }

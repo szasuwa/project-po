@@ -16,9 +16,6 @@ class GameObject
 protected:
 	static const std::string F_REGEX_GAME_OBJECT_PATTERN;
 
-	MapInterface& fMapInterface;
-	FrameInterface& fFrame;
-
 	Map * fMap = nullptr;
 	sf::Drawable * fDrawable = nullptr;
 	sf::Transformable * fTransformable = nullptr;
@@ -27,16 +24,16 @@ protected:
 	int fId = -1;
 
 public:
-	GameObject(MapInterface& f, Map * m = nullptr);
+	GameObject(Map * m = nullptr);
 	GameObject(const GameObject & o);
 	virtual ~GameObject();
 
-	virtual void onUpdate() = 0;
-	virtual void onFocus() = 0;
+	virtual void onUpdate(MapInterface& f) = 0;
+	virtual void onFocus(MapInterface& f) = 0;
 	virtual bool onCollision(GameObject* obj);
 	virtual bool onTrigger(GameObject* obj);
 
-	void draw() const;
+	void draw(MapInterface& f) const;
 
 	int getId() const;
 	void setId(const int & id);

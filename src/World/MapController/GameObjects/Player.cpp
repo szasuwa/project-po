@@ -2,19 +2,19 @@
 #include "../Maps/Map.h"
 
 
-Player::Player(MapInterface& f, Map* map) : Player(f, sf::Vector2f(), PLAYER_SIZE, PLAYER_COLOR, map)
+Player::Player(Map* map) : Player(sf::Vector2f(), PLAYER_SIZE, PLAYER_COLOR, map)
 {
 }
 
-Player::Player(MapInterface& f, const sf::Vector2f & position, Map * map) : Player(f, position, PLAYER_SIZE, PLAYER_COLOR, map)
+Player::Player(const sf::Vector2f & position, Map * map) : Player(position, PLAYER_SIZE, PLAYER_COLOR, map)
 {
 }
 
-Player::Player(MapInterface& f, const sf::Vector2f & position, const sf::Vector2f & size, Map * map) : Player(f, position, size, PLAYER_COLOR, map)
+Player::Player(const sf::Vector2f & position, const sf::Vector2f & size, Map * map) : Player(position, size, PLAYER_COLOR, map)
 {
 }
 
-Player::Player(MapInterface& f, const sf::Vector2f & position, const sf::Vector2f & size, const sf::Color & color, Map * map) : DynamicObject(f, position, true, true, map), fInput(fMapInterface.getInput())
+Player::Player(const sf::Vector2f & position, const sf::Vector2f & size, const sf::Color & color, Map * map) : DynamicObject(position, true, true, map)
 {
 	fDrawable = new sf::RectangleShape();
 	fTransformable = (sf::RectangleShape*)fDrawable;
@@ -23,7 +23,7 @@ Player::Player(MapInterface& f, const sf::Vector2f & position, const sf::Vector2
 	((sf::RectangleShape*)fDrawable)->setFillColor(color);
 }
 
-Player::Player(const Player & obj) : DynamicObject(obj), fInput(obj.fInput)
+Player::Player(const Player & obj) : DynamicObject(obj)
 {
 	fDrawable = new sf::RectangleShape();
 	fTransformable = (sf::RectangleShape*)fDrawable;
@@ -36,20 +36,21 @@ Player::Player(const Player & obj) : DynamicObject(obj), fInput(obj.fInput)
 	fScore = obj.fScore;
 }
 
-void Player::controlMovement()
+void Player::controlMovement(MapInterface& f)
 {
+	InputInterface & input = f.getInput();
 	//Check movement keys
-	if (fInput.isKeyPressed((unsigned int)KeyBindingIndex::MoveLeft))
+	if (input.isKeyPressed((unsigned int)KeyBindingIndex::MoveLeft))
 	{
 		fForceVector.x -= fSpeed;
 	}
-	if (fInput.isKeyPressed((unsigned int)KeyBindingIndex::MoveRight))
+	if (input.isKeyPressed((unsigned int)KeyBindingIndex::MoveRight))
 	{
 		fForceVector.x += fSpeed;
 	}
 	fForceVector.x = std::max(-fSpeed, std::min(fSpeed, fForceVector.x));
 
-	if (fInput.isKeyPressed((unsigned int)KeyBindingIndex::Jump) && fCollider.getBottom())
+	if (input.isKeyPressed((unsigned int)KeyBindingIndex::Jump) && fCollider.getBottom())
 	{
 		fForceVector.y = -fJumpForce;
 	}
@@ -59,7 +60,7 @@ void Player::controlMovement()
 		return;
 
 	MapBoundaries mbound = fMap->getBoundaries();
-	float dTime = fFrame.getFrameTime();
+	float dTime = f.getFrame().getFrameTime();
 
 	sf::Vector2f cameraMove;
 	sf::FloatRect camera = fMap->getCamera();
@@ -93,7 +94,7 @@ void Player::controlMovement()
 		cameraMove.y = bounds.top + fForceVector.y*dTime - fZone.top - camera.top;
 	}
 
-	fMap->moveCamera(cameraMove);
+	fMap->moveCamera(f, cameraMove);
 }
 
 sf::Vector2f Player::onTrigger(const sf::Vector2f& p, GameObject* obj, const Collision& c, const sf::FloatRect& z, const sf::FloatRect& o)
@@ -103,25 +104,31 @@ sf::Vector2f Player::onTrigger(const sf::Vector2f& p, GameObject* obj, const Col
 
 	if (obj->getClassType() == GameObjectClassType::POINT) {
 		addScore();
-		updateGui();
+		fScoreChanged = true;
 	}
 
 	return p;
 }
 
-void Player::updateGui() {
+void Player::updateGui(MapInterface& f) {
 	//UserViewGroup::setPoints(fScore);
 }
 
-void Player::onUpdate()
+void Player::onUpdate(MapInterface& f)
 {
-	controlMovement();
-	DynamicObject::onUpdate();
+	controlMovement(f);
+	DynamicObject::onUpdate(f);
+
+	if (fScoreChanged)
+	{
+		fScoreChanged = false;
+		updateGui(f);
+	}
 }
 
-void Player::onFocus()
+void Player::onFocus(MapInterface& f)
 {
-	updateGui();
+	updateGui(f);
 }
 
 sf::FloatRect Player::getGlobalBounds() const

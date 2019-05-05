@@ -5,11 +5,10 @@
 
 class MainMenu : public InterfaceView 
 {
-	FrameInterface& fFrame;
 	MainMenuViewGroup fMainMenuViewGroup;
 
 public:
 	explicit MainMenu(UIInterface& f);
 
-	virtual void update();
+	virtual void update(UIInterface& f);
 };

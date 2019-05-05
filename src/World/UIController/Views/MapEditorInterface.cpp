@@ -1,6 +1,6 @@
 #include "MapEditorInterface.h"
 
-MapEditorInterface::MapEditorInterface(UIInterface& f) : InterfaceView(f), fMapEditorControlsViewGroup(f)
+MapEditorInterface::MapEditorInterface() : fMapEditorControlsViewGroup(ViewAlignment::Left)
 {
 	fGroupList.push_back(&fMapEditorControlsViewGroup);
 }

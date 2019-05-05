@@ -1,11 +1,7 @@
 #include "ControlsViewGroup.h"
 
 
-ControlsViewGroup::ControlsViewGroup(UIInterface& f) : ControlsViewGroup(f, ViewAlignment::Left)
-{
-}
-
-ControlsViewGroup::ControlsViewGroup(UIInterface& f, const ViewAlignment& a) : ViewGroup(f, a), fMoveLeftKey(f), fMoveRightKey(f), fMoveJumpKey(f)
+ControlsViewGroup::ControlsViewGroup(const ViewAlignment& a) : ViewGroup(a)
 {
 	fMoveLeftKey.setText(Key::toString((InputKey)KeyBinding::MoveLeft) + " - Move Left");
 	fMoveRightKey.setText(Key::toString((InputKey)KeyBinding::MoveRight) + " - Move Right");

@@ -13,10 +13,10 @@ protected:
 	sf::Text fText;
 
 public:
-	TextViewItem(UIInterface& f);
+	TextViewItem();
 
-	virtual void update();
-	virtual void draw() const;
+	virtual void update(UIInterface& f);
+	virtual void draw(UIInterface& f) const;
 
 	void setText(const std::string& txt);
 	void setColor(const sf::Color& c);

@@ -29,20 +29,20 @@ protected:
 	bool fVerticalInWindowLock = false;
 	bool fHorizontalInWindowLock = false;
 
-	void applyWorldForces();
+	void applyWorldForces(FrameInterface& f);
 	sf::Vector2f checkCollisions(const sf::Vector2f& p, const Collision& c = Collision::None);
 	sf::Vector2f lockInFrame(const sf::Vector2f & p);
 	virtual sf::Vector2f onCollision(const sf::Vector2f& p, DynamicObject * o, const Collision& c);
 	virtual sf::Vector2f onCollision(const sf::Vector2f & p, GameObject * obj, const Collision & c, const sf::FloatRect & z, const sf::FloatRect & o);
 	virtual sf::Vector2f onTrigger(const sf::Vector2f& p, GameObject * obj, const Collision& c, const sf::FloatRect& z, const sf::FloatRect& o) = 0;
 public:
-	DynamicObject(MapInterface& f, Map * m = nullptr);
-	DynamicObject(MapInterface& f, const sf::Vector2f & position, Map * m = nullptr);
-	DynamicObject(MapInterface& f, bool vLock, bool hLock, Map * m = nullptr);
-	DynamicObject(MapInterface& f, const sf::Vector2f & position, bool vLock, bool hLock, Map * m = nullptr);
+	DynamicObject(Map * m = nullptr);
+	DynamicObject(const sf::Vector2f & position, Map * m = nullptr);
+	DynamicObject(bool vLock, bool hLock, Map * m = nullptr);
+	DynamicObject(const sf::Vector2f & position, bool vLock, bool hLock, Map * m = nullptr);
 	DynamicObject(const DynamicObject & o);
 
-	virtual void onUpdate();
+	virtual void onUpdate(MapInterface& f);
 
 	virtual void move(const sf::Vector2f& p);
 	virtual void move(const sf::Vector2f& p, const Collision & c);

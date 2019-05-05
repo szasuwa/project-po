@@ -1,19 +1,15 @@
 #include "UserViewGroup.h"
 
 
-UserViewGroup::UserViewGroup(UIInterface& f) : UserViewGroup(f, ViewAlignment::Left)
-{
-}
-
-UserViewGroup::UserViewGroup(UIInterface& f, const ViewAlignment& a) : ViewGroup(f, a), fPointsBox(f)
+UserViewGroup::UserViewGroup(const ViewAlignment& a) : ViewGroup(a)
 {
 	fItemList.push_back(&fPointsBox);
 }
 
-void UserViewGroup::update()
+void UserViewGroup::update(UIInterface& f)
 {
 	fPointsBox.setText(std::string("Points: " + std::to_string(fPoints)));
-	ViewGroup::update();
+	ViewGroup::update(f);
 }
 
 void UserViewGroup::setPoints(int p)

@@ -2,23 +2,23 @@
 #include "../Maps/Map.h"
 
 
-Portal::Portal(MapInterface& f, Map* map) : Portal(f, sf::Vector2f(), PORTAL_RADIUS, PORTAL_COLOR, map)
+Portal::Portal(Map* map) : Portal(sf::Vector2f(), PORTAL_RADIUS, PORTAL_COLOR, map)
 {
 }
 
-Portal::Portal(MapInterface& f, const sf::Vector2f& position, Map* map) : Portal(f, sf::Vector2f(), PORTAL_RADIUS, PORTAL_COLOR, map)
+Portal::Portal(const sf::Vector2f& position, Map* map) : Portal(sf::Vector2f(), PORTAL_RADIUS, PORTAL_COLOR, map)
 {
 }
 
-Portal::Portal(MapInterface& f, const sf::Vector2f& position, const float& radius, Map* map) : Portal(f, position, radius, PORTAL_COLOR, map)
+Portal::Portal(const sf::Vector2f& position, const float& radius, Map* map) : Portal(position, radius, PORTAL_COLOR, map)
 {
 }
 
-Portal::Portal(MapInterface& f, const sf::Vector2f& position, const sf::Color& color, Map* map) : Portal(f, position, PORTAL_RADIUS, PORTAL_COLOR, map)
+Portal::Portal(const sf::Vector2f& position, const sf::Color& color, Map* map) : Portal(position, PORTAL_RADIUS, PORTAL_COLOR, map)
 {
 }
 
-Portal::Portal(MapInterface& f, const sf::Vector2f& position, const float& radius, const sf::Color& color, Map* map) : GameObject(f, map)
+Portal::Portal(const sf::Vector2f& position, const float& radius, const sf::Color& color, Map* map) : GameObject(map)
 {
 	fHasCollider = false;
 	fHasTrigger = true;
@@ -53,7 +53,7 @@ Portal::~Portal()
 	}
 }
 
-void Portal::onUpdate()
+void Portal::onUpdate(MapInterface& f)
 {
 	for (int i = 0; i < fExitingObjects.size(); ++i) 
 	{
@@ -65,7 +65,7 @@ void Portal::onUpdate()
 	}
 }
 
-void Portal::onFocus()
+void Portal::onFocus(MapInterface& f)
 {
 	if (fMap != nullptr && ((fLink == nullptr && fLinkId >= 0) || (fLink != nullptr && fLinkId != fLink->fId)))
 		setLink(fMap->getGameObject(fLinkId));

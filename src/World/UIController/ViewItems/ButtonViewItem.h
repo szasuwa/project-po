@@ -7,7 +7,6 @@
 
 class ButtonViewItem : public TextViewItem {
 protected:
-	InputInterface& fInput;
 	ViewAction *fOnClick = nullptr;
 	ViewAction *fOnMouseEnter = nullptr;
 	ViewAction* fOnMouseOver = nullptr;
@@ -15,11 +14,11 @@ protected:
 	bool fIsMouseOver = false;
 
 public:
-	ButtonViewItem(UIInterface& f) : TextViewItem(f), fInput(fUIInterface.getInput()) {}
+	ButtonViewItem() {};
 	virtual ~ButtonViewItem();
 
-	virtual void update();
-	virtual void draw() const;
+	virtual void update(UIInterface& f);
+	virtual void draw(UIInterface& f) const;
 
 	void setOnClick(ViewAction * f);
 	void setOnMouseEnter(ViewAction* f);

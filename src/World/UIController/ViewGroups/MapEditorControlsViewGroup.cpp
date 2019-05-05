@@ -1,14 +1,6 @@
 #include "MapEditorControlsViewGroup.h"
 
-
-MapEditorControlsViewGroup::MapEditorControlsViewGroup(UIInterface& f) : MapEditorControlsViewGroup(f, ViewAlignment::Left)
-{
-}
-
-MapEditorControlsViewGroup::MapEditorControlsViewGroup(UIInterface& f, const ViewAlignment& a) : ViewGroup(f, a), 
-fSelectionKey(f), fTimeKey(f), fResetKey(f),fSaveKey(f), fExitKey(f), fCancelKey(f), fDeleteKey(f), fMoveKey(f),
-fResizeKey(f), fCloneKey(f), fLinkKey(f), fGridSnapKey(f), fVerticalLockKey(f), fHorizontalLockKey(f),
-fGhostPlayerKey(f), fGhostPlatformKey(f), fGhostPointKey(f), fGhostPortalKey(f), fGhostBoxKey(f), fSeparator(f)
+MapEditorControlsViewGroup::MapEditorControlsViewGroup(const ViewAlignment& a) : ViewGroup(a)
 {
 	fSelectionKey.setText(Key::toString((InputKey)KeyBinding::LeftClick) + "- Select Item / Place Ghost");
 
@@ -35,10 +27,8 @@ fGhostPlayerKey(f), fGhostPlatformKey(f), fGhostPointKey(f), fGhostPortalKey(f),
 	fGhostBoxKey.setText(Key::toString((InputKey)KeyBinding::MapEditorGhostBox) + " - Box Ghost");
 
 
-
 	fItemList.push_back(&fSelectionKey);
 	fItemList.push_back(&fSeparator);
-
 
 	fItemList.push_back(&fTimeKey);
 	fItemList.push_back(&fResetKey);
@@ -66,7 +56,7 @@ fGhostPlayerKey(f), fGhostPlatformKey(f), fGhostPointKey(f), fGhostPortalKey(f),
 	fItemList.push_back(&fGhostBoxKey);
 }
 
-void MapEditorControlsViewGroup::update()
+void MapEditorControlsViewGroup::update(UIInterface& f)
 {
 	if (fAxisLockUpdated) 
 	{
@@ -87,7 +77,7 @@ void MapEditorControlsViewGroup::update()
 		fTimeKey.setText(Key::toString((InputKey)KeyBinding::MapEditorTime) + " - Time Flow" + (fTimeFlowStatus ? " : On" : " : Off"));
 	}
 
-	ViewGroup::update();
+	ViewGroup::update(f);
 }
 
 void MapEditorControlsViewGroup::reportAxisLockStatus(bool v, bool h)

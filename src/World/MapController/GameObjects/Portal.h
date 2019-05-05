@@ -12,17 +12,16 @@ class Portal : public GameObject
 	std::vector<GameObject*> fExitingObjects = std::vector<GameObject*>();
 
 public:
-	Portal(MapInterface& f, Map* map = nullptr);
-	Portal(MapInterface& f, const sf::Vector2f& position, Map* map = nullptr);
-	Portal(MapInterface& f, const sf::Vector2f& position, const float& radius, Map* map = nullptr);
-	Portal(MapInterface& f, const sf::Vector2f& position, const sf::Color& color, Map* map = nullptr);
-	Portal(MapInterface& f, const sf::Vector2f& position, const float& radius, const sf::Color& color, Map* map = nullptr);
+	Portal(Map* map = nullptr);
+	Portal(const sf::Vector2f& position, Map* map = nullptr);
+	Portal(const sf::Vector2f& position, const float& radius, Map* map = nullptr);
+	Portal(const sf::Vector2f& position, const sf::Color& color, Map* map = nullptr);
+	Portal(const sf::Vector2f& position, const float& radius, const sf::Color& color, Map* map = nullptr);
 	Portal(const Portal& obj);
 	~Portal();
 
-	void onUpdate();
-	void onFocus();
-	void onDelete();
+	void onUpdate(MapInterface& f);
+	void onFocus(MapInterface& f);
 	bool onTrigger(GameObject * o);
 	sf::FloatRect getGlobalBounds() const;
 	void resize(const sf::Vector2f& p, bool gridSnap = false, bool vLock = false, bool hLock = false);

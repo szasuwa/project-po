@@ -29,7 +29,7 @@ void UIController::update()
 	{
 		if (item != nullptr) 
 		{
-			item->update();	
+			item->update(*((UIInterface*)this));
 		}
 	}
 }
@@ -40,7 +40,7 @@ void UIController::draw() const
 	{
 		if (item != nullptr)
 		{
-			item->draw();
+			item->draw(*((UIInterface*)this));
 		}
 	}
 }
@@ -59,22 +59,22 @@ void UIController::addUIView(const unsigned int & i)
 
 		case InterfaceType::MapSelection:
 			delete fUIViews[i];
-			fUIViews[i] = new MapSelection(*this);
+			fUIViews[i] = new MapSelection();
 			break;
 
 		case InterfaceType::Gui:
 			delete fUIViews[i];
-			fUIViews[i] = new GraphicalUserInterface(*this);
+			fUIViews[i] = new GraphicalUserInterface();
 			break;
 
 		case InterfaceType::MapEditor:
 			delete fUIViews[i];
-			fUIViews[i] = new MapEditorInterface(*this);
+			fUIViews[i] = new MapEditorInterface();
 			break;
 
 		case InterfaceType::Debug:
 			delete fUIViews[i];
-			fUIViews[i] = new DebugInterface(*this);
+			fUIViews[i] = new DebugInterface();
 			break;
 
 		default:
@@ -171,7 +171,7 @@ UIViewInterface * UIController::getUIView(const unsigned int& i)
 
 void UIController::setViewVisibility(const unsigned int& i, const bool& v)
 {
-	if (i >= fUIViews.size() || fUIViews[i] == nullptr)
+	if (i >= fUIViews.size())
 		return;
 
 	if (fUIViews[i] == nullptr)
@@ -183,8 +183,7 @@ void UIController::setViewVisibility(const unsigned int& i, const bool& v)
 
 void UIController::toggleViewVisibility(const unsigned int& i)
 {
-	if (i >= fUIViews.size() || fUIViews[i] == nullptr)
-		if (i >= fUIViews.size() || fUIViews[i] == nullptr)
+	if (i >= fUIViews.size())
 			return;
 
 	if (fUIViews[i] == nullptr)

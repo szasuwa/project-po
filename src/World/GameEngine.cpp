@@ -9,10 +9,6 @@ void GameEngine::initGame()
 {
 	fUiController.updateView();
 	fUiController.addUIView((unsigned int)InterfaceType::MainMenu);
-	//fInterfaceController.setOverlayVisibility(OverlayType::Debug, false);
-	//fInterfaceController.selectInterface(InterfaceType::MainMenu);
-	//fInterfaceController.updateView();
-	//fMapController.load("map1");
 }
 
 void GameEngine::gameLoop()

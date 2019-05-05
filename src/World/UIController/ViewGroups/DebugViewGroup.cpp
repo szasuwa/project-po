@@ -1,10 +1,6 @@
 #include "DebugViewGroup.h"
 
-DebugViewGroup::DebugViewGroup(UIInterface& f) : DebugViewGroup(f, ViewAlignment::Left)
-{
-}
-
-DebugViewGroup::DebugViewGroup(UIInterface& f, const ViewAlignment& a) : ViewGroup(f, a), fFrame(fUIInterface.getFrame()), fVersion(f), fFpsMeter(f), fSeparator(f)
+DebugViewGroup::DebugViewGroup(const ViewAlignment& a) : ViewGroup(a)
 {
 	fVersion.setText("Version: " + GAME_VERSION);
 
@@ -13,8 +9,8 @@ DebugViewGroup::DebugViewGroup(UIInterface& f, const ViewAlignment& a) : ViewGro
 	fItemList.push_back(&fSeparator);
 }
 
-void DebugViewGroup::update()
+void DebugViewGroup::update(UIInterface& f)
 {
-	fFpsMeter.setText(std::to_string(fFrame.getFrameRate()) + " FPS");
-	ViewGroup::update();
+	fFpsMeter.setText(std::to_string(f.getFrame().getFrameRate()) + " FPS");
+	ViewGroup::update(f);
 }

@@ -10,9 +10,8 @@ protected:
 	std::vector<ViewGroup*> fGroupList;
 
 public:
-	InterfaceView(UIInterface& f) : UIViewInterface(f) {};
 	virtual ~InterfaceView() {}
-	virtual void updateView();
-	virtual void update();
-	virtual void draw();
+	virtual void updateView(UIInterface& f);
+	virtual void update(UIInterface& f);
+	virtual void draw(UIInterface& f);
 };

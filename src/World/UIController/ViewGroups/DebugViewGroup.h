@@ -6,15 +6,12 @@
 
 
 class DebugViewGroup : public ViewGroup {
-	FrameInterface& fFrame;
-
 	TextViewItem fFpsMeter;
 	TextViewItem fVersion;
 	SeparatorViewItem fSeparator;
 
 public:
-	explicit DebugViewGroup(UIInterface& f);
-	DebugViewGroup(UIInterface& f, const ViewAlignment& a);
+	explicit DebugViewGroup(const ViewAlignment& a);
 
-	void update();
+	void update(UIInterface& f);
 };

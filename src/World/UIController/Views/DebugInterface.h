@@ -5,11 +5,10 @@
 
 class DebugInterface : public InterfaceView
 {
-	FrameInterface& fFrame;
 	DebugViewGroup fDebugViewGroup;
 
 public:
-	explicit DebugInterface(UIInterface& f);
+	DebugInterface();
 
-	virtual void update();
+	virtual void update(UIInterface& f);
 };

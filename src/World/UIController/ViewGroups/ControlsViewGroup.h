@@ -11,6 +11,5 @@ class ControlsViewGroup : public ViewGroup {
 	TextViewItem fMoveJumpKey;
 
 public:
-	explicit ControlsViewGroup(UIInterface& f);
-	ControlsViewGroup(UIInterface& f, const ViewAlignment& a);
+	explicit ControlsViewGroup(const ViewAlignment& a);
 };

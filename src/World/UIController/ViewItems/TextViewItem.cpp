@@ -2,7 +2,7 @@
 float TextViewItem::F_TEXT_HEIGHT_OFFSET = 2;
 
 
-TextViewItem::TextViewItem(UIInterface& f) : ViewItem(f)
+TextViewItem::TextViewItem()
 {
 	static bool isFontLoaded;
 	static sf::Font font;
@@ -15,14 +15,14 @@ TextViewItem::TextViewItem(UIInterface& f) : ViewItem(f)
 	fText.setColor(TEXT_DEFAULT_COLOR);
 }
 
-void TextViewItem::update()
+void TextViewItem::update(UIInterface& f)
 {
 }
 
-void TextViewItem::draw() const
+void TextViewItem::draw(UIInterface& f) const
 {
 	if(fVisible)
-		fFrame.draw(fText, Frame::FrameLayer::Interface);
+		f.getFrame().draw(fText, Frame::FrameLayer::Interface);
 }
 
 void TextViewItem::setText(const std::string& txt)

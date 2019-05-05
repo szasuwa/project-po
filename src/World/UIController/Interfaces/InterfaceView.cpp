@@ -1,21 +1,21 @@
 #include "InterfaceView.h"
 
-void InterfaceView::updateView()
+void InterfaceView::updateView(UIInterface& f)
 {
 }
 
-void InterfaceView::update()
+void InterfaceView::update(UIInterface& f)
 {
 	for (ViewGroup* item : fGroupList)
 	{
 		if (item != nullptr)
 		{
-			item->update();
+			item->update(f);
 		}
 	}
 }
 
-void InterfaceView::draw()
+void InterfaceView::draw(UIInterface& f)
 {
 	if (!fVisible)
 		return;
@@ -25,7 +25,7 @@ void InterfaceView::draw()
 		if (item != nullptr)
 		{
 			item->calculatePositions();
-			item->draw();
+			item->draw(f);
 		}
 	}
 }

@@ -2,23 +2,23 @@
 #include "../Maps/Map.h"
 
 
-Point::Point(MapInterface& f, Map* map) : Point(f, sf::Vector2f(), POINT_RADIUS, POINT_COLOR, map)
+Point::Point(Map* map) : Point(sf::Vector2f(), POINT_RADIUS, POINT_COLOR, map)
 {
 }
 
-Point::Point(MapInterface& f, const sf::Vector2f &position, Map* map) : Point(f, sf::Vector2f(), POINT_RADIUS, POINT_COLOR, map)
+Point::Point(const sf::Vector2f &position, Map* map) : Point(sf::Vector2f(), POINT_RADIUS, POINT_COLOR, map)
 {
 }
 
-Point::Point(MapInterface& f, const sf::Vector2f & position, const float & radius, Map * map) : Point(f, position, radius, POINT_COLOR, map)
+Point::Point(const sf::Vector2f & position, const float & radius, Map * map) : Point(position, radius, POINT_COLOR, map)
 {
 }
 
-Point::Point(MapInterface& f, const sf::Vector2f & position, const sf::Color & color, Map * map) : Point(f, position, 5, POINT_COLOR, map)
+Point::Point(const sf::Vector2f & position, const sf::Color & color, Map * map) : Point(position, 5, POINT_COLOR, map)
 {
 }
 
-Point::Point(MapInterface& f, const sf::Vector2f & position, const float & radius, const sf::Color & color, Map * map) : GameObject(f, map)
+Point::Point(const sf::Vector2f & position, const float & radius, const sf::Color & color, Map * map) : GameObject(map)
 {
 	fHasTrigger = true;
 	fHasCollider = false;
@@ -38,11 +38,11 @@ Point::Point(const Point & obj) : GameObject(obj)
 	((sf::CircleShape*)fDrawable)->setFillColor(((sf::CircleShape*)obj.fDrawable)->getFillColor());
 }
 
-void Point::onUpdate()
+void Point::onUpdate(MapInterface& f)
 {
 }
 
-void Point::onFocus()
+void Point::onFocus(MapInterface& f)
 {
 }
 

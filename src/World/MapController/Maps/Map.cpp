@@ -1,13 +1,13 @@
 #include "Map.h"
 
 
-Map::Map(MapInterface& m) : fMapInterface(m), fFrame(fMapInterface.getFrame())
+Map::Map(MapInterface& m)
 {
-	float w = fFrame.getFrameWidth(), h = fFrame.getFrameHeight();
+	float w = m.getFrame().getFrameWidth(), h = m.getFrame().getFrameHeight();
 	fCamera = sf::FloatRect(w/2, h/2, w, h);
 }
 
-Map::Map(const Map & o) : fMapInterface(o.fMapInterface), fFrame(o.fFrame)
+Map::Map(const Map & o)
 {
 	this->clone(o);
 }
@@ -101,10 +101,11 @@ MapBoundaries Map::getBoundaries() const
 	return fMapBoundaries;
 }
 
-void Map::updateCamera()
+void Map::updateCamera(MapInterface& f)
 {
-	float width = fFrame.getFrameWidth();
-	float height = fFrame.getFrameHeight();
+	FrameInterface& frame = f.getFrame();
+	float width = frame.getFrameWidth();
+	float height = frame.getFrameHeight();
 
 	fCamera.top += fCamera.height - height;
 	fCamera.height = height;
@@ -122,8 +123,8 @@ void Map::updateCamera()
 	if (fMapBoundaries.hasBottom)
 		fCamera.top = std::min(fMapBoundaries.bottom - fCamera.height, fCamera.top);
 
-	fFrame.updateView(sf::View(fCamera), FrameInterface::FrameLayer::GameArea);
-	moveCamera(sf::Vector2f((fCamera.width - width) / 2, 0));
+	frame.updateView(sf::View(fCamera), FrameInterface::FrameLayer::GameArea);
+	moveCamera(f, sf::Vector2f((fCamera.width - width) / 2, 0));
 }
 
 sf::FloatRect Map::getCamera() const
@@ -131,17 +132,17 @@ sf::FloatRect Map::getCamera() const
 	return fCamera;
 }
 
-void Map::setCamera(const sf::FloatRect & camera)
+void Map::setCamera(MapInterface& f, const sf::FloatRect & camera)
 {
 	fCamera.top = camera.top;
 	fCamera.left = camera.left;
 	fCamera.height = camera.height;
 	fCamera.width = camera.width;
 
-	updateCamera();
+	updateCamera(f);
 }
 
-void Map::moveCamera(const sf::Vector2f & p) 
+void Map::moveCamera(MapInterface& f, const sf::Vector2f & p)
 {
 	sf::Vector2f p2 = p;
 
@@ -160,39 +161,39 @@ void Map::moveCamera(const sf::Vector2f & p)
 	if (fMapBoundaries.hasBottom)
 		fCamera.top = std::min(fMapBoundaries.bottom - fCamera.height, fCamera.top);
 
-	fFrame.updateView(sf::View(fCamera), FrameInterface::FrameLayer::GameArea);
+	f.getFrame().updateView(sf::View(fCamera), FrameInterface::FrameLayer::GameArea);
 }
 
-void Map::broadcastFocus() 
+void Map::broadcastFocus(MapInterface& f)
 {
-	updateCamera();
+	updateCamera(f);
 	for (size_t i = 0; i < fGameObjectList.size(); ++i)
 	{
 		if (fGameObjectList[i] != nullptr)
 		{
-			fGameObjectList[i]->onFocus();
+			fGameObjectList[i]->onFocus(f);
 		}
 	}
 }
 
-void Map::broadcastUpdate() 
+void Map::broadcastUpdate(MapInterface& f)
 {
 	for (size_t i = 0; i < fGameObjectList.size(); ++i) 
 	{
 		if (fGameObjectList[i] != nullptr) 
 		{
-			fGameObjectList[i]->onUpdate();
+			fGameObjectList[i]->onUpdate(f);
 		}
 	}
 }
 
-void Map::broadcastDraw() const 
+void Map::broadcastDraw(MapInterface& f) const
 {
 	for (size_t i = 0; i < fGameObjectList.size(); ++i) 
 	{
 		if (fGameObjectList[i] != nullptr && fCamera.intersects(fGameObjectList[i]->getGlobalBounds()))
 		{
-			fGameObjectList[i]->draw();
+			fGameObjectList[i]->draw(f);
 		}
 	}
 }
@@ -311,23 +312,23 @@ void Map::deserializeObject(std::istream& ss) {
 		switch ((GameObjectClassType)type)
 		{
 		case GameObjectClassType::PLAYER:
-			obj = new Player(fMapInterface);
+			obj = new Player();
 			break;
 
 		case GameObjectClassType::PLATFORM:
-			obj = new Platform(fMapInterface);
+			obj = new Platform();
 			break;
 
 		case GameObjectClassType::POINT:
-			obj = new Point(fMapInterface);
+			obj = new Point();
 			break;
 
 		case GameObjectClassType::PORTAL:
-			obj = new Portal(fMapInterface);
+			obj = new Portal();
 			break;
 
 		case GameObjectClassType::BOX:
-			obj = new Box(fMapInterface);
+			obj = new Box();
 			break;
 
 		default:

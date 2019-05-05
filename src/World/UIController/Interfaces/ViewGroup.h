@@ -9,18 +9,16 @@
 
 class ViewGroup {
 protected:
-	UIInterface& fUIInterface;
 	bool fVisible;
 	sf::Vector2f fPosition;
 	std::vector<ViewItem *> fItemList;
 	ViewAlignment fAlignment = ViewAlignment::Left;
 
 public:
-	explicit ViewGroup(UIInterface& f);
-	ViewGroup(UIInterface& f, const ViewAlignment & a);
+	explicit ViewGroup(const ViewAlignment & a);
 
-	virtual void update();
-	virtual void draw() const;
+	virtual void update(UIInterface& f);
+	virtual void draw(UIInterface& f) const;
 
 	sf::Vector2f getPosition() const;
 	void setPosition(const sf::Vector2f& p);

@@ -7,13 +7,12 @@
 
 class GraphicalUserInterface : public InterfaceView
 {
-	FrameInterface& fFrame;
 	ControlsViewGroup fControlsViewGroup;
 	InfoViewGroup fInfoViewGroup;
 	UserViewGroup fUserViewGroup;
 
 public:
-	explicit GraphicalUserInterface(UIInterface& f);
+	explicit GraphicalUserInterface();
 
-	virtual void update();
+	virtual void update(UIInterface& f);
 };

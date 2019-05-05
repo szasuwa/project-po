@@ -10,11 +10,11 @@ protected:
 	float fHeight;
 
 public:
-	SeparatorViewItem(UIInterface& f, float h = 10);
+	explicit SeparatorViewItem(float h = 10);
 	
 
-	virtual void update();
-	virtual void draw() const;
+	virtual void update(UIInterface& f);
+	virtual void draw(UIInterface& f) const;
 
 	virtual void setPosition(const sf::Vector2f & p);
 	virtual float getWidth() const;

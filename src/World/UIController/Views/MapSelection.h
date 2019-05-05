@@ -8,5 +8,5 @@ class MapSelection : public InterfaceView
 	MapSelectionViewGroup fMapSelectionViewGroup;
 
 public:
-	MapSelection(UIInterface& f);
+	MapSelection();
 };

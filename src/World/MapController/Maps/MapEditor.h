@@ -21,9 +21,6 @@ class MapEditor {
 
 	//Map and windows
 	Map fMap;
-	MapInterface& fMapInterface;
-	InputInterface & fInput;
-	FrameInterface & fFrame;
 
 	//Ghost
 	GameObject * fGhost = nullptr;
@@ -49,26 +46,26 @@ class MapEditor {
 	PortalLink *fLink = nullptr;
 
 	//Handlers
-	void handleGrid();
-	void handleModeSelection();
-	void handleDeletion();
-	void handleClone();
-	void handleAxes();
-	void handleGhost();
-	void handleMouse();
-	void handleActions();
-	void handleLinking();
-	void handlePortalLinks();
+	void handleGrid(MapInterface& f);
+	void handleModeSelection(MapInterface& f);
+	void handleDeletion(MapInterface& f);
+	void handleClone(MapInterface& f);
+	void handleAxes(MapInterface& f);
+	void handleGhost(MapInterface& f);
+	void handleMouse(MapInterface& f);
+	void handleActions(MapInterface& f);
+	void handleLinking(MapInterface& f);
+	void handlePortalLinks(MapInterface& f);
 
 	//Edition actions
 	void loadGhost(const GameObjectClassType & type);
-	GameObject * selectObject();
+	GameObject * selectObject(MapInterface& f);
 
 public:
 	explicit MapEditor(MapInterface & f);
 
 	Map * loadMap(const Map & map);
 	
-	void update();
-	void draw();
+	void update(MapInterface& f);
+	void draw(MapInterface& f);
 };

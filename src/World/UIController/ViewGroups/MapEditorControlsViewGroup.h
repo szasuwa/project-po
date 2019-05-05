@@ -42,10 +42,9 @@ class MapEditorControlsViewGroup : public ViewGroup {
 	TextViewItem fGhostBoxKey;
 
 public:
-	explicit MapEditorControlsViewGroup(UIInterface& f);
-	MapEditorControlsViewGroup(UIInterface& f, const ViewAlignment& a);
+	explicit MapEditorControlsViewGroup(const ViewAlignment& a);
 
-	void update();
+	void update(UIInterface& f);
 
 	void reportAxisLockStatus(bool v, bool h);
 	void reportGridSnapStatus(bool s);

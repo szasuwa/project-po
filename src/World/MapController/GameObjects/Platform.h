@@ -8,15 +8,15 @@
 class Platform : public GameObject
 {
 public:
-	Platform(MapInterface& f, Map * map = nullptr);
-	Platform(MapInterface& f, const sf::Vector2f & position, Map * map = nullptr);
-	Platform(MapInterface& f, const sf::Vector2f& position, const sf::Color& color, Map* map = nullptr);
-	Platform(MapInterface& f, const sf::Vector2f & position, const sf::Vector2f & size, Map * map = nullptr);
-	Platform(MapInterface& f, const sf::Vector2f & position, const sf::Vector2f & size, const sf::Color & color, Map * map = nullptr);
+	Platform(Map * map = nullptr);
+	Platform(const sf::Vector2f & position, Map * map = nullptr);
+	Platform(const sf::Vector2f& position, const sf::Color& color, Map* map = nullptr);
+	Platform(const sf::Vector2f & position, const sf::Vector2f & size, Map * map = nullptr);
+	Platform(const sf::Vector2f & position, const sf::Vector2f & size, const sf::Color & color, Map * map = nullptr);
 	Platform(const Platform & obj);
 
-	void onUpdate();
-	void onFocus();
+	void onUpdate(MapInterface& f);
+	void onFocus(MapInterface& f);
 	sf::FloatRect getGlobalBounds() const;
 	void resize(const sf::Vector2f & p, bool gridSnap = false, bool vLock = false, bool hLock = false);
 	void setColor(const sf::Color & c);

@@ -8,10 +8,9 @@ class UserViewGroup : public ViewGroup {
 	int fPoints;
 
 public:
-	explicit UserViewGroup(UIInterface& f);
-	UserViewGroup(UIInterface& f, const ViewAlignment& a);
+	explicit UserViewGroup(const ViewAlignment& a);
 
-	void update();
+	void update(UIInterface& f);
 
 	void setPoints(int p);
 };

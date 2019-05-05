@@ -17,9 +17,6 @@
 
 
 class Map {
-	MapInterface& fMapInterface;
-	FrameInterface& fFrame;
-
 	MapBoundaries fMapBoundaries;
 	std::vector<GameObject *> fGameObjectList;
 	sf::FloatRect fCamera;
@@ -37,7 +34,7 @@ class Map {
 	void updateLastId();
 
 public:
-	Map(MapInterface& m);
+	explicit Map(MapInterface& m);
 	Map(const Map & o);
 	~Map();
 
@@ -52,14 +49,14 @@ public:
 	int calculateGameObjectId();
 
 	MapBoundaries getBoundaries() const;
-	void updateCamera();
+	void updateCamera(MapInterface& f);
 	sf::FloatRect getCamera() const;
-	void setCamera(const sf::FloatRect & camera);
-	void moveCamera(const sf::Vector2f & p);
+	void setCamera(MapInterface& f, const sf::FloatRect & camera);
+	void moveCamera(MapInterface& f, const sf::Vector2f & p);
 	
-	void broadcastFocus();
-	void broadcastUpdate();
-	void broadcastDraw() const;
+	void broadcastFocus(MapInterface& f);
+	void broadcastUpdate(MapInterface& f);
+	void broadcastDraw(MapInterface& f) const;
 
 	void clone(const Map & o);
 	Map & operator=(const Map & o);

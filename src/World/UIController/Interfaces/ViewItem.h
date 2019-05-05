@@ -7,14 +7,11 @@
 
 class ViewItem {
 protected:
-	UIInterface& fUIInterface;
-	FrameInterface& fFrame;
 	bool fVisible = true;
 
 public:
-	ViewItem(UIInterface& f) : fUIInterface(f), fFrame(fUIInterface.getFrame()) {}
-	virtual void draw() const = 0;
-	virtual void update() = 0;
+	virtual void draw(UIInterface& f) const = 0;
+	virtual void update(UIInterface& f) = 0;
 
 	virtual void setPosition(const sf::Vector2f & p) = 0;
 	virtual float getWidth() const = 0;

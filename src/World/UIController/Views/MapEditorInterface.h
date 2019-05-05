@@ -8,5 +8,5 @@ class MapEditorInterface : public InterfaceView
 	MapEditorControlsViewGroup fMapEditorControlsViewGroup;
 
 public:
-	MapEditorInterface(UIInterface& f);
+	MapEditorInterface();
 };

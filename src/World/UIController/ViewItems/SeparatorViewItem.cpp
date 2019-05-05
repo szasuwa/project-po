@@ -1,15 +1,15 @@
 #include "SeparatorViewItem.h"
 
-SeparatorViewItem::SeparatorViewItem(UIInterface& f, float h) : ViewItem(f)
+SeparatorViewItem::SeparatorViewItem(float h)
 {
 	fHeight = h;
 }
 
-void SeparatorViewItem::update()
+void SeparatorViewItem::update(UIInterface& f)
 {
 }
 
-void SeparatorViewItem::draw() const
+void SeparatorViewItem::draw(UIInterface& f) const
 {
 }
 

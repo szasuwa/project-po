@@ -9,6 +9,5 @@ class MapSelectionViewGroup : public ViewGroup {
 	std::vector<ButtonViewItem> fMaps;
 
 public:
-	explicit MapSelectionViewGroup(UIInterface& f);
-	MapSelectionViewGroup(UIInterface& f, const ViewAlignment& a);
+	explicit MapSelectionViewGroup(const ViewAlignment& a);
 };

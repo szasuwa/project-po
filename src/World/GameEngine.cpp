@@ -1,16 +1,18 @@
 #include "GameEngine.h"
 
 
-GameEngine::GameEngine(FrameInterface& f, InputInterface& i, MapInterface& m) : fFrame(f), fInput(i), fMapController(m)
+GameEngine::GameEngine(FrameInterface& f, InputInterface& i, MapInterface& m, UIInterface& u) : fFrame(f), fInput(i), fMapController(m), fUiController(u)
 {
 }
 
 void GameEngine::initGame()
 {
+	fUiController.updateView();
+	fUiController.addUIView((unsigned int)InterfaceType::MainMenu);
 	//fInterfaceController.setOverlayVisibility(OverlayType::Debug, false);
 	//fInterfaceController.selectInterface(InterfaceType::MainMenu);
 	//fInterfaceController.updateView();
-	fMapController.load("map1");
+	//fMapController.load("map1");
 }
 
 void GameEngine::gameLoop()
@@ -27,28 +29,19 @@ void GameEngine::gameLoop()
 			fInput.update();
 			handleTriggers();
 			fFrame.clear();
-			fMapController.updateMap();
 
-			/*
-			fInterfaceController.update();
-			fInterfaceController.draw();
+			fUiController.update();
+			fUiController.draw();
 
 			if (fTimeFlowEnabled)
 				fMapController.updateMap();
 
-			switch (fInterfaceController.getSelectedInterfaceType())
-			{
-				case InterfaceType::MapEditor:
-					fMapController.updateEditor();
-				case InterfaceType::Gui:
-					fMapController.drawMap();
-					break;
+			if (fUiController.isViewVisible((unsigned int)InterfaceType::MapEditor))
+				fMapController.updateEditor();
 
-				default:
-					break;
-			}
-			*/
-			fMapController.drawMap();
+			if (fUiController.isViewVisible((unsigned int)InterfaceType::MapEditor) || fUiController.isViewVisible((unsigned int)InterfaceType::Gui))
+				fMapController.drawMap();
+			
 			fFrame.display();
 		}
 		else
@@ -61,59 +54,60 @@ void GameEngine::gameLoop()
 
 void GameEngine::handleTriggers()
 {
-	/*
-	if (fKeyController.getKeyGroup(KeyBinding::Debug).wasToggled() && fKeyController.getKeyGroup(KeyBinding::Debug).isPressed())
+	if (fInput.wasKeyToggled((unsigned int)KeyBindingIndex::Debug, true))
 	{
-		fInterfaceController.toggleOverlayVisibility(OverlayType::Debug);
+		fUiController.toggleViewVisibility((unsigned int)InterfaceType::Debug);
 	}
 		
-	if (fInterfaceController.getSelectedInterfaceType() == InterfaceType::MapEditor) 
+	if (fUiController.isViewVisible((unsigned int)InterfaceType::MapEditor)) 
 	{
-		if (fKeyController.getKeyGroup(KeyBinding::MapEditorTime).wasToggled() && fKeyController.getKeyGroup(KeyBinding::MapEditorTime).isPressed())
+		if (fInput.wasKeyToggled((unsigned int)KeyBindingIndex::MapEditorTime, true))
 		{
 			fTimeFlowEnabled = !fTimeFlowEnabled;
-			MapEditorControlsViewGroup::reportTimeFlowStatus(fTimeFlowEnabled);
+			//MapEditorControlsViewGroup::reportTimeFlowStatus(fTimeFlowEnabled);
 		}
 
-		if (fKeyController.getKeyGroup(KeyBinding::MapEditorSave).wasToggled() && fKeyController.getKeyGroup(KeyBinding::MapEditorSave).isPressed())
+		if (fInput.wasKeyToggled((unsigned int)KeyBindingIndex::MapEditorSave, true))
 		{
 			fMapController.saveEditedMap();
 		}
 
-		if (fKeyController.getKeyGroup(KeyBinding::MapEditorReset).wasToggled() && fKeyController.getKeyGroup(KeyBinding::MapEditorReset).isPressed())
+		if (fInput.wasKeyToggled((unsigned int)KeyBindingIndex::MapEditorReset, true))
 		{
 			fMapController.resetEditedMap();
 		}		
 
-		if (fKeyController.getKeyGroup(KeyBinding::MapEditorExit).wasToggled() && fKeyController.getKeyGroup(KeyBinding::MapEditorExit).isPressed())
+		if (fInput.wasKeyToggled((unsigned int)KeyBindingIndex::MapEditorExit, true))
 		{
 			fTimeFlowEnabled = true;
-			fInterfaceController.selectInterface(InterfaceType::Gui);
+			fUiController.broadcastVisibilityChange(false);
+			fUiController.setViewVisibility((unsigned int)InterfaceType::Gui, true);
 			fMapController.endEdition();
 		}
 
-		if (fKeyController.getKeyGroup(KeyBinding::MapEditorCancel).wasToggled() && fKeyController.getKeyGroup(KeyBinding::MapEditorCancel).isPressed())
+		if (fInput.wasKeyToggled((unsigned int)KeyBindingIndex::MapEditorCancel, true))
 		{
 			fTimeFlowEnabled = true;
-			fInterfaceController.selectInterface(InterfaceType::Gui);
+			fUiController.broadcastVisibilityChange(false);
+			fUiController.setViewVisibility((unsigned int)InterfaceType::Gui, true);
 			fMapController.cancelEdition();
 		}
 	}
-	else if(fInterfaceController.getSelectedInterfaceType() == InterfaceType::Gui)
+	else if(fUiController.isViewVisible((unsigned int)InterfaceType::Gui))
 	{
-		if (fKeyController.getKeyGroup(KeyBinding::ResetMap).wasToggled() && fKeyController.getKeyGroup(KeyBinding::ResetMap).isPressed())
+		if (fInput.wasKeyToggled((unsigned int)KeyBindingIndex::ResetMap, true))
 		{
 			fMapController.resetMap();
 		}
 
-		if (fKeyController.getKeyGroup(KeyBinding::MapEditor).wasToggled() && fKeyController.getKeyGroup(KeyBinding::MapEditor).isPressed())
+		if (fInput.wasKeyToggled((unsigned int)KeyBindingIndex::MapEditor, true))
 		{
 			fTimeFlowEnabled = false;
-			fInterfaceController.selectInterface(InterfaceType::MapEditor);
+			fUiController.broadcastVisibilityChange(false);
+			fUiController.setViewVisibility((unsigned int)InterfaceType::MapEditor, true);
 			fMapController.beginEdition();
 		}
 	}
-	*/
 }
 
 void GameEngine::handleEvents() {
@@ -127,10 +121,10 @@ void GameEngine::handleEvents() {
 			break;
 
 		case sf::Event::Resized:
-			//fInterfaceController.updateView();
+			fUiController.updateView();
 			fFrame.nextFrame();
 			fFrame.nextFrame();
-			//fMapController.updateCamera();
+			fMapController.updateCamera();
 			break;
 
 		case sf::Event::Closed:

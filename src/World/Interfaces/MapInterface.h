@@ -13,6 +13,7 @@ protected:
 
 public:
 	MapInterface(FrameInterface& f, InputInterface & i) : fFrame(f), fInput(i) {};
+	virtual ~MapInterface() {};
 
 	FrameInterface& getFrame() { return fFrame; }
 	InputInterface& getInput() { return fInput; }

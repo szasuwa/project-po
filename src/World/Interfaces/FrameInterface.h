@@ -10,6 +10,8 @@
 class FrameInterface
 {
 public:
+	virtual ~FrameInterface() {};
+
 	enum class FrameLayer {
 		GameArea,
 		Interface,

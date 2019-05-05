@@ -20,4 +20,5 @@ public:
 	virtual bool wasToggled(const bool& desiredState) const;
 
 	virtual const std::string toString() const;
+	static const std::string toString(InputKey fKey);
 };

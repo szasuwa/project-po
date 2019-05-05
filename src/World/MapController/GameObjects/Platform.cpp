@@ -1,23 +1,23 @@
 #include "Platform.h"
 
 
-Platform::Platform(Map * map): Platform(sf::Vector2f(), PLATFORM_SIZE, PLATFORM_COLOR, map)
+Platform::Platform(MapInterface& f, Map * map): Platform(f, sf::Vector2f(), PLATFORM_SIZE, PLATFORM_COLOR, map)
 {
 }
 
-Platform::Platform(const sf::Vector2f & position, Map * map) : Platform(position, PLATFORM_SIZE, PLATFORM_COLOR, map)
+Platform::Platform(MapInterface& f, const sf::Vector2f & position, Map * map) : Platform(f, position, PLATFORM_SIZE, PLATFORM_COLOR, map)
 {
 }
 
-Platform::Platform(const sf::Vector2f& position, const sf::Color& color, Map* map) : Platform(position, PLATFORM_SIZE, color, map)
+Platform::Platform(MapInterface& f, const sf::Vector2f& position, const sf::Color& color, Map* map) : Platform(f, position, PLATFORM_SIZE, color, map)
 {
 }
 
-Platform::Platform(const sf::Vector2f & position, const sf::Vector2f & size, Map * map) : Platform(position, size, PLATFORM_COLOR, map)
+Platform::Platform(MapInterface& f, const sf::Vector2f & position, const sf::Vector2f & size, Map * map) : Platform(f, position, size, PLATFORM_COLOR, map)
 {
 }
 
-Platform::Platform(const sf::Vector2f & position, const sf::Vector2f & size, const sf::Color & color, Map * map) : GameObject(map)
+Platform::Platform(MapInterface& f, const sf::Vector2f & position, const sf::Vector2f & size, const sf::Color & color, Map * map) : GameObject(f, map)
 {
 	fDrawable = new sf::RectangleShape();
 	fTransformable = (sf::RectangleShape*)fDrawable;

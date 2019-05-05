@@ -1,24 +1,38 @@
 #include "Frame.h"
-Frame * Frame::instance = nullptr;
 
-Frame::Frame()
+Frame::Frame(sf::RenderWindow& w) : fWindow(w), fLastFrameTime(F_MAX_FRAME_TIME)
 {
-	fLastFrameTime = F_MAX_FRAME_TIME;
 	fClk.restart();
 }
 
-Frame & Frame::getInstance()
+bool Frame::isOpen() const
 {
-	if (instance == nullptr)
-		instance = new Frame();
-
-	return *instance;
+	return fWindow.isOpen();
 }
 
-void Frame::nextFrame() 
+bool Frame::hasFocus() const
 {
-	fLastFrameTime = std::max(0.f, std::min(F_MAX_FRAME_TIME, fClk.restart().asSeconds()));
-	fFrameRate = int(1 / fLastFrameTime);
+	return fWindow.hasFocus();
+}
+
+void Frame::clear()
+{
+	return fWindow.clear();
+}
+
+void Frame::display()
+{
+	return fWindow.display();
+}
+
+bool Frame::pollEvent(sf::Event& e)
+{
+	return fWindow.pollEvent(e);
+}
+
+void Frame::close()
+{
+	fWindow.close();
 }
 
 void Frame::updateView(const sf::View & v, const FrameLayer & layer) 
@@ -30,36 +44,40 @@ void Frame::updateView(const sf::View & v, const FrameLayer & layer)
 	fActiveView = FrameLayer::num_values;
 }
 
-void Frame::draw(const sf::Drawable & o, const FrameLayer & layer)
+bool Frame::selectView(const FrameLayer& layer)
 {
-	if (fWindow == nullptr || layer == FrameLayer::num_values)
-		return;
+	if (layer == FrameLayer::num_values)
+		return false;
 
 	if (fActiveView != layer)
 	{
 		fActiveView = layer;
-		fWindow->setView(fViewLayers[(int)layer]);
+		fWindow.setView(fViewLayers[(int)layer]);
 	}
 
-	fWindow->draw(o);
+	return true;
+}
+
+void Frame::draw(const sf::Drawable & o, const FrameLayer & layer)
+{
+	if (!selectView(layer))
+		return;
+
+	fWindow.draw(o);
+}
+
+void Frame::nextFrame()
+{
+	fLastFrameTime = std::max(0.f, std::min(F_MAX_FRAME_TIME, fClk.restart().asSeconds()));
+	fFrameRate = int(1 / fLastFrameTime);
 }
 
 sf::Vector2f Frame::getMousePosition(const FrameLayer & layer) 
 {
-	if (fWindow == nullptr || layer == FrameLayer::num_values)
+	if (!selectView(layer))
 		return sf::Vector2f();
 
-	if (fActiveView != layer)
-	{
-		fActiveView = layer;
-		fWindow->setView(fViewLayers[(int)layer]);
-	}
-
-	return fWindow->mapPixelToCoords(sf::Mouse::getPosition(*fWindow));
-}
-void Frame::setWindow(sf::RenderWindow & w) 
-{
-	fWindow = &w;
+	return fWindow.mapPixelToCoords(sf::Mouse::getPosition(fWindow));
 }
 
 float Frame::getMaxFrameTime() const 
@@ -79,16 +97,10 @@ int Frame::getFrameRate() const
 
 int Frame::getFrameWidth() const 
 {
-	if (fWindow == nullptr)
-		return 0;
-
-	return fWindow->getSize().x;
+	return fWindow.getSize().x;
 }
 
 int Frame::getFrameHeight() const 
 {
-	if (fWindow == nullptr)
-		return 0;
-
-	return fWindow->getSize().y;
+	return fWindow.getSize().y;
 }

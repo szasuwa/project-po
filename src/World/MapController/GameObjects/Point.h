@@ -7,11 +7,11 @@
 
 class Point : public GameObject {
 public:
-    explicit Point(Map * map = nullptr);
-    Point(const sf::Vector2f & position, Map * map = nullptr);
-	Point(const sf::Vector2f & position, const float & radius, Map * map = nullptr);
-    Point(const sf::Vector2f & position, const sf::Color & color, Map * map = nullptr);
-	Point(const sf::Vector2f & position, const float & radius, const sf::Color & color, Map * map = nullptr);
+    Point(MapInterface& f, Map * map = nullptr);
+    Point(MapInterface& f, const sf::Vector2f & position, Map * map = nullptr);
+	Point(MapInterface& f, const sf::Vector2f & position, const float & radius, Map * map = nullptr);
+    Point(MapInterface& f, const sf::Vector2f & position, const sf::Color & color, Map * map = nullptr);
+	Point(MapInterface& f, const sf::Vector2f & position, const float & radius, const sf::Color & color, Map * map = nullptr);
 	Point(const Point & obj);
 
 	void onUpdate();

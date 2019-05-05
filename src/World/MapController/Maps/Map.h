@@ -4,6 +4,8 @@
 #include <vector>
 #include <regex>
 
+#include "../../Interfaces/FrameInterface.h"
+#include "../../Interfaces/MapInterface.h"
 #include "MapBoundaries.h"
 #include "../GameObjects/Interfaces/GameObject.h"
 #include "../GameObjects/Interfaces/DynamicObject.h"
@@ -15,6 +17,9 @@
 
 
 class Map {
+	MapInterface& fMapInterface;
+	FrameInterface& fFrame;
+
 	MapBoundaries fMapBoundaries;
 	std::vector<GameObject *> fGameObjectList;
 	sf::FloatRect fCamera;
@@ -32,7 +37,7 @@ class Map {
 	void updateLastId();
 
 public:
-	Map();
+	Map(MapInterface& m);
 	Map(const Map & o);
 	~Map();
 

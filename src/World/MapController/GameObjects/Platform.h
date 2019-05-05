@@ -8,11 +8,11 @@
 class Platform : public GameObject
 {
 public:
-	explicit Platform(Map * map = nullptr);
-	Platform(const sf::Vector2f & position, Map * map = nullptr);
-	Platform(const sf::Vector2f& position, const sf::Color& color, Map* map = nullptr);
-	Platform(const sf::Vector2f & position, const sf::Vector2f & size, Map * map = nullptr);
-	Platform(const sf::Vector2f & position, const sf::Vector2f & size, const sf::Color & color, Map * map = nullptr);
+	Platform(MapInterface& f, Map * map = nullptr);
+	Platform(MapInterface& f, const sf::Vector2f & position, Map * map = nullptr);
+	Platform(MapInterface& f, const sf::Vector2f& position, const sf::Color& color, Map* map = nullptr);
+	Platform(MapInterface& f, const sf::Vector2f & position, const sf::Vector2f & size, Map * map = nullptr);
+	Platform(MapInterface& f, const sf::Vector2f & position, const sf::Vector2f & size, const sf::Color & color, Map * map = nullptr);
 	Platform(const Platform & obj);
 
 	void onUpdate();

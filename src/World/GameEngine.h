@@ -5,29 +5,25 @@
 #include <thread> 
 #include <chrono>
 
-#include "Frame/Frame.h"
-#include "InputController/KeyController.h"
-#include "InputController/MouseController.h"
-#include "InterfaceController/InterfaceController.h"
-#include "MapController/MapController.h"
+#include "Interfaces/FrameInterface.h"
+#include "Interfaces/InputInterface.h"
+#include "Interfaces/MapInterface.h"
 
 class GameEngine
 {
-	sf::RenderWindow &fGameWindow;
-	Frame & fFrame;
-	KeyController & fKeyController;
-	MouseController & fMouseController;
-	InterfaceController & fInterfaceController;
-	MapController & fMapController;
-
-	bool fTimeFlowEnabled = true;
+	FrameInterface & fFrame;
+	InputInterface & fInput;
+	MapInterface& fMapController;
+	//UiControllerInterface & fUiController;
+	//MapControllerInterface & fMapController;
 
 	void initGame();
 	void handleTriggers();
 	void handleEvents();
 
 public:
-	GameEngine(sf::RenderWindow &window);
+	//GameEngine(FrameInterface & f, InputInterface & i, UiControllerInterface & u, MapControllerInterface & m);
+	GameEngine(FrameInterface& f, InputInterface& i, MapInterface& m);
 
 	void gameLoop();
 };

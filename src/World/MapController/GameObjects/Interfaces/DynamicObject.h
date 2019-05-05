@@ -36,10 +36,10 @@ protected:
 	virtual sf::Vector2f onCollision(const sf::Vector2f & p, GameObject * obj, const Collision & c, const sf::FloatRect & z, const sf::FloatRect & o);
 	virtual sf::Vector2f onTrigger(const sf::Vector2f& p, GameObject * obj, const Collision& c, const sf::FloatRect& z, const sf::FloatRect& o) = 0;
 public:
-	explicit DynamicObject(Map * map = nullptr);
-	DynamicObject(const sf::Vector2f & position, Map * map = nullptr);
-	DynamicObject(bool vLock, bool hLock, Map * map = nullptr);
-	DynamicObject(const sf::Vector2f & position, bool vLock, bool hLock, Map * map = nullptr);
+	DynamicObject(MapInterface& f, Map * m = nullptr);
+	DynamicObject(MapInterface& f, const sf::Vector2f & position, Map * m = nullptr);
+	DynamicObject(MapInterface& f, bool vLock, bool hLock, Map * m = nullptr);
+	DynamicObject(MapInterface& f, const sf::Vector2f & position, bool vLock, bool hLock, Map * m = nullptr);
 	DynamicObject(const DynamicObject & o);
 
 	virtual void onUpdate();

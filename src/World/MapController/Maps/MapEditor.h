@@ -3,10 +3,10 @@
 #include <SFML/Window/Mouse.hpp>
 #include <SFML/Graphics/Drawable.hpp>
 
-#include "../../InputController/MouseController.h"
 #include "Map.h"
-#include "../../InterfaceController/ViewGroups/MapEditorControlsViewGroup.h"
 #include "PortalLink.h"
+#include "../../Interfaces/MapInterface.h"
+#include "../../InputController/KeyBindingIndex.h"
 
 class MapController;
 
@@ -21,8 +21,9 @@ class MapEditor {
 
 	//Map and windows
 	Map fMap;
-	KeyController & fKey;
-	Frame & fFrame;
+	MapInterface& fMapInterface;
+	InputInterface & fInput;
+	FrameInterface & fFrame;
 
 	//Ghost
 	GameObject * fGhost = nullptr;
@@ -64,7 +65,7 @@ class MapEditor {
 	GameObject * selectObject();
 
 public:
-	explicit MapEditor();
+	explicit MapEditor(MapInterface & f);
 
 	Map * loadMap(const Map & map);
 	

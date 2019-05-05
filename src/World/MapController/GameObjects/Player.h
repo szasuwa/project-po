@@ -5,13 +5,14 @@
 
 #include "Interfaces/DynamicObject.h"
 #include "../../Frame/FrameMargin.h"
-#include "../../InterfaceController/ViewGroups/UserViewGroup.h"
-#include "../../InputController/KeyController.h"
 #include "../Maps/MapBoundaries.h"
+#include "../../Interfaces/InputInterface.h"
+#include "../../InputController/KeyBindingIndex.h"
 
 
 class Player : public DynamicObject
 {
+	InputInterface& fInput;
 	//Movement
 	float fSpeed = 250.f;
 	float fJumpForce = 500.f;
@@ -23,10 +24,10 @@ class Player : public DynamicObject
 	void updateGui();
 
 public:
-	explicit Player(Map* map = nullptr);
-	Player(const sf::Vector2f & position, Map * map = nullptr);
-	Player(const sf::Vector2f & position, const sf::Vector2f & size, Map * map = nullptr);
-	Player(const sf::Vector2f & position, const sf::Vector2f & size, const sf::Color & color, Map * map = nullptr);
+	Player(MapInterface& f, Map* map = nullptr);
+	Player(MapInterface& f, const sf::Vector2f & position, Map * map = nullptr);
+	Player(MapInterface& f, const sf::Vector2f & position, const sf::Vector2f & size, Map * map = nullptr);
+	Player(MapInterface& f, const sf::Vector2f & position, const sf::Vector2f & size, const sf::Color & color, Map * map = nullptr);
 	Player(const Player & obj);
 
 	void onUpdate();

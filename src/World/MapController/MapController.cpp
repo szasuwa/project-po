@@ -1,17 +1,5 @@
 #include "MapController.h"
-MapController* MapController::instance = nullptr;
 
-MapController::MapController()
-{
-}
-
-MapController& MapController::getInstance()
-{
-	if (instance == nullptr)
-		instance = new MapController();
-
-	return *instance;
-}
 
 MapController::~MapController() 
 {
@@ -40,7 +28,7 @@ bool MapController::load(const std::string & name)
 	if (!checkIntegrity(name))
 		return false;
 
-	fMapList.push_back(Map());
+	fMapList.push_back(Map(*this));
 	fActiveMap = &fMapList.back();
 	fActiveMapName = name;
 	fActiveMapIndex = fMapList.size() - 1;
@@ -159,7 +147,7 @@ void MapController::beginEdition()
 	fEditedMap = fActiveMap;
 	fEditedMapName = fActiveMapName;
 
-	fEditor = new MapEditor();
+	fEditor = new MapEditor(*this);
 	time_t t = std::chrono::system_clock::to_time_t(std::chrono::system_clock::now());
 	fActiveMapName = fEditedMapName + "_" + std::to_string(t);
 	fActiveMap = fEditor->loadMap(*fEditedMap);

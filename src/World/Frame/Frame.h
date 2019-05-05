@@ -1,25 +1,16 @@
 #pragma once
-#include <SFML/Graphics/RenderWindow.hpp>
-#include <SFML/Window/Mouse.hpp>
-#include <SFML/System/Vector2.hpp>
-#include <SFML/System/Clock.hpp>
 #include <algorithm>
 
+#include "../Interfaces/FrameInterface.h"
 
-class Frame
+
+class Frame : public FrameInterface
 {
-public:
-	enum class FrameLayer {
-		MapArea,
-		Interface,
-		num_values
-	};
+protected:
+	sf::RenderWindow& fWindow;
 
-private:
-	static Frame * instance;
 	const float F_MAX_FRAME_TIME = 0.025f;
 
-	sf::RenderWindow * fWindow = nullptr;
 	sf::Clock fClk;
 	float fLastFrameTime;
 	int fFrameRate;
@@ -27,22 +18,30 @@ private:
 	FrameLayer fActiveView;
 	sf::View fViewLayers[(int)(FrameLayer::num_values)];
 
-	Frame();
-	Frame(const Frame &o);
-
 public:
-	static Frame & getInstance();
+	Frame(sf::RenderWindow& w);
 
-	void nextFrame();
-	void updateView(const sf::View & v, const FrameLayer & layer);
-	void draw(const sf::Drawable & o, const FrameLayer & layer);
+	virtual bool isOpen() const;
+	virtual bool hasFocus() const;
+	virtual void clear();
+	virtual void display();
+	virtual bool pollEvent(sf::Event& e);
+	virtual void close();
 
-	sf::Vector2f getMousePosition(const FrameLayer & layer);
-	void setWindow(sf::RenderWindow & w);
-	float getMaxFrameTime() const;
-	float getFrameTime() const;
-	int getFrameRate() const;
-	int getFrameWidth() const;
-	int getFrameHeight() const;
+	virtual void updateView(const sf::View& v, const FrameLayer& layer);
+	virtual bool selectView(const FrameLayer& layer);
+
+	virtual void draw(const sf::Drawable& o, const FrameLayer& layer);
+
+	virtual void nextFrame();
+
+	virtual sf::Vector2f getMousePosition(const FrameLayer& layer);
+
+	virtual float getMaxFrameTime() const;
+	virtual float getFrameTime() const;
+	virtual int getFrameRate() const;
+
+	virtual int getFrameWidth() const;
+	virtual int getFrameHeight() const;
 };
 

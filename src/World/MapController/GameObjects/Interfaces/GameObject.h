@@ -5,7 +5,7 @@
 
 #include "GameObjectClassType.h"
 #include "GameObjectInterfaceType.h"
-#include "../../../Frame/Frame.h"
+#include "../../../Interfaces/MapInterface.h"
 #include "../../../../GameConstants.h"
 #include "../../Maps/MapGrid.h"
 
@@ -15,6 +15,10 @@ class GameObject
 {
 protected:
 	static const std::string F_REGEX_GAME_OBJECT_PATTERN;
+
+	MapInterface& fMapInterface;
+	FrameInterface& fFrame;
+
 	Map * fMap = nullptr;
 	sf::Drawable * fDrawable = nullptr;
 	sf::Transformable * fTransformable = nullptr;
@@ -23,7 +27,7 @@ protected:
 	int fId = -1;
 
 public:
-	explicit GameObject(Map * map = nullptr);
+	GameObject(MapInterface& f, Map * m = nullptr);
 	GameObject(const GameObject & o);
 	virtual ~GameObject();
 

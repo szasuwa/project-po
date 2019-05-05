@@ -5,6 +5,7 @@
 #include <sstream>
 #include <chrono>
 
+#include "../Interfaces/MapInterface.h"
 #include "Maps/Map.h"
 #include "GameObjects/Player.h"
 #include "GameObjects/Platform.h"
@@ -12,11 +13,9 @@
 #include "Maps/MapEditor.h"
 #include "../../Logger.h"
 
-
-class MapController
+class MapController : public MapInterface
 {
 private:
-	static MapController * instance;
 	const std::string F_MAP_PATH = "res/";
 	std::vector<Map> fMapList = std::vector<Map>();
 	Map * fActiveMap = nullptr;
@@ -26,32 +25,28 @@ private:
 	int fActiveMapIndex;
 	MapEditor * fEditor = nullptr;
 
-	MapController();
-	MapController(const MapController& o);
-
 public:
-	static MapController& getInstance();
-
+	using MapInterface::MapInterface;
 	~MapController();
 
-	bool load(const int & id);
-	bool load(const std::string & name);
-	bool load(const std::string& name, Map * map);
-	void save(const std::string & name, const Map & map) const;
-	bool exists(const std::string& name) const;
-	bool checkIntegrity(const std::string& name) const;
+	virtual bool load(const int & id);
+	virtual bool load(const std::string & name);
+	virtual bool load(const std::string& name, Map * map);
+	virtual void save(const std::string & name, const Map & map) const;
+	virtual bool exists(const std::string& name) const;
+	virtual bool checkIntegrity(const std::string& name) const;
 
-	void beginEdition();
-	void saveEditedMap();
-	void resetEditedMap();
-	void endEdition();
-	void cancelEdition();
+	virtual void beginEdition();
+	virtual void saveEditedMap();
+	virtual void resetEditedMap();
+	virtual void endEdition();
+	virtual void cancelEdition();
 
-	void resetMap();
+	virtual void resetMap();
 
-	void updateCamera();
-	void updateMap();
-	void updateEditor();
-	void drawMap();
+	virtual void updateCamera();
+	virtual void updateMap();
+	virtual void updateEditor();
+	virtual void drawMap();
 };
 

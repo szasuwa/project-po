@@ -1,34 +1,35 @@
 #include "GameEngine.h"
 
 
-GameEngine::GameEngine(sf::RenderWindow &window) : fGameWindow(window), fFrame(Frame::getInstance()), fKeyController(KeyController::getInstance()), 
-fMouseController(MouseController::getInstance()), fInterfaceController(InterfaceController::getInstance()), fMapController(MapController::getInstance())
+GameEngine::GameEngine(FrameInterface& f, InputInterface& i, MapInterface& m) : fFrame(f), fInput(i), fMapController(m)
 {
-	fFrame.setWindow(fGameWindow);
 }
 
 void GameEngine::initGame()
 {
-	fInterfaceController.setOverlayVisibility(OverlayType::Debug, false);
-	fInterfaceController.selectInterface(InterfaceType::MainMenu);
-	fInterfaceController.updateView();
+	//fInterfaceController.setOverlayVisibility(OverlayType::Debug, false);
+	//fInterfaceController.selectInterface(InterfaceType::MainMenu);
+	//fInterfaceController.updateView();
+	fMapController.load("map1");
 }
 
 void GameEngine::gameLoop()
 {
-	if (fGameWindow.isOpen()) {
+	if (fFrame.isOpen()) {
 		initGame();
 	}
 
-	while (fGameWindow.isOpen())
+	while (fFrame.isOpen())
 	{
-		handleTriggers();
+		
 		handleEvents();
-		if (fGameWindow.hasFocus()) {
-			fGameWindow.clear();
+		if (fFrame.hasFocus()) {
+			fInput.update();
+			handleTriggers();
+			fFrame.clear();
+			fMapController.updateMap();
 
-			fMouseController.update();
-
+			/*
 			fInterfaceController.update();
 			fInterfaceController.draw();
 
@@ -40,14 +41,15 @@ void GameEngine::gameLoop()
 				case InterfaceType::MapEditor:
 					fMapController.updateEditor();
 				case InterfaceType::Gui:
-					fMapController.drawMap();					
+					fMapController.drawMap();
 					break;
 
 				default:
 					break;
 			}
-			
-			fGameWindow.display();
+			*/
+			fMapController.drawMap();
+			fFrame.display();
 		}
 		else
 		{
@@ -59,6 +61,7 @@ void GameEngine::gameLoop()
 
 void GameEngine::handleTriggers()
 {
+	/*
 	if (fKeyController.getKeyGroup(KeyBinding::Debug).wasToggled() && fKeyController.getKeyGroup(KeyBinding::Debug).isPressed())
 	{
 		fInterfaceController.toggleOverlayVisibility(OverlayType::Debug);
@@ -110,11 +113,12 @@ void GameEngine::handleTriggers()
 			fMapController.beginEdition();
 		}
 	}
+	*/
 }
 
 void GameEngine::handleEvents() {
 	sf::Event appEvent;
-	while (fGameWindow.pollEvent(appEvent))
+	while (fFrame.pollEvent(appEvent))
 	{
 		switch (appEvent.type)
 		{
@@ -123,14 +127,14 @@ void GameEngine::handleEvents() {
 			break;
 
 		case sf::Event::Resized:
-			fInterfaceController.updateView();
+			//fInterfaceController.updateView();
 			fFrame.nextFrame();
 			fFrame.nextFrame();
-			fMapController.updateCamera();
+			//fMapController.updateCamera();
 			break;
 
 		case sf::Event::Closed:
-			fGameWindow.close();
+			fFrame.close();
 			break;
 
 		default:

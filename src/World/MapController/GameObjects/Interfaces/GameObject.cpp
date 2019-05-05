@@ -2,11 +2,11 @@
 const std::string GameObject::F_REGEX_GAME_OBJECT_PATTERN = REGEX_INT_PATTERN + "{1}" + REGEX_FLOAT_PATTERN + "{2}" + REGEX_BOOL_PATTERN + "{2}";
 
 
-GameObject::GameObject(Map * map) : fMap(map)
+GameObject::GameObject(MapInterface& f, Map * m) : fMap(m), fMapInterface(f), fFrame(fMapInterface.getFrame())
 {
 }
 
-GameObject::GameObject(const GameObject & obj) 
+GameObject::GameObject(const GameObject & obj) : fMapInterface(obj.fMapInterface), fFrame(obj.fFrame)
 {
 	fId = obj.fId;
 	fMap = obj.fMap;
@@ -34,7 +34,7 @@ void GameObject::draw() const
 	if (fDrawable == nullptr)
 		return;
 
-	Frame::getInstance().draw(*fDrawable, Frame::FrameLayer::MapArea);
+	fFrame.draw(*fDrawable, Frame::FrameLayer::GameArea);
 }
 
 int GameObject::getId() const 

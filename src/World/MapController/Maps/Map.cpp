@@ -1,14 +1,13 @@
 #include "Map.h"
 
 
-Map::Map() 
+Map::Map(MapInterface& m) : fMapInterface(m), fFrame(fMapInterface.getFrame())
 {
-	Frame & frame = Frame::getInstance();
-	float w = Frame::getInstance().getFrameWidth(), h = Frame::getInstance().getFrameHeight();
+	float w = fFrame.getFrameWidth(), h = fFrame.getFrameHeight();
 	fCamera = sf::FloatRect(w/2, h/2, w, h);
 }
 
-Map::Map(const Map & o)
+Map::Map(const Map & o) : fMapInterface(o.fMapInterface), fFrame(o.fFrame)
 {
 	this->clone(o);
 }
@@ -104,10 +103,8 @@ MapBoundaries Map::getBoundaries() const
 
 void Map::updateCamera()
 {
-	Frame & f = Frame::getInstance();
-
-	float width = f.getFrameWidth();
-	float height = f.getFrameHeight();
+	float width = fFrame.getFrameWidth();
+	float height = fFrame.getFrameHeight();
 
 	fCamera.top += fCamera.height - height;
 	fCamera.height = height;
@@ -125,7 +122,7 @@ void Map::updateCamera()
 	if (fMapBoundaries.hasBottom)
 		fCamera.top = std::min(fMapBoundaries.bottom - fCamera.height, fCamera.top);
 
-	Frame::getInstance().updateView(sf::View(fCamera), Frame::FrameLayer::MapArea);
+	fFrame.updateView(sf::View(fCamera), FrameInterface::FrameLayer::GameArea);
 	moveCamera(sf::Vector2f((fCamera.width - width) / 2, 0));
 }
 
@@ -163,7 +160,7 @@ void Map::moveCamera(const sf::Vector2f & p)
 	if (fMapBoundaries.hasBottom)
 		fCamera.top = std::min(fMapBoundaries.bottom - fCamera.height, fCamera.top);
 
-	Frame::getInstance().updateView(sf::View(fCamera), Frame::FrameLayer::MapArea);
+	fFrame.updateView(sf::View(fCamera), FrameInterface::FrameLayer::GameArea);
 }
 
 void Map::broadcastFocus() 
@@ -314,23 +311,23 @@ void Map::deserializeObject(std::istream& ss) {
 		switch ((GameObjectClassType)type)
 		{
 		case GameObjectClassType::PLAYER:
-			obj = new Player();
+			obj = new Player(fMapInterface);
 			break;
 
 		case GameObjectClassType::PLATFORM:
-			obj = new Platform();
+			obj = new Platform(fMapInterface);
 			break;
 
 		case GameObjectClassType::POINT:
-			obj = new Point();
+			obj = new Point(fMapInterface);
 			break;
 
 		case GameObjectClassType::PORTAL:
-			obj = new Portal();
+			obj = new Portal(fMapInterface);
 			break;
 
 		case GameObjectClassType::BOX:
-			obj = new Box();
+			obj = new Box(fMapInterface);
 			break;
 
 		default:

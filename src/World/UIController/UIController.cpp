@@ -212,4 +212,19 @@ void UIController::broadcastVisibilityChange(const bool& v)
 	}
 }
 
+std::string UIController::getProperty(const unsigned int& view, const unsigned int& id)
+{
+	if (view >= fUIViews.size() || fUIViews[view] == nullptr)
+		return false;
+
+	return fUIViews[view]->getProperty(id);
+}
+
+void UIController::setProperty(const unsigned int& view, const unsigned int& id, const std::string& v)
+{
+	if (view >= fUIViews.size() || fUIViews[view] == nullptr)
+		return;
+
+	fUIViews[view]->setProperty(id, v);
+}
 

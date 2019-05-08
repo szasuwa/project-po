@@ -30,18 +30,18 @@ void InterfaceView::draw(UIInterface& f)
 	}
 }
 
-void InterfaceView::setProperty(const unsigned int& i, const std::string& v)
+void InterfaceView::setProperty(const unsigned int& id, const std::string& v)
 {
-	if (i >= fPropertyList.size())
-		throw std::out_of_range("Property does not exist (Size: " + std::to_string(fPropertyList.size()) + " , requested: " + std::to_string(i) + ")");
+	if (id >= fPropertyList.size())
+		throw std::out_of_range("Property does not exist (Size: " + std::to_string(fPropertyList.size()) + " , requested: " + std::to_string(id) + ")");
 
-	fPropertyList[i] = v;
+	fPropertyList[id] = v;
 }
 
-std::string InterfaceView::getProperty(const unsigned int& i)
+std::string InterfaceView::getProperty(const unsigned int& id)
 {
-	if (i >= fPropertyList.size())
-		throw std::out_of_range("Property does not exist (Size: " + std::to_string(fPropertyList.size()) + " , requested: " + std::to_string(i) + ")");
+	if (id >= fPropertyList.size())
+		throw std::out_of_range("Property does not exist (Size: " + std::to_string(fPropertyList.size()) + " , requested: " + std::to_string(id) + ")");
 
-	return fPropertyList[i];
+	return fPropertyList[id];
 }

@@ -11,6 +11,9 @@ public:
 	virtual void update(UIInterface& f) = 0;
 	virtual void draw(UIInterface& f) = 0;
 
-	virtual bool getVisibility() { return fVisible; }
-	virtual void setVisibility(const bool& v) { fVisible = v; }
+	bool getVisibility() { return fVisible; }
+	void setVisibility(const bool& v) { fVisible = v; }
+
+	virtual std::string getProperty(const unsigned int& id) = 0;
+	virtual void setProperty(const unsigned int& id, const std::string& v) = 0;
 };

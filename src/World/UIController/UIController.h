@@ -38,4 +38,7 @@ public:
 	virtual void toggleViewVisibility(const unsigned int& i);
 	virtual bool isViewVisible(const unsigned int& i);
 	virtual void broadcastVisibilityChange(const bool & v);
+
+	virtual std::string getProperty(const unsigned int& view, const unsigned int& id);
+	virtual void setProperty(const unsigned int& view, const unsigned int& id, const std::string& v);
 };

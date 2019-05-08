@@ -15,6 +15,6 @@ public:
 	virtual void update(UIInterface& f);
 	virtual void draw(UIInterface& f);
 	
-	void setProperty(const unsigned int& i, const std::string& v);
-	std::string getProperty(const unsigned int& i);
+	virtual std::string getProperty(const unsigned int& i);
+	virtual void setProperty(const unsigned int& i, const std::string& v);
 };

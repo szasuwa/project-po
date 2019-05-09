@@ -8,7 +8,7 @@ MapController::~MapController()
 
 bool MapController::load(const int & id) {
 	if (fMapList.size() >= id)
-		return false;
+		throw std::out_of_range("Map was not loaded (max: " + std::to_string(fMapList.size()) + ", requested: " + std::to_string(id) + ")");
 	
 	fActiveMap = &fMapList[id];
 	fActiveMapIndex = id;
@@ -157,7 +157,7 @@ void MapController::beginEdition()
 void MapController::saveEditedMap()
 {
 	if (fEditor == nullptr)
-		return;
+		throw std::logic_error("Map editor does not exists");
 
 	save(fActiveMapName, *fActiveMap);
 }
@@ -165,7 +165,7 @@ void MapController::saveEditedMap()
 void MapController::resetEditedMap() 
 {
 	if (fEditor == nullptr)
-		return;
+		throw std::logic_error("Map editor does not exists");
 
 	if (exists(fActiveMapName))
 		load(fActiveMapName, fActiveMap);
@@ -179,7 +179,7 @@ void MapController::resetEditedMap()
 void MapController::endEdition()
 {
 	if (fEditor == nullptr)
-		return;
+		throw std::logic_error("Map editor does not exists");
 
 	fMapList[fActiveMapIndex].clone(*fActiveMap);
 	fActiveMap = &fMapList[fActiveMapIndex];
@@ -195,7 +195,7 @@ void MapController::endEdition()
 void MapController::cancelEdition()
 {
 	if (fEditor == nullptr)
-		return;
+		throw std::logic_error("Map editor does not exists");
 
 	fActiveMapName = fEditedMapName;
 	fActiveMap = fEditedMap;
@@ -209,7 +209,7 @@ void MapController::cancelEdition()
 void MapController::resetMap() 
 {
 	if (fActiveMap == nullptr)
-		return;
+		throw std::logic_error("Map not loaded");
 
 	load(fActiveMapName, fActiveMap);
 	fActiveMap->broadcastFocus(*fEngine);
@@ -218,7 +218,7 @@ void MapController::resetMap()
 void MapController::updateCamera()
 {
 	if (fActiveMap == nullptr)
-		return;
+		throw std::logic_error("Map not loaded");
 
 	fActiveMap->updateCamera(*fEngine);
 }
@@ -226,15 +226,19 @@ void MapController::updateCamera()
 void MapController::updateMap()
 {
 	if (fActiveMap == nullptr)
-		return;
+		throw std::logic_error("Map not loaded");
 
 	fActiveMap->broadcastUpdate(*fEngine);
 }
 
 void MapController::updateEditor()
 {
-	if (fActiveMap == nullptr || fEditor == nullptr)
-		return;
+	if (fActiveMap == nullptr)
+		throw std::logic_error("Map not loaded");
+
+	if (fEditor == nullptr)
+		throw std::logic_error("Map editor does not exists");
+
 
 	fEditor->update(*fEngine);
 }
@@ -242,7 +246,7 @@ void MapController::updateEditor()
 void MapController::drawMap()
 {
 	if (fActiveMap == nullptr)
-		return;
+		throw std::logic_error("Map not loaded");
 	
 	fActiveMap->broadcastDraw(*fEngine);
 

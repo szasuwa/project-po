@@ -38,30 +38,27 @@ void Frame::close()
 void Frame::updateView(const sf::View & v, const FrameLayer & layer) 
 {
 	if (layer == FrameLayer::num_values)
-		return;
+		throw std::out_of_range("Requested FrameLayer num_values");;
 
 	fViewLayers[(int)layer] = v;
 	fActiveView = FrameLayer::num_values;
 }
 
-bool Frame::selectView(const FrameLayer& layer)
+void Frame::selectView(const FrameLayer& layer)
 {
 	if (layer == FrameLayer::num_values)
-		return false;
+		throw std::out_of_range("Requested FrameLayer num_values");;
 
 	if (fActiveView != layer)
 	{
 		fActiveView = layer;
 		fWindow.setView(fViewLayers[(int)layer]);
 	}
-
-	return true;
 }
 
 void Frame::draw(const sf::Drawable & o, const FrameLayer & layer)
 {
-	if (!selectView(layer))
-		return;
+	selectView(layer);
 
 	fWindow.draw(o);
 }
@@ -74,8 +71,7 @@ void Frame::nextFrame()
 
 sf::Vector2f Frame::getMousePosition(const FrameLayer & layer) 
 {
-	if (!selectView(layer))
-		return sf::Vector2f();
+	selectView(layer);
 
 	return fWindow.mapPixelToCoords(sf::Mouse::getPosition(fWindow));
 }

@@ -44,7 +44,7 @@ Portal::Portal(const Portal& obj) : GameObject(obj)
 Portal::~Portal()
 {
 	if(fMap == nullptr)
-		return;
+		throw std::logic_error("Map not set");
 	
 	for (GameObject* o : fMap->getGameObjects())
 	{
@@ -73,6 +73,9 @@ void Portal::onFocus(GameEngineInterface& f)
 
 bool Portal::onTrigger(GameObject * o)
 {
+	if (o == this || o == nullptr)
+		return false;
+
 	if (fLink == nullptr)
 		return false;
 

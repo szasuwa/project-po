@@ -32,7 +32,7 @@ bool GameObject::onTrigger(GameObject* obj)
 void GameObject::draw(GameEngineInterface& f) const
 {
 	if (fDrawable == nullptr)
-		return;
+		throw std::logic_error("Drawable not set");;
 
 	f.getFrameInterface().draw(*fDrawable, Frame::FrameLayer::GameArea);
 }
@@ -65,7 +65,7 @@ bool GameObject::hasTrigger() const
 sf::Vector2f GameObject::getPosition() const
 {
 	if (fTransformable == nullptr)
-		return sf::Vector2f();
+		throw std::logic_error("Transformable not set");
 
 	return fTransformable->getPosition();
 }
@@ -73,7 +73,7 @@ sf::Vector2f GameObject::getPosition() const
 void GameObject::setPosition(const sf::Vector2f & p, bool gridSnap, bool vLock, bool hLock)
 {
 	if (fTransformable == nullptr)
-		return;
+		throw std::logic_error("Transformable not set");;
 
 	sf::Vector2f pos = fTransformable->getPosition();
 
@@ -90,7 +90,7 @@ void GameObject::setPosition(const sf::Vector2f & p, bool gridSnap, bool vLock, 
 sf::Vector2f GameObject::getCenter() const
 {
 	if (fTransformable == nullptr)
-		return sf::Vector2f();
+		throw std::logic_error("Transformable not set");
 
 	sf::FloatRect b = getGlobalBounds();
 	return sf::Vector2f(b.left + b.width / 2, b.top + b.height / 2);
@@ -99,7 +99,7 @@ sf::Vector2f GameObject::getCenter() const
 void GameObject::setCenter(const sf::Vector2f& p)
 {
 	if (fTransformable == nullptr)
-		return;
+		throw std::logic_error("Transformable not set");;
 
 	sf::Vector2f p2 = p;
 	sf::FloatRect b = getGlobalBounds();
@@ -112,7 +112,7 @@ void GameObject::setCenter(const sf::Vector2f& p)
 void GameObject::move(const sf::Vector2f & p)
 {
 	if (fTransformable == nullptr)
-		return;
+		throw std::logic_error("Transformable not set");;
 
 	fTransformable->move(p);
 }
@@ -125,7 +125,7 @@ GameObjectInterfaceType GameObject::getInterfaceType()  const
 void GameObject::serializeObject(std::ostream & ss) const 
 {
 	if (fTransformable == nullptr)
-		return;
+		throw std::logic_error("Transformable not set");;
 
 	ss << fId << SERIALIZABLE_FIELD_DELIMITER;
 	ss << fTransformable->getPosition().x << SERIALIZABLE_FIELD_DELIMITER;
@@ -137,7 +137,7 @@ void GameObject::serializeObject(std::ostream & ss) const
 void GameObject::deserializeObject(std::istream & ss) 
 {
 	if (fTransformable == nullptr)
-		return;
+		throw std::logic_error("Transformable not set");;
 
 	int i;
 	float x, y, c, t;

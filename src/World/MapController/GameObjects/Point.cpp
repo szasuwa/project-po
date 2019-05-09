@@ -48,7 +48,7 @@ void Point::onFocus(GameEngineInterface& f)
 
 bool Point::onTrigger(GameObject * o)
 {
-	if (o == nullptr)
+	if (o == this || o == nullptr)
 		return true;
 
 	if (o->getClassType() == GameObjectClassType::PLAYER) {

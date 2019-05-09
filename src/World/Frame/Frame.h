@@ -29,7 +29,7 @@ public:
 	virtual void close();
 
 	virtual void updateView(const sf::View& v, const FrameLayer& layer);
-	virtual bool selectView(const FrameLayer& layer);
+	virtual void selectView(const FrameLayer& layer);
 
 	virtual void draw(const sf::Drawable& o, const FrameLayer& layer);
 

@@ -3,6 +3,7 @@
 #include "../../Interfaces/MapInterface.h"
 #include "../../Interfaces/UIInterface.h"
 #include "../InterfaceType.h"
+#include <exception>
 
 class MapSelectionViewAction : public ViewAction {
 	unsigned int fUiType;
@@ -15,6 +16,10 @@ public:
 	explicit MapSelectionViewAction(GameEngineInterface&f, const unsigned int& t, const std::string& n) : fEngine(f), fUiType(t), fName(n) {};
 	virtual void operator() () { 
 		bool load;
+
+		UIInterface& ui = fEngine.getUIInterface();
+		ui.addUIView((unsigned int)InterfaceType::Gui);
+
 		if (fIndex >= 0) {
 			if (!fEngine.getMapInterface().load(fIndex))
 				return;
@@ -26,11 +31,10 @@ public:
 		}
 		else 
 		{
-			return;
+			throw std::invalid_argument("Map name not provided");
 		}
 
-		UIInterface & ui = fEngine.getUIInterface();
 		ui.broadcastVisibilityChange(false);
-		ui.addUIView((unsigned int)InterfaceType::Gui);
+		ui.setViewVisibility((unsigned int)InterfaceType::Gui, true);
 	};
 };

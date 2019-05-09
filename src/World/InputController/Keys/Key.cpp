@@ -18,7 +18,7 @@ bool Key::isPressed() const
 
 bool Key::wasToggled(const bool& desiredState) const
 {
-	return (fIsPressed != fWasPressed & fIsPressed == desiredState);
+	return (fIsPressed != fWasPressed && fIsPressed == desiredState);
 }
 
 const std::string Key::toString() const

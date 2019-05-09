@@ -19,13 +19,13 @@ Map::~Map()
 
 void Map::addGameObject(GameObject* obj, const bool & keepId)
 {
-	if (obj != nullptr)
-	{
-		obj->setMap(this);
-		fGameObjectList.push_back(obj);
-		if(!keepId)
-			fGameObjectList.back()->setId(calculateGameObjectId());
-	}
+	if (obj == nullptr)
+		throw std::invalid_argument("Object is null");
+
+	obj->setMap(this);
+	fGameObjectList.push_back(obj);
+	if(!keepId)
+		fGameObjectList.back()->setId(calculateGameObjectId());
 }
 
 void Map::addGameObject(GameObject* obj)

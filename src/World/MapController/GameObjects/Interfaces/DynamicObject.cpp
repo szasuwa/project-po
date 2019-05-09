@@ -33,8 +33,9 @@ DynamicObject::DynamicObject(const DynamicObject &obj) : GameObject(obj)
 void DynamicObject::applyWorldForces(GameEngineInterface & f)
 {
 	FrameInterface & frame = f.getFrameInterface();
+
 	if (fMap == nullptr)
-		return;
+		throw std::logic_error("Map not set");
 
 	if (!fCollider.getBottom()) {
 		fForceVector.y += (*fMap).fGravityRate * frame.getFrameTime();
@@ -60,7 +61,7 @@ void DynamicObject::applyWorldForces(GameEngineInterface & f)
 sf::Vector2f DynamicObject::lockInFrame(const sf::Vector2f & p)
 {
 	if (fMap == nullptr)
-		return sf::Vector2f();
+		throw std::logic_error("Map not set");
 
 	if(!fHorizontalInWindowLock && !fVerticalInWindowLock)
 		return p;
@@ -104,7 +105,7 @@ sf::Vector2f DynamicObject::lockInFrame(const sf::Vector2f & p)
 
 sf::Vector2f DynamicObject::checkCollisions(const sf::Vector2f& p, const Collision & c) {
 	if (fMap == nullptr)
-		return sf::Vector2f(0,0);
+		throw std::logic_error("Map not set");
 
 	sf::Vector2f out = p;
 	fCollider.resetCollider();
@@ -309,7 +310,7 @@ void DynamicObject::onUpdate(GameEngineInterface& f)
 void DynamicObject::move(const sf::Vector2f& p)
 {
 	if (fTransformable == nullptr)
-		return;
+		throw std::logic_error("Transformable not set");
 
 	if (fIsStatic)
 		return;
@@ -324,7 +325,7 @@ void DynamicObject::move(const sf::Vector2f& p)
 void DynamicObject::move(const sf::Vector2f& p, const Collision & c)
 {
 	if (fTransformable == nullptr)
-		return;
+		throw std::logic_error("Transformable not set");;
 
 	if (fIsStatic)
 		return;

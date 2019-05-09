@@ -110,8 +110,15 @@ sf::Vector2f Player::onTrigger(const sf::Vector2f& p, GameObject* obj, const Col
 	return p;
 }
 
-void Player::updateGui(GameEngineInterface& f) {
-	f.getUIInterface().setProperty((unsigned int)InterfaceType::Gui, 0, std::to_string(fScore));
+void Player::updateGui(GameEngineInterface& f) 
+{
+	try
+	{
+		f.getUIInterface().setProperty((unsigned int)InterfaceType::Gui, 0, std::to_string(fScore));
+	} 
+	catch (std::exception e)
+	{
+	}
 }
 
 void Player::onUpdate(GameEngineInterface& f)

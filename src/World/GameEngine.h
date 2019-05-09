@@ -12,6 +12,7 @@
 #include "Interfaces/UIInterface.h"
 #include "UIController/InterfaceType.h"
 #include "InputController/KeyBindingIndex.h"
+#include "UIController/ViewProperties.h"
 
 class GameEngine : public GameEngineInterface
 {

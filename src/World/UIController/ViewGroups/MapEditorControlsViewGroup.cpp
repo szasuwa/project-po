@@ -58,43 +58,24 @@ MapEditorControlsViewGroup::MapEditorControlsViewGroup(const ViewAlignment& a) :
 
 void MapEditorControlsViewGroup::update(GameEngineInterface& f)
 {
-	if (fAxisLockUpdated) 
-	{
-		fAxisLockUpdated = false;
-		fVerticalLockKey.setText(Key::toString((InputKey)KeyBinding::MapEditorVLock) + " - Vertical Lock" + (fVerticalLockStatus ? " : On" : " : Off"));
-		fHorizontalLockKey.setText(Key::toString((InputKey)KeyBinding::MapEditorHLock) + " - Horizontal Lock" + (fHorizontalLockStatus ? " : On" : " : Off"));
-	}
-
-	if (fGridSnapUpdated)
-	{
-		fGridSnapUpdated = false;
-		fGridSnapKey.setText(Key::toString((InputKey)KeyBinding::MapEditorGridLock) + " - Snap To Grid" + (fGridSnapStatus ? " : On" : " : Off"));
-	}
-
-	if (fTimeFlowUpdated)
-	{
-		fTimeFlowUpdated = false;
-		fTimeKey.setText(Key::toString((InputKey)KeyBinding::MapEditorTime) + " - Time Flow" + (fTimeFlowStatus ? " : On" : " : Off"));
-	}
-
-	ViewGroup::update(f);
 }
 
-void MapEditorControlsViewGroup::reportAxisLockStatus(bool v, bool h)
+void MapEditorControlsViewGroup::setVerticalLock(const std::string& s)
 {
-	fVerticalLockStatus = v;
-	fHorizontalLockStatus = h;
-	fAxisLockUpdated = true;
+	fVerticalLockKey.setText(Key::toString((InputKey)KeyBinding::MapEditorVLock) + " - Vertical Lock: " + s);
 }
 
-void MapEditorControlsViewGroup::reportGridSnapStatus(bool s)
+void MapEditorControlsViewGroup::setHorizontalLock(const std::string& s)
 {
-	fGridSnapStatus = s;
-	fGridSnapUpdated = true;
+	fHorizontalLockKey.setText(Key::toString((InputKey)KeyBinding::MapEditorHLock) + " - Horizontal Lock: " + s);
 }
 
-void MapEditorControlsViewGroup::reportTimeFlowStatus(bool s)
+void MapEditorControlsViewGroup::setGridSnap(const std::string& s)
 {
-	fTimeFlowStatus = s;
-	fTimeFlowUpdated = true;
+	fGridSnapKey.setText(Key::toString((InputKey)KeyBinding::MapEditorGridLock) + " - Snap To Grid: " + s);
+}
+
+void MapEditorControlsViewGroup::setTimeFlow(const std::string& s)
+{
+	fTimeKey.setText(Key::toString((InputKey)KeyBinding::MapEditorTime) + " - Time Flow: " + s);
 }

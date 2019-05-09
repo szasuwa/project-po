@@ -2,8 +2,10 @@
 
 MapEditor::MapEditor(GameEngineInterface & m) : fMap(m)
 {
-	//MapEditorControlsViewGroup::reportAxisLockStatus(fVerticalLock, fHorizontalLock);
-	//MapEditorControlsViewGroup::reportGridSnapStatus(fSnapToGrid);
+	UIInterface& ui = m.getUIInterface();
+	ui.setProperty((unsigned int)InterfaceType::MapEditor, MapEditorPropertyMap::VerticalLock, fVerticalLock ? "On" : "Off");
+	ui.setProperty((unsigned int)InterfaceType::MapEditor, MapEditorPropertyMap::HorizontalLock, fHorizontalLock ? "On" : "Off");
+	ui.setProperty((unsigned int)InterfaceType::MapEditor, MapEditorPropertyMap::GridSnap, fSnapToGrid ? "On" : "Off");
 }
 
 Map * MapEditor::loadMap(const Map & map)
@@ -139,23 +141,25 @@ void MapEditor::handleClone(GameEngineInterface& f)
 void MapEditor::handleAxes(GameEngineInterface& f)
 {
 	InputInterface& input = f.getInputInterface();
+	UIInterface& ui = f.getUIInterface();
+
 	//Axis Locking and Grid Snapping
 	if (input.wasKeyToggled((unsigned int)KeyBindingIndex::MapEditorVLock, true))
 	{
 		fVerticalLock = !fVerticalLock;
-		//MapEditorControlsViewGroup::reportAxisLockStatus(fVerticalLock, fHorizontalLock);
+		ui.setProperty((unsigned int)InterfaceType::MapEditor, MapEditorPropertyMap::VerticalLock, fVerticalLock ? "On" : "Off");
 	}
 
 	if (input.wasKeyToggled((unsigned int)KeyBindingIndex::MapEditorHLock, true))
 	{
 		fHorizontalLock = !fHorizontalLock;
-		//MapEditorControlsViewGroup::reportAxisLockStatus(fVerticalLock, fHorizontalLock);
+		ui.setProperty((unsigned int)InterfaceType::MapEditor, MapEditorPropertyMap::HorizontalLock, fHorizontalLock ? "On" : "Off");
 	}
 
 	if (input.wasKeyToggled((unsigned int)KeyBindingIndex::MapEditorGridLock, true))
 	{
 		fSnapToGrid = !fSnapToGrid;
-		//MapEditorControlsViewGroup::reportGridSnapStatus(fSnapToGrid);
+		ui.setProperty((unsigned int)InterfaceType::MapEditor, MapEditorPropertyMap::GridSnap, fSnapToGrid ? "On" : "Off");
 	}
 }
 

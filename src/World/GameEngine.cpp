@@ -63,7 +63,7 @@ void GameEngine::handleTriggers()
 		if (fInputI.wasKeyToggled((unsigned int)KeyBindingIndex::MapEditorTime, true))
 		{
 			fTimeFlowEnabled = !fTimeFlowEnabled;
-			//MapEditorControlsViewGroup::reportTimeFlowStatus(fTimeFlowEnabled);
+			fUiI.setProperty((unsigned int)InterfaceType::MapEditor, MapEditorPropertyMap::TimeFlow, fTimeFlowEnabled ? "On" : "Off");
 		}
 
 		if (fInputI.wasKeyToggled((unsigned int)KeyBindingIndex::MapEditorSave, true))

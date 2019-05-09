@@ -6,13 +6,12 @@
 
 
 class MapEditorControlsViewGroup : public ViewGroup {
-	bool fVerticalLockStatus = false;
-	bool fHorizontalLockStatus = false;
-	bool fAxisLockUpdated = true;
+	std::string  fVerticalLockStatus = "Off";
+	std::string  fHorizontalLockStatus = "Off";
 
-	bool fGridSnapStatus = true;
-	bool fGridSnapUpdated = true;
-	bool fTimeFlowStatus = false;
+	std::string fGridSnapStatus = "On";
+
+	std::string fTimeFlowStatus = "Off";
 	bool fTimeFlowUpdated = true;
 
 	SeparatorViewItem fSeparator;
@@ -46,7 +45,8 @@ public:
 
 	void update(GameEngineInterface& f);
 
-	void reportAxisLockStatus(bool v, bool h);
-	void reportGridSnapStatus(bool s);
-	void reportTimeFlowStatus(bool s);
+	void setVerticalLock(const std::string& s);
+	void setHorizontalLock(const std::string& s);
+	void setGridSnap(const std::string& s);
+	void setTimeFlow(const std::string& s);
 };

@@ -1,6 +1,7 @@
 #pragma once
 #include "../Interfaces/InterfaceView.h"
 #include "../ViewGroups/MapEditorControlsViewGroup.h"
+#include "../ViewProperties.h"
 
 
 class MapEditorInterface : public InterfaceView
@@ -9,4 +10,6 @@ class MapEditorInterface : public InterfaceView
 
 public:
 	MapEditorInterface();
+
+	virtual void setProperty(const unsigned int& i, const std::string& v);
 };

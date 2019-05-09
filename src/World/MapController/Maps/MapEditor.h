@@ -7,6 +7,7 @@
 #include "PortalLink.h"
 #include "../../Interfaces/MapInterface.h"
 #include "../../InputController/KeyBindingIndex.h"
+#include "../../UIController/ViewProperties.h"
 
 class MapController;
 

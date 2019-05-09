@@ -8,11 +8,11 @@ UserViewGroup::UserViewGroup(const ViewAlignment& a) : ViewGroup(a)
 
 void UserViewGroup::update(GameEngineInterface& f)
 {
-	fPointsBox.setText(std::string("Points: " + std::to_string(fPoints)));
+	fPointsBox.setText(std::string("Points: " + fPoints));
 	ViewGroup::update(f);
 }
 
-void UserViewGroup::setPoints(int p)
+void UserViewGroup::setPoints(const std::string & p)
 {
 	fPoints = p;
 }

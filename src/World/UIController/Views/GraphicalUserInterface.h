@@ -15,4 +15,6 @@ public:
 	explicit GraphicalUserInterface();
 
 	virtual void update(GameEngineInterface& f);
+
+	virtual void setProperty(const unsigned int& i, const std::string& v);
 };

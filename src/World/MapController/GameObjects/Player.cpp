@@ -111,7 +111,7 @@ sf::Vector2f Player::onTrigger(const sf::Vector2f& p, GameObject* obj, const Col
 }
 
 void Player::updateGui(GameEngineInterface& f) {
-	//UserViewGroup::setPoints(fScore);
+	f.getUIInterface().setProperty((unsigned int)InterfaceType::Gui, 0, std::to_string(fScore));
 }
 
 void Player::onUpdate(GameEngineInterface& f)

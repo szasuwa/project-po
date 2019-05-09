@@ -7,6 +7,8 @@
 #include "../../Frame/FrameMargin.h"
 #include "../Maps/MapBoundaries.h"
 #include "../../Interfaces/InputInterface.h"
+#include "../../Interfaces/UIInterface.h"
+#include "../../UIController/InterfaceType.h"
 #include "../../InputController/KeyBindingIndex.h"
 
 

@@ -10,5 +10,5 @@ class DebugInterface : public InterfaceView
 public:
 	DebugInterface();
 
-	virtual void update(UIInterface& f);
+	virtual void update(GameEngineInterface& f);
 };

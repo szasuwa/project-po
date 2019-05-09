@@ -2,11 +2,11 @@
 #include "../ViewActions/MapSelectionViewAction.h"
 #include "../ViewActions/TextColorChangeViewAction.h"
 
-MainMenuViewGroup::MainMenuViewGroup(UIInterface& f) : MainMenuViewGroup(f, ViewAlignment::Left)
+MainMenuViewGroup::MainMenuViewGroup(GameEngineInterface& f) : MainMenuViewGroup(f, ViewAlignment::Left)
 {
 }
 
-MainMenuViewGroup::MainMenuViewGroup(UIInterface& f, const ViewAlignment& a) : ViewGroup(a)
+MainMenuViewGroup::MainMenuViewGroup(GameEngineInterface& f, const ViewAlignment& a) : ViewGroup(a)
 {
 	fStartButton.setText("Start");
 	fStartButton.setOnClick(new MapSelectionViewAction(f, (unsigned int)InterfaceType::MainMenu, "map1"));

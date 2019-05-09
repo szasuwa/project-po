@@ -5,6 +5,7 @@
 #include <thread> 
 #include <chrono>
 
+#include "Interfaces/GameEngineInterface.h"
 #include "Interfaces/FrameInterface.h"
 #include "Interfaces/InputInterface.h"
 #include "Interfaces/MapInterface.h"
@@ -12,13 +13,8 @@
 #include "UIController/InterfaceType.h"
 #include "InputController/KeyBindingIndex.h"
 
-class GameEngine
+class GameEngine : public GameEngineInterface
 {
-	FrameInterface & fFrame;
-	InputInterface & fInput;
-	MapInterface& fMapController;
-	UIInterface& fUiController;
-
 	bool fTimeFlowEnabled = true;
 
 	void initGame();

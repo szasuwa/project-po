@@ -9,12 +9,12 @@ ButtonViewItem::~ButtonViewItem()
 	delete fOnMouseExit;
 }
 
-void ButtonViewItem::update(UIInterface& f)
+void ButtonViewItem::update(GameEngineInterface& f)
 {
 	if (fOnMouseEnter == nullptr && fOnMouseOver == nullptr && fOnMouseExit == nullptr && fOnClick == nullptr)
 		return;
 
-	if (fText.getGlobalBounds().contains(f.getFrame().getMousePosition(Frame::FrameLayer::Interface)))
+	if (fText.getGlobalBounds().contains(f.getFrameInterface().getMousePosition(Frame::FrameLayer::Interface)))
 	{
 		if (!fIsMouseOver)
 		{
@@ -32,7 +32,7 @@ void ButtonViewItem::update(UIInterface& f)
 		}
 
 
-		if (fOnClick != nullptr && f.getInput().wasKeyToggled((unsigned int)KeyBindingIndex::LeftClick, true))
+		if (fOnClick != nullptr && f.getInputInterface().wasKeyToggled((unsigned int)KeyBindingIndex::LeftClick, true))
 		{
 			(*fOnClick)();
 		}
@@ -50,11 +50,11 @@ void ButtonViewItem::update(UIInterface& f)
 	}
 }
 
-void ButtonViewItem::draw(UIInterface& f) const
+void ButtonViewItem::draw(GameEngineInterface& f) const
 {
 	if (fVisible)
 	{
-		f.getFrame().draw(fText, Frame::FrameLayer::Interface);
+		f.getFrameInterface().draw(fText, Frame::FrameLayer::Interface);
 	}
 }
 

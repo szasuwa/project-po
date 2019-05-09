@@ -20,8 +20,5 @@ public:
 	bool getRight() const;
 	bool getTop() const;
 	bool getBottom() const;
-	
-	float handleVerticalCollision(float speed, float smooth, float dTime, const sf::FloatRect & obj, const sf::FloatRect & col);
-	float handleHorizontalCollision(float speed, float smooth, float dTime, const sf::FloatRect & obj, const sf::FloatRect & col);
 };
 

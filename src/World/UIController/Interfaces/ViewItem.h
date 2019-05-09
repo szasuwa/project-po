@@ -10,8 +10,8 @@ protected:
 	bool fVisible = true;
 
 public:
-	virtual void draw(UIInterface& f) const = 0;
-	virtual void update(UIInterface& f) = 0;
+	virtual void draw(GameEngineInterface& f) const = 0;
+	virtual void update(GameEngineInterface& f) = 0;
 
 	virtual void setPosition(const sf::Vector2f & p) = 0;
 	virtual float getWidth() const = 0;

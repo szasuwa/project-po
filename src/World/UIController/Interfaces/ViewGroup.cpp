@@ -5,7 +5,7 @@ ViewGroup::ViewGroup(const ViewAlignment& a) : fPosition(sf::Vector2f()), fVisib
 {
 }
 
-void ViewGroup::update(UIInterface& f)
+void ViewGroup::update(GameEngineInterface& f)
 {
 	for (ViewItem* item : fItemList)
 	{
@@ -16,7 +16,7 @@ void ViewGroup::update(UIInterface& f)
 	}
 }
 
-void ViewGroup::draw(UIInterface& f) const
+void ViewGroup::draw(GameEngineInterface& f) const
 {
 	if (!fVisible)
 		return;

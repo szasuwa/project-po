@@ -9,8 +9,8 @@ int main() {
 	sf::RenderWindow appWindow(sf::VideoMode(1024, 576, 32), "Project PO");
 	Frame frame(appWindow);
 	InputController input;
-	MapController map(frame, input);
-	UIController ui(frame, input, map);
+	MapController map;
+	UIController ui;
 	GameEngine engine(frame, input, map, ui);
 	engine.gameLoop();
 	return 0;

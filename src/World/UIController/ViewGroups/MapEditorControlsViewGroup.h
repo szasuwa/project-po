@@ -44,7 +44,7 @@ class MapEditorControlsViewGroup : public ViewGroup {
 public:
 	explicit MapEditorControlsViewGroup(const ViewAlignment& a);
 
-	void update(UIInterface& f);
+	void update(GameEngineInterface& f);
 
 	void reportAxisLockStatus(bool v, bool h);
 	void reportGridSnapStatus(bool s);

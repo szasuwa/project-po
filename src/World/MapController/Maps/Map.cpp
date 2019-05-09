@@ -1,9 +1,9 @@
 #include "Map.h"
 
 
-Map::Map(MapInterface& m)
+Map::Map(GameEngineInterface& m)
 {
-	float w = m.getFrame().getFrameWidth(), h = m.getFrame().getFrameHeight();
+	float w = m.getFrameInterface().getFrameWidth(), h = m.getFrameInterface().getFrameHeight();
 	fCamera = sf::FloatRect(w/2, h/2, w, h);
 }
 
@@ -101,9 +101,9 @@ MapBoundaries Map::getBoundaries() const
 	return fMapBoundaries;
 }
 
-void Map::updateCamera(MapInterface& f)
+void Map::updateCamera(GameEngineInterface& f)
 {
-	FrameInterface& frame = f.getFrame();
+	FrameInterface& frame = f.getFrameInterface();
 	float width = frame.getFrameWidth();
 	float height = frame.getFrameHeight();
 
@@ -132,7 +132,7 @@ sf::FloatRect Map::getCamera() const
 	return fCamera;
 }
 
-void Map::setCamera(MapInterface& f, const sf::FloatRect & camera)
+void Map::setCamera(GameEngineInterface& f, const sf::FloatRect & camera)
 {
 	fCamera.top = camera.top;
 	fCamera.left = camera.left;
@@ -142,7 +142,7 @@ void Map::setCamera(MapInterface& f, const sf::FloatRect & camera)
 	updateCamera(f);
 }
 
-void Map::moveCamera(MapInterface& f, const sf::Vector2f & p)
+void Map::moveCamera(GameEngineInterface& f, const sf::Vector2f & p)
 {
 	sf::Vector2f p2 = p;
 
@@ -161,10 +161,10 @@ void Map::moveCamera(MapInterface& f, const sf::Vector2f & p)
 	if (fMapBoundaries.hasBottom)
 		fCamera.top = std::min(fMapBoundaries.bottom - fCamera.height, fCamera.top);
 
-	f.getFrame().updateView(sf::View(fCamera), FrameInterface::FrameLayer::GameArea);
+	f.getFrameInterface().updateView(sf::View(fCamera), FrameInterface::FrameLayer::GameArea);
 }
 
-void Map::broadcastFocus(MapInterface& f)
+void Map::broadcastFocus(GameEngineInterface& f)
 {
 	updateCamera(f);
 	for (size_t i = 0; i < fGameObjectList.size(); ++i)
@@ -176,7 +176,7 @@ void Map::broadcastFocus(MapInterface& f)
 	}
 }
 
-void Map::broadcastUpdate(MapInterface& f)
+void Map::broadcastUpdate(GameEngineInterface& f)
 {
 	for (size_t i = 0; i < fGameObjectList.size(); ++i) 
 	{
@@ -187,7 +187,7 @@ void Map::broadcastUpdate(MapInterface& f)
 	}
 }
 
-void Map::broadcastDraw(MapInterface& f) const
+void Map::broadcastDraw(GameEngineInterface& f) const
 {
 	for (size_t i = 0; i < fGameObjectList.size(); ++i) 
 	{

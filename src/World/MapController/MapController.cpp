@@ -12,7 +12,7 @@ bool MapController::load(const int & id) {
 	
 	fActiveMap = &fMapList[id];
 	fActiveMapIndex = id;
-	fActiveMap->broadcastFocus(*this);
+	fActiveMap->broadcastFocus(*fEngine);
 
 	return true;
 }
@@ -28,14 +28,14 @@ bool MapController::load(const std::string & name)
 	if (!checkIntegrity(name))
 		return false;
 
-	fMapList.push_back(Map(*this));
+	fMapList.push_back(Map(*fEngine));
 	fActiveMap = &fMapList.back();
 	fActiveMapName = name;
 	fActiveMapIndex = fMapList.size() - 1;
 
 	load(name, fActiveMap);
 
-	fActiveMap->broadcastFocus(*this);
+	fActiveMap->broadcastFocus(*fEngine);
 
 	return true;
 }
@@ -147,11 +147,11 @@ void MapController::beginEdition()
 	fEditedMap = fActiveMap;
 	fEditedMapName = fActiveMapName;
 
-	fEditor = new MapEditor(*this);
+	fEditor = new MapEditor(*fEngine);
 	time_t t = std::chrono::system_clock::to_time_t(std::chrono::system_clock::now());
 	fActiveMapName = fEditedMapName + "_" + std::to_string(t);
 	fActiveMap = fEditor->loadMap(*fEditedMap);
-	fActiveMap->broadcastFocus(*this);
+	fActiveMap->broadcastFocus(*fEngine);
 }
 
 void MapController::saveEditedMap()
@@ -173,7 +173,7 @@ void MapController::resetEditedMap()
 		fActiveMap = fEditedMap;
 
 	fActiveMap = fEditor->loadMap(*fActiveMap);
-	fActiveMap->broadcastFocus(*this);
+	fActiveMap->broadcastFocus(*fEngine);
 }
 
 void MapController::endEdition()
@@ -183,7 +183,7 @@ void MapController::endEdition()
 
 	fMapList[fActiveMapIndex].clone(*fActiveMap);
 	fActiveMap = &fMapList[fActiveMapIndex];
-	fActiveMap->broadcastFocus(*this);
+	fActiveMap->broadcastFocus(*fEngine);
 	fActiveMapName = fEditedMapName;
 	save(fActiveMapName, *fActiveMap);
 
@@ -199,7 +199,7 @@ void MapController::cancelEdition()
 
 	fActiveMapName = fEditedMapName;
 	fActiveMap = fEditedMap;
-	fActiveMap->broadcastFocus(*this);
+	fActiveMap->broadcastFocus(*fEngine);
 
 	fEditedMap = nullptr;
 	delete fEditor;
@@ -212,7 +212,7 @@ void MapController::resetMap()
 		return;
 
 	load(fActiveMapName, fActiveMap);
-	fActiveMap->broadcastFocus(*this);
+	fActiveMap->broadcastFocus(*fEngine);
 }
 
 void MapController::updateCamera()
@@ -220,7 +220,7 @@ void MapController::updateCamera()
 	if (fActiveMap == nullptr)
 		return;
 
-	fActiveMap->updateCamera(*this);
+	fActiveMap->updateCamera(*fEngine);
 }
 
 void MapController::updateMap()
@@ -228,7 +228,7 @@ void MapController::updateMap()
 	if (fActiveMap == nullptr)
 		return;
 
-	fActiveMap->broadcastUpdate(*this);
+	fActiveMap->broadcastUpdate(*fEngine);
 }
 
 void MapController::updateEditor()
@@ -236,7 +236,7 @@ void MapController::updateEditor()
 	if (fActiveMap == nullptr || fEditor == nullptr)
 		return;
 
-	fEditor->update(*this);
+	fEditor->update(*fEngine);
 }
 
 void MapController::drawMap()
@@ -244,8 +244,8 @@ void MapController::drawMap()
 	if (fActiveMap == nullptr)
 		return;
 	
-	fActiveMap->broadcastDraw(*this);
+	fActiveMap->broadcastDraw(*fEngine);
 
 	if (fEditor != nullptr)
-		fEditor->draw(*this);
+		fEditor->draw(*fEngine);
 }

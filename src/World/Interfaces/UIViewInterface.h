@@ -1,5 +1,8 @@
 #pragma once
-class UIInterface;
+#include <string>
+
+
+class GameEngineInterface;
 
 class UIViewInterface {
 protected:
@@ -7,9 +10,9 @@ protected:
 
 public:
 	virtual ~UIViewInterface() {};
-	virtual void updateView(UIInterface& f) = 0;
-	virtual void update(UIInterface& f) = 0;
-	virtual void draw(UIInterface& f) = 0;
+	virtual void updateView(GameEngineInterface& f) = 0;
+	virtual void update(GameEngineInterface& f) = 0;
+	virtual void draw(GameEngineInterface& f) = 0;
 
 	bool getVisibility() { return fVisible; }
 	void setVisibility(const bool& v) { fVisible = v; }

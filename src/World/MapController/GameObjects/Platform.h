@@ -15,8 +15,8 @@ public:
 	Platform(const sf::Vector2f & position, const sf::Vector2f & size, const sf::Color & color, Map * map = nullptr);
 	Platform(const Platform & obj);
 
-	void onUpdate(MapInterface& f);
-	void onFocus(MapInterface& f);
+	void onUpdate(GameEngineInterface& f);
+	void onFocus(GameEngineInterface& f);
 	sf::FloatRect getGlobalBounds() const;
 	void resize(const sf::Vector2f & p, bool gridSnap = false, bool vLock = false, bool hLock = false);
 	void setColor(const sf::Color & c);

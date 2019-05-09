@@ -12,7 +12,7 @@
 
 class UIController : public UIInterface {
 public:
-	UIController(FrameInterface& f, InputInterface& i, MapInterface& m);
+	UIController();
 	~UIController();
 
 	virtual void init();

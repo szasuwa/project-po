@@ -53,7 +53,7 @@ Portal::~Portal()
 	}
 }
 
-void Portal::onUpdate(MapInterface& f)
+void Portal::onUpdate(GameEngineInterface& f)
 {
 	for (int i = 0; i < fExitingObjects.size(); ++i) 
 	{
@@ -65,7 +65,7 @@ void Portal::onUpdate(MapInterface& f)
 	}
 }
 
-void Portal::onFocus(MapInterface& f)
+void Portal::onFocus(GameEngineInterface& f)
 {
 	if (fMap != nullptr && ((fLink == nullptr && fLinkId >= 0) || (fLink != nullptr && fLinkId != fLink->fId)))
 		setLink(fMap->getGameObject(fLinkId));

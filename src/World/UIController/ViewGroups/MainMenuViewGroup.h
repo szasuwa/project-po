@@ -7,6 +7,6 @@ class MainMenuViewGroup : public ViewGroup {
 	ButtonViewItem fStartButton;
 
 public:
-	explicit MainMenuViewGroup(UIInterface& f);
-	MainMenuViewGroup(UIInterface& f, const ViewAlignment& a);
+	explicit MainMenuViewGroup(GameEngineInterface& f);
+	MainMenuViewGroup(GameEngineInterface& f, const ViewAlignment& a);
 };

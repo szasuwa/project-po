@@ -1,26 +1,22 @@
 #pragma once
 #include <vector>
+
 #include "UIViewInterface.h"
-#include "FrameInterface.h"
-#include "InputInterface.h"
-#include "MapInterface.h"
+#include "GameEngineInterface.h"
 
 
 class UIInterface {
 protected:
-	FrameInterface& fFrame;
-	InputInterface& fInput;
-	MapInterface& fMap;
+	GameEngineInterface * fEngine = nullptr;
 
 	std::vector<UIViewInterface*> fUIViews;
 
 public:
-	UIInterface(FrameInterface& f, InputInterface& i, MapInterface& m) : fFrame(f), fInput(i), fMap(m) {};
+	UIInterface() {};
 	virtual ~UIInterface() {};
 
-	FrameInterface& getFrame() { return fFrame; }
-	InputInterface& getInput() { return fInput; }
-	MapInterface& getMap() { return fMap; }
+	GameEngineInterface& getEngine() { return *fEngine; }
+	void setEngine(GameEngineInterface & engine) { fEngine = &engine; }
 
 	virtual void updateView() = 0;
 	virtual void update() = 0;

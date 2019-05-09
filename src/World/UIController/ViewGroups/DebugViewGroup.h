@@ -13,5 +13,5 @@ class DebugViewGroup : public ViewGroup {
 public:
 	explicit DebugViewGroup(const ViewAlignment& a);
 
-	void update(UIInterface& f);
+	void update(GameEngineInterface& f);
 };

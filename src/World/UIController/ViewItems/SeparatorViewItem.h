@@ -13,8 +13,8 @@ public:
 	explicit SeparatorViewItem(float h = 10);
 	
 
-	virtual void update(UIInterface& f);
-	virtual void draw(UIInterface& f) const;
+	virtual void update(GameEngineInterface& f);
+	virtual void draw(GameEngineInterface& f) const;
 
 	virtual void setPosition(const sf::Vector2f & p);
 	virtual float getWidth() const;

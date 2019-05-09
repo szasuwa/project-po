@@ -8,7 +8,7 @@ class MainMenu : public InterfaceView
 	MainMenuViewGroup fMainMenuViewGroup;
 
 public:
-	explicit MainMenu(UIInterface& f);
+	explicit MainMenu(GameEngineInterface& f);
 
-	virtual void update(UIInterface& f);
+	virtual void update(GameEngineInterface& f);
 };

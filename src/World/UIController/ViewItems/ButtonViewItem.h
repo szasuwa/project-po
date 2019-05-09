@@ -17,8 +17,8 @@ public:
 	ButtonViewItem() {};
 	virtual ~ButtonViewItem();
 
-	virtual void update(UIInterface& f);
-	virtual void draw(UIInterface& f) const;
+	virtual void update(GameEngineInterface& f);
+	virtual void draw(GameEngineInterface& f) const;
 
 	void setOnClick(ViewAction * f);
 	void setOnMouseEnter(ViewAction* f);

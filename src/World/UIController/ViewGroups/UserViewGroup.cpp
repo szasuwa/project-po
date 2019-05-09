@@ -6,7 +6,7 @@ UserViewGroup::UserViewGroup(const ViewAlignment& a) : ViewGroup(a)
 	fItemList.push_back(&fPointsBox);
 }
 
-void UserViewGroup::update(UIInterface& f)
+void UserViewGroup::update(GameEngineInterface& f)
 {
 	fPointsBox.setText(std::string("Points: " + std::to_string(fPoints)));
 	ViewGroup::update(f);

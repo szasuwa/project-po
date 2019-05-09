@@ -1,22 +1,19 @@
 #pragma once
+#include "GameEngineInterface.h"
 #include <string>
-#include "FrameInterface.h"
-#include "InputInterface.h"
 
 class Map;
 
 class MapInterface
 {
 protected:
-	FrameInterface& fFrame;
-	InputInterface& fInput;
+	GameEngineInterface * fEngine = nullptr;
 
 public:
-	MapInterface(FrameInterface& f, InputInterface & i) : fFrame(f), fInput(i) {};
 	virtual ~MapInterface() {};
 
-	FrameInterface& getFrame() { return fFrame; }
-	InputInterface& getInput() { return fInput; }
+	GameEngineInterface& getEngine() { return *fEngine; }
+	void setEngine(GameEngineInterface & engine) { fEngine = &engine; }
 
 	virtual bool load(const int & id) = 0;
 	virtual bool load(const std::string & name) = 0;

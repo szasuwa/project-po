@@ -5,11 +5,11 @@ SeparatorViewItem::SeparatorViewItem(float h)
 	fHeight = h;
 }
 
-void SeparatorViewItem::update(UIInterface& f)
+void SeparatorViewItem::update(GameEngineInterface& f)
 {
 }
 
-void SeparatorViewItem::draw(UIInterface& f) const
+void SeparatorViewItem::draw(GameEngineInterface& f) const
 {
 }
 

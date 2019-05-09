@@ -40,12 +40,12 @@ sf::Vector2f Box::onTrigger(const sf::Vector2f& p, GameObject* obj, const Collis
 	return p;
 }
 
-void Box::onUpdate(MapInterface& f)
+void Box::onUpdate(GameEngineInterface& f)
 {
 	DynamicObject::onUpdate(f);
 }
 
-void Box::onFocus(MapInterface& f)
+void Box::onFocus(GameEngineInterface& f)
 {
 }
 

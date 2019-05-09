@@ -19,9 +19,9 @@ class Player : public DynamicObject
 	int fScore = 0;
 	bool fScoreChanged = false;
 
-	void controlMovement(MapInterface& f);
+	void controlMovement(GameEngineInterface& f);
 	virtual sf::Vector2f onTrigger(const sf::Vector2f& p, GameObject* obj, const Collision& c, const sf::FloatRect& z, const sf::FloatRect& o);
-	void updateGui(MapInterface& f);
+	void updateGui(GameEngineInterface& f);
 
 public:
 	Player(Map* map = nullptr);
@@ -30,8 +30,8 @@ public:
 	Player(const sf::Vector2f & position, const sf::Vector2f & size, const sf::Color & color, Map * map = nullptr);
 	Player(const Player & obj);
 
-	void onUpdate(MapInterface& f);
-	void onFocus(MapInterface& f);
+	void onUpdate(GameEngineInterface& f);
+	void onFocus(GameEngineInterface& f);
 	sf::FloatRect getGlobalBounds() const;
 	void resize(const sf::Vector2f & p, bool gridSnap = false, bool vLock = false, bool hLock = false);
 	void setColor(const sf::Color & c);

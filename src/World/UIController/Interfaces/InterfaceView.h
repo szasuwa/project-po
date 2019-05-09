@@ -11,9 +11,9 @@ protected:
 
 public:
 	virtual ~InterfaceView() {}
-	virtual void updateView(UIInterface& f);
-	virtual void update(UIInterface& f);
-	virtual void draw(UIInterface& f);
+	virtual void updateView(GameEngineInterface& f);
+	virtual void update(GameEngineInterface& f);
+	virtual void draw(GameEngineInterface& f);
 	
 	virtual std::string getProperty(const unsigned int& i);
 	virtual void setProperty(const unsigned int& i, const std::string& v);

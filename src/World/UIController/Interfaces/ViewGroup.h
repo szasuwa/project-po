@@ -1,10 +1,10 @@
 #pragma once
 #include <vector>
-#include <SFML/system/Vector2.hpp>
+#include <SFML/System/Vector2.hpp>
 
 #include "ViewItem.h"
 #include "ViewAlignment.h"
-#include "../../Interfaces/UIInterface.h"
+#include "../../Interfaces/GameEngineInterface.h"
 
 
 class ViewGroup {
@@ -17,8 +17,8 @@ protected:
 public:
 	explicit ViewGroup(const ViewAlignment & a);
 
-	virtual void update(UIInterface& f);
-	virtual void draw(UIInterface& f) const;
+	virtual void update(GameEngineInterface& f);
+	virtual void draw(GameEngineInterface& f) const;
 
 	sf::Vector2f getPosition() const;
 	void setPosition(const sf::Vector2f& p);

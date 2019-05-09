@@ -30,17 +30,18 @@ DynamicObject::DynamicObject(const DynamicObject &obj) : GameObject(obj)
 	fHorizontalInWindowLock = obj.fHorizontalInWindowLock;
 }
 
-void DynamicObject::applyWorldForces(FrameInterface & f)
+void DynamicObject::applyWorldForces(GameEngineInterface & f)
 {
+	FrameInterface & frame = f.getFrameInterface();
 	if (fMap == nullptr)
 		return;
 
 	if (!fCollider.getBottom()) {
-		fForceVector.y += (*fMap).fGravityRate * f.getFrameTime();
+		fForceVector.y += (*fMap).fGravityRate * frame.getFrameTime();
 		fForceVector.y = std::min(fForceVector.y, (*fMap).fMaxGravityForce);
 	}
 	else {
-		fForceVector.y = std::min(fForceVector.y, (*fMap).fGravityRate * f.getFrameTime());
+		fForceVector.y = std::min(fForceVector.y, (*fMap).fGravityRate * frame.getFrameTime());
 	}
 
 	if (fCollider.getTop() && fForceVector.y < 0)
@@ -296,13 +297,13 @@ sf::Vector2f DynamicObject::onCollision(const sf::Vector2f & p, GameObject * obj
 }
 
 
-void DynamicObject::onUpdate(MapInterface& f)
+void DynamicObject::onUpdate(GameEngineInterface& f)
 {
 	fMovement.x = fMovement.y = 0;
-	applyWorldForces(f.getFrame());
+	applyWorldForces(f);
 
 	//Set position
-	move(fForceVector * f.getFrame().getFrameTime());
+	move(fForceVector * f.getFrameInterface().getFrameTime());
 }
 
 void DynamicObject::move(const sf::Vector2f& p)

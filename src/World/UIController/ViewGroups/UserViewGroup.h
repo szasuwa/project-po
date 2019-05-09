@@ -10,7 +10,7 @@ class UserViewGroup : public ViewGroup {
 public:
 	explicit UserViewGroup(const ViewAlignment& a);
 
-	void update(UIInterface& f);
+	void update(GameEngineInterface& f);
 
 	void setPoints(int p);
 };

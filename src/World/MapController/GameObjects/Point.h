@@ -14,8 +14,8 @@ public:
 	Point(const sf::Vector2f & position, const float & radius, const sf::Color & color, Map * map = nullptr);
 	Point(const Point & obj);
 
-	void onUpdate(MapInterface& f);
-	void onFocus(MapInterface& f);
+	void onUpdate(GameEngineInterface& f);
+	void onFocus(GameEngineInterface& f);
 	bool onTrigger(GameObject * o);
 	sf::FloatRect getGlobalBounds() const;
 	void resize(const sf::Vector2f & p, bool gridSnap = false, bool vLock = false, bool hLock = false);

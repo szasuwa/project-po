@@ -5,7 +5,7 @@
 
 #include "GameObjectClassType.h"
 #include "GameObjectInterfaceType.h"
-#include "../../../Interfaces/MapInterface.h"
+#include "../../../Interfaces/GameEngineInterface.h"
 #include "../../../../GameConstants.h"
 #include "../../Maps/MapGrid.h"
 
@@ -28,12 +28,12 @@ public:
 	GameObject(const GameObject & o);
 	virtual ~GameObject();
 
-	virtual void onUpdate(MapInterface& f) = 0;
-	virtual void onFocus(MapInterface& f) = 0;
+	virtual void onUpdate(GameEngineInterface& f) = 0;
+	virtual void onFocus(GameEngineInterface& f) = 0;
 	virtual bool onCollision(GameObject* obj);
 	virtual bool onTrigger(GameObject* obj);
 
-	void draw(MapInterface& f) const;
+	void draw(GameEngineInterface& f) const;
 
 	int getId() const;
 	void setId(const int & id);

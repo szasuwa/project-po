@@ -1,10 +1,10 @@
 #include "InterfaceView.h"
 
-void InterfaceView::updateView(UIInterface& f)
+void InterfaceView::updateView(GameEngineInterface& f)
 {
 }
 
-void InterfaceView::update(UIInterface& f)
+void InterfaceView::update(GameEngineInterface& f)
 {
 	for (ViewGroup* item : fGroupList)
 	{
@@ -15,7 +15,7 @@ void InterfaceView::update(UIInterface& f)
 	}
 }
 
-void InterfaceView::draw(UIInterface& f)
+void InterfaceView::draw(GameEngineInterface& f)
 {
 	if (!fVisible)
 		return;

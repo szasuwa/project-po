@@ -35,11 +35,11 @@ Platform::Platform(const Platform & obj) : GameObject(obj)
 	((sf::RectangleShape*)fDrawable)->setFillColor(((sf::RectangleShape*)obj.fDrawable)->getFillColor());
 }
 
-void Platform::onUpdate(MapInterface& f)
+void Platform::onUpdate(GameEngineInterface& f)
 {
 }
 
-void Platform::onFocus(MapInterface& f)
+void Platform::onFocus(GameEngineInterface& f)
 {
 }
 

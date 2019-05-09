@@ -15,14 +15,14 @@ TextViewItem::TextViewItem()
 	fText.setColor(TEXT_DEFAULT_COLOR);
 }
 
-void TextViewItem::update(UIInterface& f)
+void TextViewItem::update(GameEngineInterface& f)
 {
 }
 
-void TextViewItem::draw(UIInterface& f) const
+void TextViewItem::draw(GameEngineInterface& f) const
 {
 	if(fVisible)
-		f.getFrame().draw(fText, Frame::FrameLayer::Interface);
+		f.getFrameInterface().draw(fText, Frame::FrameLayer::Interface);
 }
 
 void TextViewItem::setText(const std::string& txt)

@@ -56,7 +56,7 @@ MapEditorControlsViewGroup::MapEditorControlsViewGroup(const ViewAlignment& a) :
 	fItemList.push_back(&fGhostBoxKey);
 }
 
-void MapEditorControlsViewGroup::update(UIInterface& f)
+void MapEditorControlsViewGroup::update(GameEngineInterface& f)
 {
 	if (fAxisLockUpdated) 
 	{

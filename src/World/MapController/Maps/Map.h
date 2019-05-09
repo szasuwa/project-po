@@ -5,7 +5,7 @@
 #include <regex>
 
 #include "../../Interfaces/FrameInterface.h"
-#include "../../Interfaces/MapInterface.h"
+#include "../../Interfaces/GameEngineInterface.h"
 #include "MapBoundaries.h"
 #include "../GameObjects/Interfaces/GameObject.h"
 #include "../GameObjects/Interfaces/DynamicObject.h"
@@ -34,7 +34,7 @@ class Map {
 	void updateLastId();
 
 public:
-	explicit Map(MapInterface& m);
+	explicit Map(GameEngineInterface& m);
 	Map(const Map & o);
 	~Map();
 
@@ -49,14 +49,14 @@ public:
 	int calculateGameObjectId();
 
 	MapBoundaries getBoundaries() const;
-	void updateCamera(MapInterface& f);
+	void updateCamera(GameEngineInterface& f);
 	sf::FloatRect getCamera() const;
-	void setCamera(MapInterface& f, const sf::FloatRect & camera);
-	void moveCamera(MapInterface& f, const sf::Vector2f & p);
+	void setCamera(GameEngineInterface& f, const sf::FloatRect & camera);
+	void moveCamera(GameEngineInterface& f, const sf::Vector2f & p);
 	
-	void broadcastFocus(MapInterface& f);
-	void broadcastUpdate(MapInterface& f);
-	void broadcastDraw(MapInterface& f) const;
+	void broadcastFocus(GameEngineInterface& f);
+	void broadcastUpdate(GameEngineInterface& f);
+	void broadcastDraw(GameEngineInterface& f) const;
 
 	void clone(const Map & o);
 	Map & operator=(const Map & o);

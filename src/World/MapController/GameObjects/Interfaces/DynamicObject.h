@@ -29,7 +29,7 @@ protected:
 	bool fVerticalInWindowLock = false;
 	bool fHorizontalInWindowLock = false;
 
-	void applyWorldForces(FrameInterface& f);
+	void applyWorldForces(GameEngineInterface& f);
 	sf::Vector2f checkCollisions(const sf::Vector2f& p, const Collision& c = Collision::None);
 	sf::Vector2f lockInFrame(const sf::Vector2f & p);
 	virtual sf::Vector2f onCollision(const sf::Vector2f& p, DynamicObject * o, const Collision& c);
@@ -42,7 +42,7 @@ public:
 	DynamicObject(const sf::Vector2f & position, bool vLock, bool hLock, Map * m = nullptr);
 	DynamicObject(const DynamicObject & o);
 
-	virtual void onUpdate(MapInterface& f);
+	virtual void onUpdate(GameEngineInterface& f);
 
 	virtual void move(const sf::Vector2f& p);
 	virtual void move(const sf::Vector2f& p, const Collision & c);

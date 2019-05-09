@@ -36,9 +36,9 @@ Player::Player(const Player & obj) : DynamicObject(obj)
 	fScore = obj.fScore;
 }
 
-void Player::controlMovement(MapInterface& f)
+void Player::controlMovement(GameEngineInterface& f)
 {
-	InputInterface & input = f.getInput();
+	InputInterface & input = f.getInputInterface();
 	//Check movement keys
 	if (input.isKeyPressed((unsigned int)KeyBindingIndex::MoveLeft))
 	{
@@ -60,7 +60,7 @@ void Player::controlMovement(MapInterface& f)
 		return;
 
 	MapBoundaries mbound = fMap->getBoundaries();
-	float dTime = f.getFrame().getFrameTime();
+	float dTime = f.getFrameInterface().getFrameTime();
 
 	sf::Vector2f cameraMove;
 	sf::FloatRect camera = fMap->getCamera();
@@ -110,11 +110,11 @@ sf::Vector2f Player::onTrigger(const sf::Vector2f& p, GameObject* obj, const Col
 	return p;
 }
 
-void Player::updateGui(MapInterface& f) {
+void Player::updateGui(GameEngineInterface& f) {
 	//UserViewGroup::setPoints(fScore);
 }
 
-void Player::onUpdate(MapInterface& f)
+void Player::onUpdate(GameEngineInterface& f)
 {
 	controlMovement(f);
 	DynamicObject::onUpdate(f);
@@ -126,7 +126,7 @@ void Player::onUpdate(MapInterface& f)
 	}
 }
 
-void Player::onFocus(MapInterface& f)
+void Player::onFocus(GameEngineInterface& f)
 {
 	updateGui(f);
 }

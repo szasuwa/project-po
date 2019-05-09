@@ -46,26 +46,26 @@ class MapEditor {
 	PortalLink *fLink = nullptr;
 
 	//Handlers
-	void handleGrid(MapInterface& f);
-	void handleModeSelection(MapInterface& f);
-	void handleDeletion(MapInterface& f);
-	void handleClone(MapInterface& f);
-	void handleAxes(MapInterface& f);
-	void handleGhost(MapInterface& f);
-	void handleMouse(MapInterface& f);
-	void handleActions(MapInterface& f);
-	void handleLinking(MapInterface& f);
-	void handlePortalLinks(MapInterface& f);
+	void handleGrid(GameEngineInterface& f);
+	void handleModeSelection(GameEngineInterface& f);
+	void handleDeletion(GameEngineInterface& f);
+	void handleClone(GameEngineInterface& f);
+	void handleAxes(GameEngineInterface& f);
+	void handleGhost(GameEngineInterface& f);
+	void handleMouse(GameEngineInterface& f);
+	void handleActions(GameEngineInterface& f);
+	void handleLinking(GameEngineInterface& f);
+	void handlePortalLinks(GameEngineInterface& f);
 
 	//Edition actions
 	void loadGhost(const GameObjectClassType & type);
-	GameObject * selectObject(MapInterface& f);
+	GameObject * selectObject(GameEngineInterface& f);
 
 public:
-	explicit MapEditor(MapInterface & f);
+	explicit MapEditor(GameEngineInterface & f);
 
 	Map * loadMap(const Map & map);
 	
-	void update(MapInterface& f);
-	void draw(MapInterface& f);
+	void update(GameEngineInterface& f);
+	void draw(GameEngineInterface& f);
 };

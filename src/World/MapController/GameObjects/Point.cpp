@@ -38,11 +38,11 @@ Point::Point(const Point & obj) : GameObject(obj)
 	((sf::CircleShape*)fDrawable)->setFillColor(((sf::CircleShape*)obj.fDrawable)->getFillColor());
 }
 
-void Point::onUpdate(MapInterface& f)
+void Point::onUpdate(GameEngineInterface& f)
 {
 }
 
-void Point::onFocus(MapInterface& f)
+void Point::onFocus(GameEngineInterface& f)
 {
 }
 

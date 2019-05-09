@@ -29,12 +29,12 @@ bool GameObject::onTrigger(GameObject* obj)
 	return true;
 }
 
-void GameObject::draw(MapInterface& f) const
+void GameObject::draw(GameEngineInterface& f) const
 {
 	if (fDrawable == nullptr)
 		return;
 
-	f.getFrame().draw(*fDrawable, Frame::FrameLayer::GameArea);
+	f.getFrameInterface().draw(*fDrawable, Frame::FrameLayer::GameArea);
 }
 
 int GameObject::getId() const 

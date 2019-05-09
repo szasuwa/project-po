@@ -15,8 +15,8 @@ protected:
 public:
 	TextViewItem();
 
-	virtual void update(UIInterface& f);
-	virtual void draw(UIInterface& f) const;
+	virtual void update(GameEngineInterface& f);
+	virtual void draw(GameEngineInterface& f) const;
 
 	void setText(const std::string& txt);
 	void setColor(const sf::Color& c);

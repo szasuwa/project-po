@@ -1,7 +1,7 @@
 #include "UIController.h"
 
 
-UIController::UIController(FrameInterface& f, InputInterface& i, MapInterface& m) : UIInterface(f,i,m)
+UIController::UIController()
 {
 	init();
 }
@@ -19,8 +19,9 @@ void UIController::init()
 
 void UIController::updateView()
 {
-	sf::View view(sf::FloatRect(0,0, fFrame.getFrameWidth(), fFrame.getFrameHeight()));
-	fFrame.updateView(view, FrameInterface::FrameLayer::Interface);
+	FrameInterface & frame = fEngine->getFrameInterface();
+	sf::View view(sf::FloatRect(0,0, frame.getFrameWidth(), frame.getFrameHeight()));
+	frame.updateView(view, FrameInterface::FrameLayer::Interface);
 }
 
 void UIController::update()
@@ -29,7 +30,7 @@ void UIController::update()
 	{
 		if (item != nullptr) 
 		{
-			item->update(*((UIInterface*)this));
+			item->update(*fEngine);
 		}
 	}
 }
@@ -40,7 +41,7 @@ void UIController::draw() const
 	{
 		if (item != nullptr)
 		{
-			item->draw(*((UIInterface*)this));
+			item->draw(*fEngine);
 		}
 	}
 }
@@ -54,7 +55,7 @@ void UIController::addUIView(const unsigned int & i)
 	{
 		case InterfaceType::MainMenu:
 			delete fUIViews[i];
-			fUIViews[i] = new MainMenu(*this);
+			fUIViews[i] = new MainMenu(*fEngine);
 			break;
 
 		case InterfaceType::MapSelection:
@@ -215,7 +216,7 @@ void UIController::broadcastVisibilityChange(const bool& v)
 std::string UIController::getProperty(const unsigned int& view, const unsigned int& id)
 {
 	if (view >= fUIViews.size() || fUIViews[view] == nullptr)
-		return false;
+		throw std::out_of_range("View does not exist (Size: " + std::to_string(fUIViews.size()) + " , requested: " + std::to_string(view) + ")");
 
 	return fUIViews[view]->getProperty(id);
 }
@@ -223,7 +224,7 @@ std::string UIController::getProperty(const unsigned int& view, const unsigned i
 void UIController::setProperty(const unsigned int& view, const unsigned int& id, const std::string& v)
 {
 	if (view >= fUIViews.size() || fUIViews[view] == nullptr)
-		return;
+		throw std::out_of_range("View does not exist (Size: " + std::to_string(fUIViews.size()) + " , requested: " + std::to_string(view) + ")");
 
 	fUIViews[view]->setProperty(id, v);
 }

@@ -7,13 +7,13 @@ GraphicalUserInterface::GraphicalUserInterface() : fControlsViewGroup(ViewAlignm
 	fGroupList.push_back(&fUserViewGroup);
 }
 
-void GraphicalUserInterface::update(UIInterface& f)
+void GraphicalUserInterface::update(GameEngineInterface& f)
 {
 	InterfaceView::update(f);
 
 	fInfoViewGroup.setPosition(sf::Vector2f(0, 0));
 
-	fUserViewGroup.setPosition(sf::Vector2f((f.getFrame().getFrameWidth() - fUserViewGroup.calculateWidth())/2, 0));
+	fUserViewGroup.setPosition(sf::Vector2f((f.getFrameInterface().getFrameWidth() - fUserViewGroup.calculateWidth())/2, 0));
 
 	fControlsViewGroup.setPosition(fInfoViewGroup.getPosition() + sf::Vector2f(0, fInfoViewGroup.calculateHeight()));
 }

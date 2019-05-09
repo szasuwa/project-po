@@ -14,5 +14,5 @@ class GraphicalUserInterface : public InterfaceView
 public:
 	explicit GraphicalUserInterface();
 
-	virtual void update(UIInterface& f);
+	virtual void update(GameEngineInterface& f);
 };

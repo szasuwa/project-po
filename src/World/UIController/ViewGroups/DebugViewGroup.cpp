@@ -9,8 +9,8 @@ DebugViewGroup::DebugViewGroup(const ViewAlignment& a) : ViewGroup(a)
 	fItemList.push_back(&fSeparator);
 }
 
-void DebugViewGroup::update(UIInterface& f)
+void DebugViewGroup::update(GameEngineInterface& f)
 {
-	fFpsMeter.setText(std::to_string(f.getFrame().getFrameRate()) + " FPS");
+	fFpsMeter.setText(std::to_string(f.getFrameInterface().getFrameRate()) + " FPS");
 	ViewGroup::update(f);
 }

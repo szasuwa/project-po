@@ -1,6 +1,6 @@
 #include "MapEditor.h"
 
-MapEditor::MapEditor(MapInterface & m) : fMap(m)
+MapEditor::MapEditor(GameEngineInterface & m) : fMap(m)
 {
 	//MapEditorControlsViewGroup::reportAxisLockStatus(fVerticalLock, fHorizontalLock);
 	//MapEditorControlsViewGroup::reportGridSnapStatus(fSnapToGrid);
@@ -13,7 +13,7 @@ Map * MapEditor::loadMap(const Map & map)
 	return &fMap;
 }
 
-void MapEditor::update(MapInterface& f)
+void MapEditor::update(GameEngineInterface& f)
 {
 	handleGrid(f);
 	handleModeSelection(f);
@@ -25,9 +25,9 @@ void MapEditor::update(MapInterface& f)
 	handleActions(f);
 }
 
-void MapEditor::draw(MapInterface& f)
+void MapEditor::draw(GameEngineInterface& f)
 {
-	f.getFrame().draw(fGrid, Frame::FrameLayer::GameArea);
+	f.getFrameInterface().draw(fGrid, Frame::FrameLayer::GameArea);
 
 	handlePortalLinks(f);
 
@@ -35,13 +35,13 @@ void MapEditor::draw(MapInterface& f)
 		fGhost->draw(f);
 }
 
-void MapEditor::handleGrid(MapInterface& f)
+void MapEditor::handleGrid(GameEngineInterface& f)
 {	
-	float dTime = f.getFrame().getFrameTime();
+	float dTime = f.getFrameInterface().getFrameTime();
 	float gridSize = MapGrid::getGridDisplaySize();
 
 	sf::Vector2f cam;
-	InputInterface & input = f.getInput();
+	InputInterface & input = f.getInputInterface();
 
 	if (input.isKeyPressed((unsigned int)KeyBindingIndex::CameraLeft))
 		cam.x -= gridSize * 120 * dTime;
@@ -58,9 +58,9 @@ void MapEditor::handleGrid(MapInterface& f)
 	fMap.moveCamera(f, cam);
 }
 
-void MapEditor::handleModeSelection(MapInterface& f)
+void MapEditor::handleModeSelection(GameEngineInterface& f)
 {
-	InputInterface& input = f.getInput();
+	InputInterface& input = f.getInputInterface();
 
 	if (input.isKeyPressed((unsigned int)KeyBindingIndex::MapEditorMove) || fMoveObject)
 		fMode = EditorMode::Move;
@@ -74,9 +74,9 @@ void MapEditor::handleModeSelection(MapInterface& f)
 		fMode = EditorMode::None;
 }
 
-void MapEditor::handleDeletion(MapInterface& f)
+void MapEditor::handleDeletion(GameEngineInterface& f)
 {
-	InputInterface& input = f.getInput();
+	InputInterface& input = f.getInputInterface();
 	if (input.isKeyPressed((unsigned int)KeyBindingIndex::MapEditorDelete))
 	{
 		if (fSelectedObject != nullptr) 
@@ -99,9 +99,9 @@ void MapEditor::handleDeletion(MapInterface& f)
 	}
 }
 
-void MapEditor::handleClone(MapInterface& f)
+void MapEditor::handleClone(GameEngineInterface& f)
 {
-	InputInterface& input = f.getInput();
+	InputInterface& input = f.getInputInterface();
 	if (fSelectedObject != nullptr && !fCloned && input.isKeyPressed((unsigned int)KeyBindingIndex::MapEditorClone))
 	{
 		fCloned = true;
@@ -136,9 +136,9 @@ void MapEditor::handleClone(MapInterface& f)
 		fCloned = !fCloned;
 }
 
-void MapEditor::handleAxes(MapInterface& f)
+void MapEditor::handleAxes(GameEngineInterface& f)
 {
-	InputInterface& input = f.getInput();
+	InputInterface& input = f.getInputInterface();
 	//Axis Locking and Grid Snapping
 	if (input.wasKeyToggled((unsigned int)KeyBindingIndex::MapEditorVLock, true))
 	{
@@ -159,9 +159,9 @@ void MapEditor::handleAxes(MapInterface& f)
 	}
 }
 
-void MapEditor::handleGhost(MapInterface& f)
+void MapEditor::handleGhost(GameEngineInterface& f)
 {
-	InputInterface& input = f.getInput();
+	InputInterface& input = f.getInputInterface();
 	if (input.wasKeyToggled((unsigned int)KeyBindingIndex::MapEditorGhostPlayer, true))
 		loadGhost(GameObjectClassType::PLAYER);
 
@@ -179,10 +179,10 @@ void MapEditor::handleGhost(MapInterface& f)
 
 }
 
-void MapEditor::handleMouse(MapInterface& f)
+void MapEditor::handleMouse(GameEngineInterface& f)
 {	
-	InputInterface& input = f.getInput();
-	FrameInterface& frame = f.getFrame();
+	InputInterface& input = f.getInputInterface();
+	FrameInterface& frame = f.getFrameInterface();
 	if (input.wasKeyToggled((unsigned int)KeyBindingIndex::LeftClick, true))
 	{
 		switch (fMode) {
@@ -243,9 +243,9 @@ void MapEditor::handleMouse(MapInterface& f)
 	}
 }
 
-void MapEditor::handleActions(MapInterface& f)
+void MapEditor::handleActions(GameEngineInterface& f)
 {
-	FrameInterface& frame = f.getFrame();
+	FrameInterface& frame = f.getFrameInterface();
 	if (fSelectedObject != nullptr) 
 	{
 		switch (fMode)
@@ -287,7 +287,7 @@ void MapEditor::handleActions(MapInterface& f)
 	}
 }
 
-void MapEditor::handleLinking(MapInterface& f)
+void MapEditor::handleLinking(GameEngineInterface& f)
 {
 	if (!fLinkObject)
 		return;
@@ -302,9 +302,9 @@ void MapEditor::handleLinking(MapInterface& f)
 		((Portal*)fSelectedObject)->setLink(selectObject(f));
 }
 
-void MapEditor::handlePortalLinks(MapInterface& f)
+void MapEditor::handlePortalLinks(GameEngineInterface& f)
 {
-	FrameInterface& frame = f.getFrame();
+	FrameInterface& frame = f.getFrameInterface();
 	for (GameObject* obj : fMap.getGameObjects())
 	{
 		if (obj != nullptr && obj->getClassType() == GameObjectClassType::PORTAL)
@@ -321,9 +321,9 @@ void MapEditor::handlePortalLinks(MapInterface& f)
 		frame.draw(*fLink, Frame::FrameLayer::GameArea);
 }
 
-GameObject * MapEditor::selectObject(MapInterface& f)
+GameObject * MapEditor::selectObject(GameEngineInterface& f)
 {
-	FrameInterface& frame = f.getFrame();
+	FrameInterface& frame = f.getFrameInterface();
 	for (GameObject * obj : fMap.getGameObjects()) 
 	{
 		if (obj != nullptr && obj->getGlobalBounds().contains(frame.getMousePosition(Frame::FrameLayer::GameArea))) 

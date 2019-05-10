@@ -233,11 +233,11 @@ void MapController::unloadMap()
 		if (&fMapList[i] == fActiveMap)
 		{
 			fMapList.erase(fMapList.begin() + i);
+			fActiveMap = nullptr;
+			fActiveMapIndex = -1;
 			return;
 		}
-	}
-
-	fActiveMapIndex = -1;
+	}	
 }
 
 void MapController::updateCamera()

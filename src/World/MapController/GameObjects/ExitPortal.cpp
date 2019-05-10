@@ -42,7 +42,11 @@ void ExitPortal::onUpdate(GameEngineInterface& f)
 {
 	if (fTriggered)
 	{
+		fTriggered = false;
 		UIInterface& ui = f.getUIInterface();
+
+		if (!ui.isViewVisible((unsigned int)InterfaceType::Gui))
+			return;
 
 		ui.broadcastVisibilityChange(false);
 		ui.addUIView((unsigned int)InterfaceType::MainMenu);

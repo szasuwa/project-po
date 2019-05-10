@@ -27,6 +27,7 @@ InputController::InputController()
 	fKeyBindings[(unsigned int)KeyBindingIndex::MapEditorGhostPoint] = new KeyboardKey((InputKey)KeyBinding::MapEditorGhostPoint);
 	fKeyBindings[(unsigned int)KeyBindingIndex::MapEditorGhostPortal] = new KeyboardKey((InputKey)KeyBinding::MapEditorGhostPortal);
 	fKeyBindings[(unsigned int)KeyBindingIndex::MapEditorGhostBox] = new KeyboardKey((InputKey)KeyBinding::MapEditorGhostBox);
+	fKeyBindings[(unsigned int)KeyBindingIndex::MapEditorGhostExitPortal] = new KeyboardKey((InputKey)KeyBinding::MapEditorGhostExitPortal);
 	fKeyBindings[(unsigned int)KeyBindingIndex::MapEditorReset] = new KeyboardKey((InputKey)KeyBinding::MapEditorReset);
 	fKeyBindings[(unsigned int)KeyBindingIndex::MapEditorSave] = new KeyboardKey((InputKey)KeyBinding::MapEditorSave);
 	fKeyBindings[(unsigned int)KeyBindingIndex::MapEditorExit] = new KeyboardKey((InputKey)KeyBinding::MapEditorExit);

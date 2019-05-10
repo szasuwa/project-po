@@ -134,6 +134,11 @@ void MapEditor::handleClone(GameEngineInterface& f)
 			case GameObjectClassType::TEXT_BOX:
 				temp = new TextBox(*(TextBox*)fSelectedObject);
 				break;
+
+			case GameObjectClassType::EXIT_PORTAL:
+				temp = new ExitPortal(*(ExitPortal*)fSelectedObject);
+				break;
+
 			default:
 				return;
 		}
@@ -188,6 +193,9 @@ void MapEditor::handleGhost(GameEngineInterface& f)
 
 	if (input.wasKeyToggled((unsigned int)KeyBindingIndex::MapEditorGhostBox, true))
 		loadGhost(GameObjectClassType::BOX);
+
+	if (input.wasKeyToggled((unsigned int)KeyBindingIndex::MapEditorGhostExitPortal, true))
+		loadGhost(GameObjectClassType::EXIT_PORTAL);
 
 }
 
@@ -359,18 +367,27 @@ void MapEditor::loadGhost(const GameObjectClassType & type)
 		case GameObjectClassType::PLAYER:
 			fGhost = new Player(&fMap);
 			break;
+
 		case GameObjectClassType::PLATFORM:
 			fGhost = new Platform(&fMap);
 			break;
+
 		case GameObjectClassType::POINT:
 			fGhost = new Point(&fMap);
 			break;
+
 		case GameObjectClassType::PORTAL:
 			fGhost = new Portal(&fMap);
 			break;
+
 		case GameObjectClassType::BOX:
 			fGhost = new Box(&fMap);
 			break;
+
+		case GameObjectClassType::EXIT_PORTAL:
+			fGhost = new ExitPortal(&fMap);
+			break;
+
 		default:
 			break;
 	}

@@ -25,6 +25,7 @@ MapEditorControlsViewGroup::MapEditorControlsViewGroup(const ViewAlignment& a) :
 	fGhostPointKey.setText("[" + Key::toString((InputKey)KeyBinding::MapEditorGhostPoint) + "] Point Ghost");
 	fGhostPortalKey.setText("[" + Key::toString((InputKey)KeyBinding::MapEditorGhostPortal) + "] Portal Ghost");
 	fGhostBoxKey.setText("[" + Key::toString((InputKey)KeyBinding::MapEditorGhostBox) + "] Box Ghost");
+	fGhostExitPortalKey.setText("[" + Key::toString((InputKey)KeyBinding::MapEditorGhostExitPortal) + "] Exit Portal Ghost");
 
 
 	fItemList.push_back(&fSelectionKey);
@@ -54,6 +55,7 @@ MapEditorControlsViewGroup::MapEditorControlsViewGroup(const ViewAlignment& a) :
 	fItemList.push_back(&fGhostPointKey);
 	fItemList.push_back(&fGhostPortalKey);
 	fItemList.push_back(&fGhostBoxKey);
+	fItemList.push_back(&fGhostExitPortalKey);
 }
 
 void MapEditorControlsViewGroup::update(GameEngineInterface& f)

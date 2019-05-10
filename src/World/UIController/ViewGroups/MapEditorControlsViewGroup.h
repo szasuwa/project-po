@@ -38,6 +38,7 @@ class MapEditorControlsViewGroup : public ViewGroup {
 	TextViewItem fGhostPointKey;
 	TextViewItem fGhostPortalKey;
 	TextViewItem fGhostBoxKey;
+	TextViewItem fGhostExitPortalKey;
 
 public:
 	explicit MapEditorControlsViewGroup(const ViewAlignment& a);

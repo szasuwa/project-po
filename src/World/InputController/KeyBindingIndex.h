@@ -28,6 +28,7 @@ enum class KeyBindingIndex : unsigned int {
 	MapEditorGhostPoint,
 	MapEditorGhostPortal,
 	MapEditorGhostBox,
+	MapEditorGhostExitPortal,
 	MapEditorReset,
 	MapEditorSave,
 	MapEditorExit,

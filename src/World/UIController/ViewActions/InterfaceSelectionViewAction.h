@@ -1,7 +1,7 @@
 #pragma once
 #include "ViewAction.h"
 #include "../InterfaceType.h"
-#include "../InterfaceController.h"
+#include "../UIController.h"
 #include "../../Interfaces/GameEngineInterface.h"
 #include "../../Interfaces/UIInterface.h"
 
@@ -16,7 +16,7 @@ public:
 		UIInterface& ui = fEngine.getUIInterface();
 		
 		ui.broadcastVisibilityChange(false);
-		ui.addUIView(s);
-		ui.setViewVisibility(s, true);
+		ui.addUIView((unsigned int)fInterfaceType);
+		ui.setViewVisibility((unsigned int)fInterfaceType, true);
 	};
 };

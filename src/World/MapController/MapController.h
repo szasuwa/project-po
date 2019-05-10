@@ -13,7 +13,7 @@
 class MapController : public MapInterface
 {
 private:
-	const std::string F_MAP_PATH = "res/";
+	const std::string F_MAP_PATH = "res/maps/";
 	std::vector<Map> fMapList = std::vector<Map>();
 	Map * fActiveMap = nullptr;
 	Map * fEditedMap = nullptr;

@@ -223,18 +223,27 @@ void Map::clone(const Map & o)
 			case GameObjectClassType::PLAYER:
 				fGameObjectList.push_back(new Player(*(Player*)obj));
 				break;
+
 			case GameObjectClassType::PLATFORM:
 				fGameObjectList.push_back(new Platform(*(Platform*)obj));
 				break;
+
 			case GameObjectClassType::POINT:
 				fGameObjectList.push_back(new Point(*(Point*)obj));
 				break;
+
 			case GameObjectClassType::PORTAL:
 				fGameObjectList.push_back(new Portal(*(Portal*)obj));
 				break;
+
 			case GameObjectClassType::BOX:
 				fGameObjectList.push_back(new Box(*(Box*)obj));
 				break;
+
+			case GameObjectClassType::TEXT_BOX:
+				fGameObjectList.push_back(new TextBox(*(TextBox*)obj));
+				break;
+
 			default:
 				break;
 		}
@@ -329,6 +338,10 @@ void Map::deserializeObject(std::istream& ss) {
 
 		case GameObjectClassType::BOX:
 			obj = new Box();
+			break;
+
+		case GameObjectClassType::TEXT_BOX:
+			obj = new TextBox();
 			break;
 
 		default:

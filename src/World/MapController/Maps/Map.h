@@ -14,6 +14,7 @@
 #include "../GameObjects/Point.h"
 #include "../GameObjects/Portal.h"
 #include "../GameObjects/Box.h"
+#include "../GameObjects/TextBox.h"
 
 
 class Map {

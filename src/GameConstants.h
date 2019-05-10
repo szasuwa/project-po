@@ -7,6 +7,7 @@ const std::string REGEX_WHITESPACE = "\\s*";
 const std::string REGEX_FLOAT_PATTERN = "(-?\\d+(\\.\\d+)?\\s+)";
 const std::string REGEX_INT_PATTERN = "(-?\\d+\\s+)";
 const std::string REGEX_BOOL_PATTERN = "((0|1)\\s+)";
+const std::string REGEX_BASE64_PATTERN = "(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)";
 
 const char SERIALIZABLE_OBJECT_DELIMITER = '\n';
 const char SERIALIZABLE_FIELD_DELIMITER = ' ';
@@ -26,6 +27,9 @@ const sf::Color PORTAL_COLOR(0x990033ff);
 
 const sf::Vector2f BOX_SIZE(10, 10);
 const sf::Color BOX_COLOR(0x79ecccc);
+
+const int TEXT_BOX_SIZE = 20;
+const sf::Color TEXT_BOX_COLOR(sf::Color::White);
 
 const sf::Color GRID_COLOR(0xc8c8c864);
 

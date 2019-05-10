@@ -113,18 +113,26 @@ void MapEditor::handleClone(GameEngineInterface& f)
 			case GameObjectClassType::PLAYER:
 				temp = new Player(*(Player*)fSelectedObject);
 				break;
+
 			case GameObjectClassType::PLATFORM:
 				temp = new Platform(*(Platform*)fSelectedObject);
 				break;
+
 			case GameObjectClassType::POINT:
 				temp = new Point(*(Point*)fSelectedObject);
 				break;
+
 			case GameObjectClassType::PORTAL:
 				temp = new Portal(*(Portal*)fSelectedObject);
 				((Portal*)temp)->onFocus(f);
 				break;
+
 			case GameObjectClassType::BOX:
 				temp = new Box(*(Box*)fSelectedObject);
+				break;
+
+			case GameObjectClassType::TEXT_BOX:
+				temp = new TextBox(*(TextBox*)fSelectedObject);
 				break;
 			default:
 				return;

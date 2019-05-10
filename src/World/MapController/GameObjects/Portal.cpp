@@ -43,8 +43,8 @@ Portal::Portal(const Portal& obj) : GameObject(obj)
 
 Portal::~Portal()
 {
-	if(fMap == nullptr)
-		throw std::logic_error("Map not set");
+	if (fMap == nullptr)
+		return;
 	
 	for (GameObject* o : fMap->getGameObjects())
 	{

@@ -7,9 +7,6 @@
 
 #include "../Interfaces/MapInterface.h"
 #include "Maps/Map.h"
-#include "GameObjects/Player.h"
-#include "GameObjects/Platform.h"
-#include "GameObjects/Point.h"
 #include "Maps/MapEditor.h"
 #include "../../Logger.h"
 

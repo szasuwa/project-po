@@ -128,6 +128,10 @@ bool MapController::checkIntegrity(const std::string& name) const
 			valid = Box::checkSerializableValidity(temp);
 			break;
 
+		case GameObjectClassType::TEXT_BOX:
+			valid = TextBox::checkSerializableValidity(temp);
+			break;
+
 		default:
 			valid = false;
 		}

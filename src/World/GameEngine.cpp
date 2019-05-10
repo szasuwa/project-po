@@ -32,7 +32,7 @@ void GameEngine::gameLoop()
 			fUiI.update();
 			fUiI.draw();
 
-			if (fTimeFlowEnabled && fUiI.isViewVisible((unsigned int)InterfaceType::Gui))
+			if (fTimeFlowEnabled && (fUiI.isViewVisible((unsigned int)InterfaceType::Gui) || fUiI.isViewVisible((unsigned int)InterfaceType::MapEditor)))
 				fMapI.updateMap();
 
 			if (fUiI.isViewVisible((unsigned int)InterfaceType::MapEditor))

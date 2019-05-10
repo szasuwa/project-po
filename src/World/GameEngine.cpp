@@ -123,7 +123,8 @@ void GameEngine::handleEvents() {
 			fUiI.updateView();
 			fFrameI.nextFrame();
 			fFrameI.nextFrame();
-			fMapI.updateCamera();
+			if (fUiI.isViewVisible((unsigned int)InterfaceType::Gui) || fUiI.isViewVisible((unsigned int)InterfaceType::MapEditor))
+				fMapI.updateCamera();
 			break;
 
 		case sf::Event::Closed:

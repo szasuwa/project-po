@@ -62,20 +62,20 @@ void MapEditorControlsViewGroup::update(GameEngineInterface& f)
 
 void MapEditorControlsViewGroup::setVerticalLock(const std::string& s)
 {
-	fVerticalLockKey.setText(Key::toString((InputKey)KeyBinding::MapEditorVLock) + " - Vertical Lock: " + s);
+	fVerticalLockKey.setText("[" + Key::toString((InputKey)KeyBinding::MapEditorVLock) + "] Vertical Lock: " + s);
 }
 
 void MapEditorControlsViewGroup::setHorizontalLock(const std::string& s)
 {
-	fHorizontalLockKey.setText(Key::toString((InputKey)KeyBinding::MapEditorHLock) + " - Horizontal Lock: " + s);
+	fHorizontalLockKey.setText("[" + Key::toString((InputKey)KeyBinding::MapEditorHLock) + "] Horizontal Lock: " + s);
 }
 
 void MapEditorControlsViewGroup::setGridSnap(const std::string& s)
 {
-	fGridSnapKey.setText(Key::toString((InputKey)KeyBinding::MapEditorGridLock) + " - Snap To Grid: " + s);
+	fGridSnapKey.setText("[" + Key::toString((InputKey)KeyBinding::MapEditorGridLock) + "] Snap To Grid: " + s);
 }
 
 void MapEditorControlsViewGroup::setTimeFlow(const std::string& s)
 {
-	fTimeKey.setText(Key::toString((InputKey)KeyBinding::MapEditorTime) + " - Time Flow: " + s);
+	fTimeKey.setText("[" + Key::toString((InputKey)KeyBinding::MapEditorTime) + "] Time Flow: " + s);
 }

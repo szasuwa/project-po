@@ -15,8 +15,6 @@ public:
 	explicit MapSelectionViewAction(GameEngineInterface&f, const unsigned int& t, const int & i) : fEngine(f), fUiType(t), fIndex(i) {};
 	explicit MapSelectionViewAction(GameEngineInterface&f, const unsigned int& t, const std::string& n) : fEngine(f), fUiType(t), fName(n) {};
 	virtual void operator() () { 
-		bool load;
-
 		UIInterface& ui = fEngine.getUIInterface();
 		ui.addUIView((unsigned int)InterfaceType::Gui);
 

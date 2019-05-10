@@ -1,7 +1,7 @@
 #pragma once
 #include <string>
 #include <SFML/Config.hpp>
-const std::string GAME_VERSION = "0.4"; 
+const std::string GAME_VERSION = "0.5"; 
 
 const std::string REGEX_WHITESPACE = "\\s*";
 const std::string REGEX_FLOAT_PATTERN = "(-?\\d+(\\.\\d+)?\\s+)";

@@ -12,7 +12,6 @@ class MapEditorControlsViewGroup : public ViewGroup {
 	std::string fGridSnapStatus = "On";
 
 	std::string fTimeFlowStatus = "Off";
-	bool fTimeFlowUpdated = true;
 
 	SeparatorViewItem fSeparator;
 

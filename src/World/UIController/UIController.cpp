@@ -28,7 +28,7 @@ void UIController::update()
 {
 	for (UIViewInterface* item : fUIViews)
 	{
-		if (item != nullptr) 
+		if (item != nullptr && item->getVisibility()) 
 		{
 			item->update(*fEngine);
 		}
@@ -189,8 +189,7 @@ void UIController::toggleViewVisibility(const unsigned int& i)
 
 	if (fUIViews[i] == nullptr)
 		addUIView(i);
-
-	if (fUIViews[i] != nullptr)
+	else
 		fUIViews[i]->setVisibility(!fUIViews[i]->getVisibility());
 }
 

@@ -40,7 +40,7 @@ void MapSelectionViewGroup::refreshList(GameEngineInterface& f)
 		{
 			fMaps.push_back(new ButtonViewItem());
 			ButtonViewItem* item = fMaps.back();
-			item->setText(entry.path().filename().string());
+			item->setText(std::to_string(fMaps.size()) + ": " + entry.path().filename().string());
 			item->setOnClick(new MapSelectionViewAction(f, (unsigned int)InterfaceType::MapSelection, entry.path().filename().string()));
 			item->setOnMouseEnter(new TextColorChangeViewAction(TEXT_ACTIVE_COLOR, *item));
 			item->setOnMouseExit(new TextColorChangeViewAction(TEXT_DEFAULT_COLOR, *item));

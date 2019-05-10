@@ -25,6 +25,10 @@ const float PORTAL_RADIUS = 5;
 const int PORTAL_POINT_COUNT = 4;
 const sf::Color PORTAL_COLOR(0x990033ff);
 
+const float EXIT_PORTAL_RADIUS = 5;
+const int EXIT_PORTAL_POINT_COUNT = 4;
+const sf::Color EXIT_PORTAL_COLOR(0x009933ff);
+
 const sf::Vector2f BOX_SIZE(10, 10);
 const sf::Color BOX_COLOR(0x79ecccc);
 

@@ -132,6 +132,10 @@ bool MapController::checkIntegrity(const std::string& name) const
 			valid = TextBox::checkSerializableValidity(temp);
 			break;
 
+		case GameObjectClassType::EXIT_PORTAL:
+			valid = ExitPortal::checkSerializableValidity(temp);
+			break;
+
 		default:
 			valid = false;
 		}
@@ -217,6 +221,23 @@ void MapController::resetMap()
 
 	load(fActiveMapName, fActiveMap);
 	fActiveMap->broadcastFocus(*fEngine);
+}
+
+void MapController::unloadMap()
+{
+	if (fActiveMap == nullptr)
+		throw std::logic_error("Map not loaded");
+
+	for (size_t i = 0; i < fMapList.size(); ++i)
+	{
+		if (&fMapList[i] == fActiveMap)
+		{
+			fMapList.erase(fMapList.begin() + i);
+			return;
+		}
+	}
+
+	fActiveMapIndex = -1;
 }
 
 void MapController::updateCamera()

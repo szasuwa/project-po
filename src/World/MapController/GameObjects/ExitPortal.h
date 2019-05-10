@@ -3,22 +3,24 @@
 #include <regex>
 
 #include "Interfaces/GameObject.h"
+#include "../../Interfaces/UIInterface.h"
+#include "../../UIController/InterfaceType.h"
+#include "../../Interfaces/GameEngineInterface.h"
+#include "../../Interfaces/MapInterface.h"
 
 
-class Portal : public GameObject
+class ExitPortal : public GameObject
 {
-	int fLinkId = -1;
-	Portal * fLink = nullptr;
-	std::vector<GameObject*> fExitingObjects = std::vector<GameObject*>();
+protected:
+	bool fTriggered = false;
 
 public:
-	Portal(Map* map = nullptr);
-	Portal(const sf::Vector2f& position, Map* map = nullptr);
-	Portal(const sf::Vector2f& position, const float& radius, Map* map = nullptr);
-	Portal(const sf::Vector2f& position, const sf::Color& color, Map* map = nullptr);
-	Portal(const sf::Vector2f& position, const float& radius, const sf::Color& color, Map* map = nullptr);
-	Portal(const Portal& obj);
-	~Portal();
+	ExitPortal(Map* map = nullptr);
+	ExitPortal(const sf::Vector2f& position, Map* map = nullptr);
+	ExitPortal(const sf::Vector2f& position, const float& radius, Map* map = nullptr);
+	ExitPortal(const sf::Vector2f& position, const sf::Color& color, Map* map = nullptr);
+	ExitPortal(const sf::Vector2f& position, const float& radius, const sf::Color& color, Map* map = nullptr);
+	ExitPortal(const ExitPortal& obj);
 
 	void onUpdate(GameEngineInterface& f);
 	void onFocus(GameEngineInterface& f);
@@ -26,9 +28,6 @@ public:
 	sf::FloatRect getGlobalBounds() const;
 	void resize(const sf::Vector2f& p, bool gridSnap = false, bool vLock = false, bool hLock = false);
 	void setColor(const sf::Color& c);
-
-	GameObject * getLink();
-	void setLink(const GameObject * o);
 
 	/*
 		<<Data format>>

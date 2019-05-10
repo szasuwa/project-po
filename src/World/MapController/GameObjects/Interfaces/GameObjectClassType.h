@@ -6,5 +6,6 @@ enum class GameObjectClassType : unsigned int {
 	POINT,
 	PORTAL,
 	BOX,
-	TEXT_BOX
+	TEXT_BOX,
+	EXIT_PORTAL
 };

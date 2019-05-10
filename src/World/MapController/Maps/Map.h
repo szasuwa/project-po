@@ -15,6 +15,7 @@
 #include "../GameObjects/Portal.h"
 #include "../GameObjects/Box.h"
 #include "../GameObjects/TextBox.h"
+#include "../GameObjects/ExitPortal.h"
 
 
 class Map {

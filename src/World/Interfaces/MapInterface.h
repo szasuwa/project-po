@@ -29,6 +29,7 @@ public:
 	virtual void cancelEdition() = 0;
 
 	virtual void resetMap() = 0;
+	virtual void unloadMap() = 0;
 
 	virtual void updateCamera() = 0;
 	virtual void updateMap() = 0;

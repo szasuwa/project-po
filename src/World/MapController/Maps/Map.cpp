@@ -244,6 +244,10 @@ void Map::clone(const Map & o)
 				fGameObjectList.push_back(new TextBox(*(TextBox*)obj));
 				break;
 
+			case GameObjectClassType::EXIT_PORTAL:
+				fGameObjectList.push_back(new ExitPortal(*(ExitPortal*)obj));
+				break;
+
 			default:
 				break;
 		}
@@ -342,6 +346,10 @@ void Map::deserializeObject(std::istream& ss) {
 
 		case GameObjectClassType::TEXT_BOX:
 			obj = new TextBox();
+			break;
+
+		case GameObjectClassType::EXIT_PORTAL:
+			obj = new ExitPortal();
 			break;
 
 		default:

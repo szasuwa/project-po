@@ -292,7 +292,9 @@ void Map::serializeObject(std::ostream& ss) const {
 }
 
 void Map::deserializeObject(std::istream& ss) {
-	ss >> fMapBoundaries.hasLeft >> 
+	std::string temp;
+	ss >> temp >> 
+		fMapBoundaries.hasLeft >> 
 		fMapBoundaries.hasRight >> 
 		fMapBoundaries.hasTop >> 
 		fMapBoundaries.hasBottom >>
@@ -373,6 +375,7 @@ bool Map::checkSerializableValidity(const std::string& s)
 {
 	return std::regex_match(s, std::regex(
 		REGEX_WHITESPACE 
+		+ REGEX_BASE64_PATTERN + "{1}"
 		+ REGEX_BOOL_PATTERN + "{4}" 
 		+ REGEX_FLOAT_PATTERN + "{12}"
 		+ REGEX_WHITESPACE

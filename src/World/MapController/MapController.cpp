@@ -150,6 +150,26 @@ bool MapController::checkIntegrity(const std::string& name) const
 	return true;
 }
 
+MapInfo MapController::loadMapInfo(const std::string& name) const
+{
+	std::ifstream fs(F_MAP_PATH + name);
+	MapInfo info;
+
+	if (fs.fail() || !checkIntegrity(name))
+	{
+		info.valid = false;
+		return info;
+	}
+
+	std::string temp;
+	fs >> temp;
+
+	info.valid = true;
+	info.name = base64_decode(temp);
+
+	return info;
+}
+
 void MapController::beginEdition()
 {
 	fEditedMap = fActiveMap;

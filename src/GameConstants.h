@@ -7,7 +7,7 @@ const std::string REGEX_WHITESPACE = "\\s*";
 const std::string REGEX_FLOAT_PATTERN = "(-?\\d+(\\.\\d+)?\\s+)";
 const std::string REGEX_INT_PATTERN = "(-?\\d+\\s+)";
 const std::string REGEX_BOOL_PATTERN = "((0|1)\\s+)";
-const std::string REGEX_BASE64_PATTERN = "(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)";
+const std::string REGEX_BASE64_PATTERN = "((?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?\\s+)";
 
 const char SERIALIZABLE_OBJECT_DELIMITER = '\n';
 const char SERIALIZABLE_FIELD_DELIMITER = ' ';

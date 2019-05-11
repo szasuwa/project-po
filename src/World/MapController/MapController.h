@@ -9,6 +9,8 @@
 #include "Maps/Map.h"
 #include "Maps/MapEditor.h"
 #include "../../Logger.h"
+#include "../../Libs/base64.h"
+
 
 class MapController : public MapInterface
 {
@@ -32,6 +34,7 @@ public:
 	virtual void save(const std::string & name, const Map & map) const;
 	virtual bool exists(const std::string& name) const;
 	virtual bool checkIntegrity(const std::string& name) const;
+	virtual MapInfo loadMapInfo(const std::string& name) const;
 
 	virtual void beginEdition();
 	virtual void saveEditedMap();

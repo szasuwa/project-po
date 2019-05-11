@@ -1,6 +1,8 @@
 #pragma once
-#include "GameEngineInterface.h"
 #include <string>
+
+#include "GameEngineInterface.h"
+#include "MapInfo.h"
 
 class Map;
 
@@ -21,6 +23,7 @@ public:
 	virtual void save(const std::string & name, const Map & map) const = 0;
 	virtual bool exists(const std::string& name) const = 0;
 	virtual bool checkIntegrity(const std::string& name) const = 0;
+	virtual MapInfo loadMapInfo(const std::string& name) const = 0;
 
 	virtual void beginEdition() = 0;
 	virtual void saveEditedMap() = 0;

@@ -38,9 +38,14 @@ void MapSelectionViewGroup::refreshList(GameEngineInterface& f)
 	{
 		if (!entry.is_directory())
 		{
+			MapInfo info = f.getMapInterface().loadMapInfo(entry.path().filename().string());
+
+			if (!info.valid)
+				continue;
+
 			fMaps.push_back(new ButtonViewItem());
 			ButtonViewItem* item = fMaps.back();
-			item->setText(std::to_string(fMaps.size()) + ": " + entry.path().filename().string());
+			item->setText(std::to_string(fMaps.size()) + ": " + info.name);
 			item->setOnClick(new MapSelectionViewAction(f, (unsigned int)InterfaceType::MapSelection, entry.path().filename().string()));
 			item->setOnMouseEnter(new TextColorChangeViewAction(TEXT_ACTIVE_COLOR, *item));
 			item->setOnMouseExit(new TextColorChangeViewAction(TEXT_DEFAULT_COLOR, *item));

@@ -2,6 +2,9 @@
 #include "../ViewActions/TextColorChangeViewAction.h"
 #include "../ViewActions/MapSelectionViewAction.h"
 #include "../ViewActions/SetBoolViewAction.h"
+#include "../ViewActions/SetPointerViewAction.h"
+#include "../ViewActions/GroupViewAction.h"
+#include "../ViewActions/DeleteFileViewAction.h"
 
 
 MapSelectionViewGroup::MapSelectionViewGroup(const ViewAlignment& a) : ViewGroup(a)
@@ -10,6 +13,12 @@ MapSelectionViewGroup::MapSelectionViewGroup(const ViewAlignment& a) : ViewGroup
 	fRefresh.setOnClick(new SetBoolViewAction(fRefreshList, true));
 	fRefresh.setOnMouseEnter(new TextColorChangeViewAction(TEXT_ACTIVE_COLOR, fRefresh));
 	fRefresh.setOnMouseExit(new TextColorChangeViewAction(TEXT_DEFAULT_COLOR, fRefresh));
+
+	fLoadButton.setText("Load Map");
+	fLoadButton.setColor(TEXT_INACTIVE_COLOR);
+
+	fDeleteButton.setText("Delete Map");
+	fDeleteButton.setColor(TEXT_INACTIVE_COLOR);
 }
 
 MapSelectionViewGroup::~MapSelectionViewGroup()
@@ -26,6 +35,10 @@ void MapSelectionViewGroup::refreshList(GameEngineInterface& f)
 
 	fItemList.push_back(&fRefresh);
 	fItemList.push_back(&fSeparator);
+	fItemList.push_back(&fLoadButton);
+	fItemList.push_back(&fSeparator);
+	fItemList.push_back(&fDeleteButton);
+	fItemList.push_back(&fSeparator);
 	
 	for (ButtonViewItem* item : fMaps)
 	{
@@ -38,15 +51,63 @@ void MapSelectionViewGroup::refreshList(GameEngineInterface& f)
 	{
 		if (!entry.is_directory())
 		{
-			MapInfo info = f.getMapInterface().loadMapInfo(entry.path().filename().string());
+			std::string fName = entry.path().filename().string();
+			MapInfo info = f.getMapInterface().loadMapInfo(fName);
 
 			if (!info.valid)
 				continue;
 
 			fMaps.push_back(new ButtonViewItem());
 			ButtonViewItem* item = fMaps.back();
-			item->setText(std::to_string(fMaps.size()) + ": " + info.name);
-			item->setOnClick(new MapSelectionViewAction(f, (unsigned int)InterfaceType::MapSelection, entry.path().filename().string()));
+			item->setText(std::to_string(fMaps.size()) + ": " + info.name + " (" + fName + ")");
+			item->setOnClick(
+				new GroupViewAction
+				(5,
+					new SetPointerViewAction(
+						fLoadAction,
+						new GroupViewAction(
+							3,
+							new SetPointerViewAction(
+								fLoadAction,
+								nullptr
+							),
+							new SetPointerViewAction(
+								fDeleteAction,
+								nullptr
+							),
+							new MapSelectionViewAction(f, (unsigned int)InterfaceType::MapSelection, fName)
+						)
+
+					),
+					new SetPointerViewAction(
+						fDeleteAction,
+						new GroupViewAction(
+							6,
+							new DeleteFileViewAction(entry.path().string()),
+							new SetPointerViewAction(
+								fLoadAction,
+								nullptr
+							),
+							new SetPointerViewAction(
+								fDeleteAction,
+								nullptr
+							),
+							new SetPointerViewAction(
+								fSelectedButton,
+								nullptr
+							),
+							new SetBoolViewAction(fRefreshList, true),
+							new SetBoolViewAction(fSelectionUpdate, true)
+						)
+
+					),
+					new SetPointerViewAction(
+						fSelectedButton,
+						item
+					),
+				new SetBoolViewAction(fUpdateSelectedButton, true),
+				new SetBoolViewAction(fSelectionUpdate, true)
+			));
 			item->setOnMouseEnter(new TextColorChangeViewAction(TEXT_ACTIVE_COLOR, *item));
 			item->setOnMouseExit(new TextColorChangeViewAction(TEXT_DEFAULT_COLOR, *item));
 			fItemList.push_back(item);
@@ -60,6 +121,61 @@ void MapSelectionViewGroup::update(GameEngineInterface& f)
 	{
 		fRefreshList = false;
 		refreshList(f);
+	}
+
+	if (fSelectionUpdate)
+	{
+		fSelectionUpdate = false;
+
+		if (fPreviousSelectedButton != fSelectedButton)
+		{
+			if (fLoadAction != nullptr)
+			{
+				fLoadButton.setColor(TEXT_DEFAULT_COLOR);
+				fLoadButton.setOnMouseEnter(new TextColorChangeViewAction(TEXT_ACTIVE_COLOR, fLoadButton));
+				fLoadButton.setOnMouseExit(new TextColorChangeViewAction(TEXT_DEFAULT_COLOR, fLoadButton));
+				fLoadButton.setOnClick(reinterpret_cast<ViewAction*>(fLoadAction), true);
+			}
+			else
+			{
+				fLoadButton.setColor(TEXT_INACTIVE_COLOR);
+				fLoadButton.setOnMouseEnter(nullptr);
+				fLoadButton.setOnMouseExit(nullptr);
+				fLoadButton.setOnClick(nullptr, true);
+			}
+
+			if (fDeleteAction != nullptr)
+			{
+				fDeleteButton.setColor(TEXT_DEFAULT_COLOR);
+				fDeleteButton.setOnMouseEnter(new TextColorChangeViewAction(TEXT_ACTIVE_COLOR, fDeleteButton));
+				fDeleteButton.setOnMouseExit(new TextColorChangeViewAction(TEXT_DEFAULT_COLOR, fDeleteButton));
+				fDeleteButton.setOnClick(reinterpret_cast<ViewAction*>(fDeleteAction), true);
+			}
+			else
+			{
+				fDeleteButton.setColor(TEXT_INACTIVE_COLOR);
+				fDeleteButton.setOnMouseEnter(nullptr);
+				fDeleteButton.setOnMouseExit(nullptr);
+				fDeleteButton.setOnClick(nullptr, true);
+			}
+		}
+
+		fPreviousSelectedButton = fSelectedButton;
+	}
+
+	if (fUpdateSelectedButton)
+	{
+		for (ButtonViewItem* item : fMaps)
+		{
+			if (item != fSelectedButton)
+			{
+				item->setColor(TEXT_DEFAULT_COLOR);
+			}
+			else
+			{
+				item->setColor(TEXT_SELECTED_COLOR);
+			}
+		}
 	}
 
 	ViewGroup::update(f);

@@ -1,6 +1,4 @@
 #pragma once
-#include <SFML/Graphics/Color.hpp>
-
 #include "../ViewItems/TextViewItem.h"
 
 

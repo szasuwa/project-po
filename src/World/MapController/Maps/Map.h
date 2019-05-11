@@ -19,6 +19,7 @@
 
 
 class Map {
+	std::string fMapName;
 	MapBoundaries fMapBoundaries;
 	std::vector<GameObject *> fGameObjectList;
 	sf::FloatRect fCamera;

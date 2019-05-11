@@ -58,26 +58,30 @@ void ButtonViewItem::draw(GameEngineInterface& f) const
 	}
 }
 
-void ButtonViewItem::setOnClick(ViewAction* f)
+void ButtonViewItem::setOnClick(ViewAction* f, bool persistent)
 {
-	delete fOnClick;
+	if(!persistent)
+		delete fOnClick;
 	fOnClick = f;
 }
 
-void ButtonViewItem::setOnMouseEnter(ViewAction* f)
+void ButtonViewItem::setOnMouseEnter(ViewAction* f, bool persistent)
 {
-	delete fOnMouseEnter;
+	if (!persistent)
+		delete fOnMouseEnter;
 	fOnMouseEnter = f;
 }
 
-void ButtonViewItem::setOnMouseOver(ViewAction* f)
+void ButtonViewItem::setOnMouseOver(ViewAction* f, bool persistent)
 {
-	delete fOnMouseOver;
+	if (!persistent)
+		delete fOnMouseOver;
 	fOnMouseOver = f;
 }
 
-void ButtonViewItem::setOnMouseExit(ViewAction* f)
+void ButtonViewItem::setOnMouseExit(ViewAction* f, bool persistent)
 {
-	delete fOnMouseExit;
+	if (!persistent)
+		delete fOnMouseExit;
 	fOnMouseExit = f;
 }

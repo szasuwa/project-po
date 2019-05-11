@@ -1,9 +1,11 @@
 #pragma once
+#include <exception>
+
 #include "../../Interfaces/GameEngineInterface.h"
 #include "../../Interfaces/MapInterface.h"
 #include "../../Interfaces/UIInterface.h"
 #include "../InterfaceType.h"
-#include <exception>
+
 
 class MapSelectionViewAction : public ViewAction {
 	unsigned int fUiType;

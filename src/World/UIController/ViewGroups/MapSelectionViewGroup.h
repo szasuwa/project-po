@@ -14,8 +14,17 @@ class MapSelectionViewGroup : public ViewGroup {
 	ButtonViewItem fRefresh;
 	SeparatorViewItem fSeparator;
 	std::vector<ButtonViewItem*> fMaps;
+	ButtonViewItem fLoadButton;
+	ButtonViewItem fDeleteButton;
+
+	void* fPreviousSelectedButton = nullptr;
+	void* fSelectedButton = nullptr;
 
 	bool fRefreshList = true;
+	bool fSelectionUpdate = true;
+	bool fUpdateSelectedButton = false;
+	void* fLoadAction = nullptr;
+	void* fDeleteAction = nullptr;
 
 	void refreshList(GameEngineInterface& f);
 

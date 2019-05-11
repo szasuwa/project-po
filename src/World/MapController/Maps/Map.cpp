@@ -203,6 +203,7 @@ void Map::clone(const Map & o)
 	if (this == &o || &o == nullptr)
 		return;
 
+	fMapName = o.fMapName;
 	fLastId = o.fLastId;
 	fCamera = o.fCamera;
 	fMapBoundaries = o.fMapBoundaries;
@@ -267,7 +268,10 @@ Map & Map::operator=(const Map & o)
 }
 
 void Map::serializeObject(std::ostream& ss) const {
-	ss << fMapBoundaries.hasLeft << SERIALIZABLE_FIELD_DELIMITER
+	std::string temp = base64_encode((const unsigned char*)fMapName.c_str(), fMapName.length());
+
+	ss << temp << SERIALIZABLE_FIELD_DELIMITER
+		<<fMapBoundaries.hasLeft << SERIALIZABLE_FIELD_DELIMITER
 		<< fMapBoundaries.hasRight << SERIALIZABLE_FIELD_DELIMITER
 		<< fMapBoundaries.hasTop << SERIALIZABLE_FIELD_DELIMITER
 		<< fMapBoundaries.hasBottom << SERIALIZABLE_FIELD_DELIMITER
@@ -292,8 +296,7 @@ void Map::serializeObject(std::ostream& ss) const {
 }
 
 void Map::deserializeObject(std::istream& ss) {
-	std::string temp;
-	ss >> temp >> 
+	ss >> fMapName >>
 		fMapBoundaries.hasLeft >> 
 		fMapBoundaries.hasRight >> 
 		fMapBoundaries.hasTop >> 
@@ -313,6 +316,8 @@ void Map::deserializeObject(std::istream& ss) {
 
 	if (!ss)
 		return;
+
+	fMapName = base64_decode(fMapName);
 
 	destroyAllGameObjects();
 

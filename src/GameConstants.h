@@ -46,3 +46,5 @@ const sf::Color PORTAL_LINK_POINT_COLOR_4(0xc8c8c8ff);
 
 const sf::Color TEXT_DEFAULT_COLOR(0xffffffff);
 const sf::Color TEXT_ACTIVE_COLOR(0xc8c8c8ff);
+const sf::Color TEXT_INACTIVE_COLOR(0x666666ff);
+const sf::Color TEXT_SELECTED_COLOR(0x990033ff);

@@ -20,8 +20,8 @@ public:
 	virtual void update(GameEngineInterface& f);
 	virtual void draw(GameEngineInterface& f) const;
 
-	void setOnClick(ViewAction * f);
-	void setOnMouseEnter(ViewAction* f);
-	void setOnMouseOver(ViewAction* f);
-	void setOnMouseExit(ViewAction* f);
+	void setOnClick(ViewAction * f, bool persistent = false);
+	void setOnMouseEnter(ViewAction* f, bool persistent = false);
+	void setOnMouseOver(ViewAction* f, bool persistent = false);
+	void setOnMouseExit(ViewAction* f, bool persistent = false);
 };

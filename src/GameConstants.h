@@ -1,7 +1,7 @@
 #pragma once
 #include <string>
 #include <SFML/Config.hpp>
-const std::string GAME_VERSION = "0.6"; 
+const std::string GAME_VERSION = "1.0"; 
 
 const std::string REGEX_WHITESPACE = "\\s*";
 const std::string REGEX_FLOAT_PATTERN = "(-?\\d+(\\.\\d+)?\\s+)";
@@ -47,4 +47,4 @@ const sf::Color PORTAL_LINK_POINT_COLOR_4(0xc8c8c8ff);
 const sf::Color TEXT_DEFAULT_COLOR(0xffffffff);
 const sf::Color TEXT_ACTIVE_COLOR(0xc8c8c8ff);
 const sf::Color TEXT_INACTIVE_COLOR(0x666666ff);
-const sf::Color TEXT_SELECTED_COLOR(0x990033ff);
+const sf::Color TEXT_SELECTED_COLOR(0x66ccffff);

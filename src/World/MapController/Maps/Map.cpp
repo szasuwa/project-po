@@ -178,6 +178,22 @@ void Map::broadcastFocus(GameEngineInterface& f)
 
 void Map::broadcastUpdate(GameEngineInterface& f)
 {
+	fElapsedMilis += f.getFrameInterface().getFrameTime();
+
+	while (fElapsedMilis >= 1)
+	{
+		++fElapsedSeconds;
+		fElapsedMilis -= 1;
+	}
+
+	while (fElapsedSeconds >= 60)
+	{
+		++fElapsedMinutes;
+		fElapsedSeconds -= 60;
+	}
+
+	f.getUIInterface().setProperty((unsigned int)InterfaceType::Gui, 1, getElapsedTime());
+
 	for (size_t i = 0; i < fGameObjectList.size(); ++i) 
 	{
 		if (fGameObjectList[i] != nullptr) 
@@ -196,6 +212,20 @@ void Map::broadcastDraw(GameEngineInterface& f) const
 			fGameObjectList[i]->draw(f);
 		}
 	}
+}
+
+std::string Map::getElapsedTime()
+{
+	std::string s, m;
+	if (fElapsedSeconds < 10)
+		s += "0";
+	s += std::to_string(fElapsedSeconds);
+
+	if (fElapsedMinutes < 10)
+		m += "0";
+	m += std::to_string(fElapsedMinutes);
+
+	return  m + ":" + s;
 }
 
 void Map::clone(const Map & o) 

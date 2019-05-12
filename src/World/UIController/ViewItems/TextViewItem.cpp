@@ -8,8 +8,9 @@ TextViewItem::TextViewItem()
 	static sf::Font font;
 
 	if (!isFontLoaded) 
-		isFontLoaded = font.loadFromFile("res/monofonto.ttf");
+		isFontLoaded = font.loadFromFile("res/neoletters.ttf");
 
+	((sf::Texture&)font.getTexture(15)).setSmooth(false);
 	fText.setCharacterSize(15);
 	fText.setFont(font);
 	fText.setColor(TEXT_DEFAULT_COLOR);

@@ -1,4 +1,5 @@
 #include "ExitPortal.h"
+#include "../Maps/Map.h"
 
 ExitPortal::ExitPortal(Map* map) : ExitPortal(sf::Vector2f(), EXIT_PORTAL_RADIUS, EXIT_PORTAL_COLOR, map)
 {
@@ -49,8 +50,10 @@ void ExitPortal::onUpdate(GameEngineInterface& f)
 			return;
 
 		ui.broadcastVisibilityChange(false);
-		ui.addUIView((unsigned int)InterfaceType::MainMenu);
-		ui.setViewVisibility((unsigned int)InterfaceType::MainMenu, true);
+		ui.addUIView((unsigned int)InterfaceType::EndGame);
+		ui.setProperty((unsigned int)InterfaceType::EndGame, 0, fPoints);
+		ui.setProperty((unsigned int)InterfaceType::EndGame, 1, fTime);
+		ui.setViewVisibility((unsigned int)InterfaceType::EndGame, true);
 		f.getMapInterface().unloadMap();
 	}
 }
@@ -66,6 +69,8 @@ bool ExitPortal::onTrigger(GameObject * o)
 
 	if (o->getClassType() == GameObjectClassType::PLAYER)
 	{
+		fPoints = std::to_string(((Player*)o)->getScore());
+		fTime = fMap->getElapsedTime();
 		fTriggered = true;
 		return true;
 	}

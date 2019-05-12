@@ -13,6 +13,8 @@ class ExitPortal : public GameObject
 {
 protected:
 	bool fTriggered = false;
+	std::string fPoints;
+	std::string fTime;
 
 public:
 	ExitPortal(Map* map = nullptr);

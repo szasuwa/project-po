@@ -29,7 +29,9 @@ TextBox::TextBox(const sf::Vector2f& position, const int& size, const sf::Color&
 	static sf::Font font;
 
 	if (!isFontLoaded)
-		isFontLoaded = font.loadFromFile("res/bboron.ttf");
+		isFontLoaded = font.loadFromFile("res/neoletters.ttf");
+
+	((sf::Texture&)font.getTexture(size)).setSmooth(false);
 
 	((sf::Text*)fDrawable)->setFont(font);
 }

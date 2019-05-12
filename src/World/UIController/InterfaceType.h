@@ -5,5 +5,6 @@ enum class InterfaceType : unsigned int {
 		Gui,
 		MapEditor,
 		Debug,
+		EndGame,
 		num_values
 };

@@ -7,6 +7,7 @@
 #include "Views/GraphicalUserInterface.h"
 #include "Views/MapEditorInterface.h"
 #include "Views/MapSelection.h"
+#include "Views/EndGameInterface.h"
 
 
 

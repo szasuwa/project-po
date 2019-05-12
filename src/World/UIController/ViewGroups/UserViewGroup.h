@@ -4,13 +4,12 @@
 
 
 class UserViewGroup : public ViewGroup {
-	TextViewItem fPointsBox;
-	std::string fPoints = "0";
+	TextViewItem fTime;
+	TextViewItem fPoints;
 
 public:
 	explicit UserViewGroup(const ViewAlignment& a);
 
-	void update(GameEngineInterface& f);
-
 	void setPoints(const std::string & p);
+	void setTime(const std::string& p);
 };

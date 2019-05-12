@@ -31,6 +31,11 @@ class Map {
 	float fGravityRate = 1600.f;
 	float fMaxGravityForce = 400.f;
 
+	int fPoints = 0;
+	unsigned int fElapsedMinutes = 0;
+	unsigned int fElapsedSeconds = 0;
+	float fElapsedMilis = 0;
+
 	friend DynamicObject;
 
 	void addGameObject(GameObject* obj, const bool& keepId);
@@ -60,6 +65,8 @@ public:
 	void broadcastFocus(GameEngineInterface& f);
 	void broadcastUpdate(GameEngineInterface& f);
 	void broadcastDraw(GameEngineInterface& f) const;
+
+	std::string getElapsedTime();
 
 	void clone(const Map & o);
 	Map & operator=(const Map & o);

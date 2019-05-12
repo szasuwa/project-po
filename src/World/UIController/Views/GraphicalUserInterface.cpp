@@ -1,9 +1,10 @@
 #include "GraphicalUserInterface.h"
 
-GraphicalUserInterface::GraphicalUserInterface() : fControlsViewGroup(ViewAlignment::Left), fInfoViewGroup(ViewAlignment::Left), fUserViewGroup(ViewAlignment::Left)
+GraphicalUserInterface::GraphicalUserInterface() : fControlsViewGroup(ViewAlignment::Left), fInfoViewGroup(ViewAlignment::Left), fUserViewGroup(ViewAlignment::Center)
 {
-	fPropertyList.resize(1);
+	fPropertyList.resize(2);
 	fPropertyList[0] = "0";
+	fPropertyList[1] = "00:00";
 	fGroupList.push_back(&fControlsViewGroup);
 	fGroupList.push_back(&fInfoViewGroup);
 	fGroupList.push_back(&fUserViewGroup);
@@ -25,4 +26,5 @@ void GraphicalUserInterface::setProperty(const unsigned int& i, const std::strin
 	InterfaceView::setProperty(i, v);
 
 	fUserViewGroup.setPoints(fPropertyList[0]);
+	fUserViewGroup.setTime(fPropertyList[1]);
 }

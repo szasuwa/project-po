@@ -78,6 +78,11 @@ void UIController::addUIView(const unsigned int & i)
 			fUIViews[i] = new DebugInterface();
 			break;
 
+		case InterfaceType::EndGame:
+			delete fUIViews[i];
+			fUIViews[i] = new EndGameInterface(*fEngine);
+			break;
+
 		default:
 			break;
 	}

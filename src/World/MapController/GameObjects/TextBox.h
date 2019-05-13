@@ -1,8 +1,8 @@
 #pragma once
-#include <SFML/Graphics/Text.hpp>
 #include <regex>
 
 #include "Interfaces/GameObject.h"
+#include "../../TextObject.h"
 #include "../../../Libs/base64.h"
 
 

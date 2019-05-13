@@ -2,18 +2,8 @@
 float TextViewItem::F_TEXT_HEIGHT_OFFSET = 2;
 
 
-TextViewItem::TextViewItem()
+TextViewItem::TextViewItem() : fText(15)
 {
-	static bool isFontLoaded;
-	static sf::Font font;
-
-	if (!isFontLoaded) 
-		isFontLoaded = font.loadFromFile("res/neoletters.ttf");
-
-	((sf::Texture&)font.getTexture(15)).setSmooth(false);
-	fText.setCharacterSize(15);
-	fText.setFont(font);
-	fText.setColor(TEXT_DEFAULT_COLOR);
 }
 
 void TextViewItem::update(GameEngineInterface& f)

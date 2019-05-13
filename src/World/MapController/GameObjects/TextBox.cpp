@@ -19,32 +19,21 @@ TextBox::TextBox(const sf::Vector2f& position, const int& size, Map* map) : Text
 
 TextBox::TextBox(const sf::Vector2f& position, const int& size, const sf::Color& color, Map* map) : GameObject(map)
 {
-	fDrawable = new sf::Text();
-	fTransformable = (sf::Text*)fDrawable;
+	fDrawable = new TextObject(size);
+	fTransformable = (TextObject*)fDrawable;
 	fTransformable->setPosition(position);
-	((sf::Text*)fDrawable)->setFillColor(color);
-	((sf::Text*)fDrawable)->setCharacterSize(size);
-
-	static bool isFontLoaded;
-	static sf::Font font;
-
-	if (!isFontLoaded)
-		isFontLoaded = font.loadFromFile("res/neoletters.ttf");
-
-	((sf::Texture&)font.getTexture(size)).setSmooth(false);
-
-	((sf::Text*)fDrawable)->setFont(font);
+	((TextObject*)fDrawable)->setFillColor(color);
 }
 
 TextBox::TextBox(const TextBox& obj) : GameObject(obj)
 {
-	fDrawable = new sf::Text();
-	fTransformable = (sf::Text*)fDrawable;
+	fDrawable = new TextObject();
+	fTransformable = (TextObject*)fDrawable;
 	fTransformable->setPosition(obj.fTransformable->getPosition());
-	((sf::Text*)fDrawable)->setFillColor(((sf::Text*)obj.fDrawable)->getFillColor());
-	((sf::Text*)fDrawable)->setCharacterSize(((sf::Text*)obj.fDrawable)->getCharacterSize());
-	((sf::Text*)fDrawable)->setString(((sf::Text*)obj.fDrawable)->getString());
-	((sf::Text*)fDrawable)->setFont(*((sf::Text*)obj.fDrawable)->getFont());
+	((TextObject*)fDrawable)->setFillColor(((TextObject*)obj.fDrawable)->getFillColor());
+	((TextObject*)fDrawable)->setCharacterSize(((TextObject*)obj.fDrawable)->getCharacterSize());
+	((TextObject*)fDrawable)->setString(((TextObject*)obj.fDrawable)->getString());
+	((TextObject*)fDrawable)->setFont(*((TextObject*)obj.fDrawable)->getFont());
 }
 
 void TextBox::onUpdate(GameEngineInterface& f)
@@ -57,7 +46,7 @@ void TextBox::onFocus(GameEngineInterface& f)
 
 sf::FloatRect TextBox::getGlobalBounds() const
 {
-	return ((sf::Text*)fDrawable)->getGlobalBounds();
+	return ((TextObject*)fDrawable)->getGlobalBounds();
 }
 
 void TextBox::resize(const sf::Vector2f & p, bool gridSnap, bool vLock, bool hLock)
@@ -65,7 +54,7 @@ void TextBox::resize(const sf::Vector2f & p, bool gridSnap, bool vLock, bool hLo
 }
 
 void TextBox::setColor(const sf::Color & c) {
-	((sf::Text*)fDrawable)->setFillColor(sf::Color(c));
+	((TextObject*)fDrawable)->setFillColor(sf::Color(c));
 }
 
 GameObjectClassType TextBox::getClassType() const
@@ -76,9 +65,9 @@ GameObjectClassType TextBox::getClassType() const
 void TextBox::serializeObject(std::ostream & ss) const {
 	ss << (int)(getClassType()) << SERIALIZABLE_FIELD_DELIMITER;
 	GameObject::serializeObject(ss);
-	ss << ((sf::Text*)fDrawable)->getCharacterSize() << SERIALIZABLE_FIELD_DELIMITER;
-	ss << ((sf::Text*)fDrawable)->getFillColor().toInteger() << SERIALIZABLE_FIELD_DELIMITER;
-	std::string temp = ((sf::Text*)fDrawable)->getString();
+	ss << ((TextObject*)fDrawable)->getCharacterSize() << SERIALIZABLE_FIELD_DELIMITER;
+	ss << ((TextObject*)fDrawable)->getFillColor().toInteger() << SERIALIZABLE_FIELD_DELIMITER;
+	std::string temp = ((TextObject*)fDrawable)->getString();
 	ss << base64_encode((const unsigned char*)temp.c_str(), temp.size()) << SERIALIZABLE_FIELD_DELIMITER;
 }
 
@@ -91,9 +80,9 @@ void TextBox::deserializeObject(std::istream & ss) {
 	if (!(ss >> s >> c >> t))
 		return;
 
-	((sf::Text*)fDrawable)->setCharacterSize(s);
-	((sf::Text*)fDrawable)->setFillColor(sf::Color(c));
-	((sf::Text*)fDrawable)->setString(base64_decode(t));
+	((TextObject*)fDrawable)->setCharacterSize(s);
+	((TextObject*)fDrawable)->setFillColor(sf::Color(c));
+	((TextObject*)fDrawable)->setString(base64_decode(t));
 }
 
 bool TextBox::checkSerializableValidity(const std::string& s)

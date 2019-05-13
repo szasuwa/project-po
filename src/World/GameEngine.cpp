@@ -131,6 +131,10 @@ void GameEngine::handleEvents() {
 			fFrameI.close();
 			break;
 
+		case sf::Event::TextEntered:
+			fInputI.reportKeyEnteredEvent(appEvent);
+			break;
+
 		default:
 			break;
 		}

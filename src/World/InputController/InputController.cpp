@@ -48,6 +48,7 @@ void InputController::update()
 	}
 
 }
+
 bool InputController::isKeyPressed(const unsigned int& key) const
 {
 	if (key >= (unsigned int)KeyBindingIndex::num_values)
@@ -62,4 +63,25 @@ bool InputController::wasKeyToggled(const unsigned int& key, const bool& desired
 		return false;
 
 	return fKeyBindings[key]->wasToggled(desiredState);
+}
+
+void InputController::reportKeyEnteredEvent(const sf::Event& event)
+{
+	for(TextWatcherInterface* i : fTextWatchers)
+	{
+		i->onTextInput(event.text);
+	}
+}
+
+void InputController::addTextWatcher(TextWatcherInterface* watcher)
+{
+	if (std::find(fTextWatchers.begin(), fTextWatchers.end(), watcher) != fTextWatchers.end())
+		return;
+	
+	fTextWatchers.push_back(watcher);
+}
+
+void InputController::removeTextWatcher(TextWatcherInterface* watcher)
+{
+	std::remove(fTextWatchers.begin(), fTextWatchers.end(), watcher);
 }

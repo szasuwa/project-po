@@ -5,12 +5,13 @@
 #include "../Interfaces/ViewItem.h"
 #include "../../Frame/Frame.h"
 #include "../../../GameConstants.h"
+#include "../../TextObject.h"
 
 
 class TextViewItem : public ViewItem {
 protected:
 	static float F_TEXT_HEIGHT_OFFSET;
-	sf::Text fText;
+	TextObject fText;
 
 public:
 	TextViewItem();

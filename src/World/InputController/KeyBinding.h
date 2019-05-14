@@ -1,6 +1,5 @@
 #pragma once
 #include "../Interfaces/InputKey.h"
-#include "Keys/MouseKey.h"
 
 
 enum class KeyBinding : unsigned int {
@@ -11,7 +10,7 @@ enum class KeyBinding : unsigned int {
 	CameraDown					= (unsigned int)InputKey::Down,
 	MoveLeft					= (unsigned int)InputKey::A,
 	MoveRight					= (unsigned int)InputKey::D,
-	Jump						= (unsigned int)InputKey::W,
+	Jump						= (unsigned int)InputKey::Space,
 	Debug						= (unsigned int)InputKey::F3,
 	ResetMap					= (unsigned int)InputKey::R,
 	MapEditor					= (unsigned int)InputKey::F2,

@@ -3,6 +3,7 @@
 #include "../ViewItems/TextViewItem.h"
 #include "../../Frame/Frame.h"
 #include "../../InputController/KeyBinding.h"
+#include "../../InputController/Keys/Key.h"
 
 
 class ControlsViewGroup : public ViewGroup {

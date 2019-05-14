@@ -1,6 +1,4 @@
 #pragma once
-#include "../Interfaces/InputKey.h"
-#include "Keys/MouseKey.h"
 
 enum class KeyBindingIndex : unsigned int {
 	LeftClick,

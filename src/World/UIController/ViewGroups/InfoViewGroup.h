@@ -3,6 +3,7 @@
 #include "../ViewItems/TextViewItem.h"
 #include "../ViewItems/SeparatorViewItem.h"
 #include "../../InputController/KeyBinding.h"
+#include "../../InputController/Keys/Key.h"
 
 
 class InfoViewGroup : public ViewGroup {

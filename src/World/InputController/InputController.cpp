@@ -52,7 +52,7 @@ void InputController::update()
 bool InputController::isKeyPressed(const unsigned int& key) const
 {
 	if (key >= (unsigned int)KeyBindingIndex::num_values)
-		return false;
+		throw std::out_of_range("Key does not exist (Size: " + std::to_string((unsigned int)KeyBindingIndex::num_values) + " , requested: " + std::to_string(key) + ")");
 
 	return fKeyBindings[key]->isPressed();
 }
@@ -60,7 +60,7 @@ bool InputController::isKeyPressed(const unsigned int& key) const
 bool InputController::wasKeyToggled(const unsigned int& key, const bool& desiredState) const
 {
 	if (key >= (unsigned int)KeyBindingIndex::num_values)
-		return false;
+		throw std::out_of_range("Key does not exist (Size: " + std::to_string((unsigned int)KeyBindingIndex::num_values) + " , requested: " + std::to_string(key) + ")");
 
 	return fKeyBindings[key]->wasToggled(desiredState);
 }
